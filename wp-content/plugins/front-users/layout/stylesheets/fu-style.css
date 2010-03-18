@@ -1,0 +1,62 @@
+#submit_page	{
+	width:800px;
+	margin:auto;
+}
+
+div.fu-submit-article {
+	width: 600px;
+}
+
+#submit_page label	{
+	font-size:14px;
+}
+
+#submit_page .left	{
+	margin-left:40px;
+}
+
+#submit_page .right	{
+	margin-right:40px;
+}
+
+#submit_page input, #submit_page textarea, #submit_page select,  #submit_page #fu-post-snippet_tbl,  #submit_page #fu-post-content_tbl	{
+	margin:5px 0;
+}
+
+#submit_page #fu-post-snippet_tbl,  #submit_page #fu-post-content_tbl	{
+	width:700px;
+	margin:auto;
+}
+
+#submit_page input	{
+	width:300px;
+}
+
+#submit_page input[type="submit"]	{
+	width:100px;
+	padding:10px 0;
+	font-size:14px;
+	margin:10px;
+	margin-left:40px;
+}
+
+#submit_page select	{
+	width:300px;
+}
+
+#submit_page .section_bg	{
+	background:#EFEFEF;
+	/* optional rounded corners for browsers that support it */
+	-moz-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	padding:10px;
+	margin:20px auto;
+	width:800px;
+}
+
+.section_bg h2	{
+	font-size:20px;
+	margin-bottom:20px;
+}

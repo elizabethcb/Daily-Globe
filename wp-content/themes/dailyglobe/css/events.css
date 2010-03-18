@@ -1,0 +1,176 @@
+/* Events page */
+div.events-page-stuff {
+    border: 10px solid #EFEFEF;
+    padding-top: 20px;
+}
+div.event-header {
+   /* height: 60px;*/
+}
+h2.event-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+ul#events-navigation {
+    font-size: 14px;
+    margin: -30px 10px 20px 30px;
+    padding: 0px 5px 5px 5px;
+}
+
+ul#events-navigation > li {
+    display: block;
+    float: left;
+    padding: 18px 10px;
+}
+
+ul#events-navigation > li > a, .event-nav-link {
+	display: block;
+	padding: 5px 10px;
+}
+.event-nav-link {
+	cursor: pointer;
+}
+ul#events-navigation > li > a:hover, .event-nav-link-hover {
+	background-color:#686868;
+	-moz-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	color: white;
+	text-decoration: none;
+	/*padding: 3px 7px;*/
+}
+
+h2.single-event-title {
+	font-size: 20px;
+	background-color: #efefef;
+	color: #000;
+	padding: 5px 13px 13px;
+	margin-top: -20px;
+	
+}
+div.single-event-stuff {
+	margin-top: 5px;
+	padding: 5px;
+}
+div.single-event-left {
+	width: 200px;
+	float: left;
+	margin-left: 3px;
+	border-right:1px solid #cecece;
+}
+span.single-event-date {
+	font-weight: bold;
+	font-size: 14px;
+	display: block;
+	margin-bottom: -9px;
+}
+.single-event-location {
+	margin: 10px 4px;
+}
+.single-event-morestuff {
+	font-weight: bolder;
+	margin-bottom: 10px;
+}
+div.single-event-right {
+	float: right;
+	margin-right: 3px;
+	width: 300px;
+	
+}
+
+div.event-sub-form {
+	padding: 5px 10px;
+}
+
+.event-sub-form .right	{
+	width:340px;
+	
+}
+
+.event-sub-form .left	{
+	width:250px;
+}
+
+
+div.event-form-buttons {
+}
+
+.ev-timedate 	{
+	
+}
+
+
+div.ev-messages {
+	
+	
+	border: 2px solid #efefef;
+	height: 200px;
+	width: 310px;
+	padding: 10px;
+}
+
+div.ev-messages textarea	{
+	width:310px;
+	height:180px;
+	margin-top:5px;
+}
+
+.event-sub-form .left input{
+width:210px;
+margin:5px 0 10px 0;
+
+}
+
+.event-sub-form .right input{
+
+margin:5px 20px 10px 0;
+
+}
+#events-search-page {
+	padding-top: 30px;
+	padding-left: 50px;
+	height: 200px;
+}
+#dbem-location-map {
+	padding: 10px;
+	margin-top: 20px;
+	width: 600px !important;
+	height: 250px !important;
+}
+table#events-table {
+    margin-left: 10px;
+    width: 600px;
+}
+#col100 {
+	width: 100px;
+}
+#col120 {
+    width: 120px;
+}
+
+#col190 {
+	width: 190px;
+}
+#col340 {
+    width: 340px;
+}
+
+table#events-table > tbody > tr > td {
+	padding: 3px 3px 5px 3px;
+}
+
+table#events-table > tbody > tr > th {
+     padding: 9px 4px 3px 0px;
+}
+.text-right {
+	text-align: right;
+}
+.text-left {
+	text-align: left;
+	}
+     
+table#events-table > tbody > tr:first-child {
+     border-bottom: 1px solid #000;
+}

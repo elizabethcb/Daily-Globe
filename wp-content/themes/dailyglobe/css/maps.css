@@ -1,0 +1,49 @@
+h2.maps {
+/*    margin: auto;
+    width: 300px;
+    text-align: center;
+    padding: 10px;*/
+}
+
+#map_canvas {
+	border:10px solid #EFEFEF;
+}
+
+#maps_page {
+	margin-top: 20px;
+	padding: 7px;
+}
+
+h3.maps-title {
+	font-size: 18px;
+	margin-bottom: 12px;
+	margin-left: 10px;
+}
+
+div.post  {
+	margin: 10px 3px;
+	margin-left: 10px;
+	min-height:60px;
+}
+
+div.post p	{
+	margin-bottom:10px;
+}
+
+div.post-meta {
+	background-color: #efefef;
+	padding: 15px;
+	font-weight: bolder;
+	text-align: right;
+	/* optional rounded corners for browsers that support it */
+	-moz-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	margin:10px 0;
+	font-size:11px;
+}
+
+span.post-meta-info {
+	margin:0 10px;
+}

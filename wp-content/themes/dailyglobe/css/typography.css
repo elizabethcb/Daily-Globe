@@ -1,0 +1,97 @@
+/*
+this is where we set all  default text values 
+*/
+
+
+
+body	{
+	font-family:Arial, sans-serif;
+	font-size:12px;
+	
+
+}
+
+/* headlines */
+
+h1 {
+	font-size: 18px;
+	font-weight:bolder;
+}
+
+h2 {
+	font-size: 16px;
+	font-weight:bold;
+}
+
+h3 {
+	font-size: 14px;
+	font-weight:bold;
+}
+
+h4 {
+	font-size: 12px;
+	font-weight:bold;
+}
+
+
+h5 {
+	font-size: 10px;
+	font-weight:bold;
+}
+
+h6 {
+	font-size: 8px;
+	font-weight:bold;
+}
+
+h7 {
+	font-size: 6px;
+	font-weight:bold;
+}
+
+
+/* paragraph */
+
+p	{
+
+}
+
+/* links */
+
+a	{
+	color:#000;
+	text-decoration:none;
+}
+
+a:hover	{
+	text-decoration: underline;
+}
+
+/* misc */
+
+blockquote	{
+	border-left:1px solid #333;
+	margin:15px;
+	padding:0 12px 0 12px;
+}
+
+code	{
+	font-family:"Courier New", Courier, monospace;
+	
+}
+
+cite {
+	font-size: 9pt;
+	font-weight: bold;
+	font-style: normal;
+}
+	
+cite a {
+	
+	text-decoration: none; 
+	border-bottom: 1px dotted #465D71;
+}
+
+.clear {
+	clear: both;
+}

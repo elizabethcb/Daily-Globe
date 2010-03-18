@@ -1,0 +1,72 @@
+#slideshow	{
+	width:490px;
+	height: 260px;
+	margin:auto;
+	margin-top:10px;
+	overflow: hidden;
+}
+
+#slideshow img	{
+	width:490px;
+	height:260px;
+	overflow: hidden;
+}
+
+#slideshow h3.slide_title a	{
+	display:block;
+	background-color: rgb(89,89,89);
+	background: rgba(89,89,89,0.5);
+	width:470px;
+	padding:10px;
+	color:#FFF;
+	font-size:18px;
+
+}
+
+.slide_title {
+	position: relative;
+	top: -68px;
+	left: 0px;
+	padding: 0px;
+}
+.slide_nav	{
+	width: 490px;
+	margin: 0 auto;
+	overflow:hidden;
+	/* Hey Vegeta, Whats the Z-Index say? */
+	z-index: 9000;
+	/* WHAT?! Nine-thousand ?!?! */
+}
+
+
+ul.thumblist	{
+	display:block;
+	list-style-type:none;
+	margin: 0 auto;
+	width: 490px;
+
+	
+}
+
+ul.thumblist li	{
+	display:inline-block;
+	width: 70px;
+	height:56px;
+	margin: 0 4px;
+
+}
+
+img.thumb	{
+	display:inline-block;
+	width:70px;
+	height:56px;
+	padding-top:5px;
+}
+
+img.thumb.current,img.thumb:hover	{
+	border-top:5px solid red;
+}
+
+img.thumb:hover	{
+	cursor:pointer;
+}

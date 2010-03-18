@@ -1,0 +1,8 @@
+/*
+ * wp-organizer compatibility CSS for WP < 2.8
+ * $Id: compat-wplt28.css 172291 2009-11-11 12:57:16Z andddd $
+ */
+
+.wp_organizer_wrap .screen-reader-text {
+    display: none;
+}
