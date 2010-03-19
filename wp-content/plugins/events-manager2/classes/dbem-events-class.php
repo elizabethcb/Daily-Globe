@@ -25,12 +25,12 @@ class DBEM_Events {
 		
 		$this->opts = get_option('dbem');
 		$this->tables = array(
-			'events' 		=> 'dbem2_events',
-			'recurrence'	=> 'dbem2_recurrence',  
-			'locations'		=> 'dbem2_locations',  
-			'bookings'		=> 'dbem2_bookings',
-			'people'		=> 'dbem2_people',  
-			'booking_ppl' 	=> 'dbem2_bookings_people'
+			'events' 		=> 'dbem_events',
+			'recurrence'	=> 'dbem_recurrence',  
+			'locations'		=> 'dbem_locations',  
+			'bookings'		=> 'dbem_bookings',
+			'people'		=> 'dbem_people',  
+			'booking_ppl' 	=> 'dbem_bookings_people'
 		);
 		
 		if ($doi) 

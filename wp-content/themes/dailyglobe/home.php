@@ -58,7 +58,8 @@ Template Name: Home
 				</div>
 				
 			</div>	
-
+			
+			<?php if (get_option('dg_sect_cat3') != "Choose a category") { ?>
 			<div id="home_cat3" class="left">
 				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat3'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat3')); ?> 
@@ -95,9 +96,10 @@ Template Name: Home
 			  <?php }	?>
 			</div>
 		</div>
+		<?php } ?>
 		
 		<div id="content_wrangler_2" class="left">
-			
+			<?php if (get_option('dg_sect_cat2') != "Choose a category") { ?>
 			<div id="home_cat2" class="left">
 				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat2'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat2')); ?> 
@@ -133,6 +135,7 @@ Template Name: Home
 					</div>
 			  <?php } ?>
 			</div>
+			<?php } ?>
 			
 			<div class="home-profit-wrangler120x600 left">
 				<script type="text/javascript"><!--
@@ -165,6 +168,7 @@ Template Name: Home
 			</script>
 		</div>
 		
+		<?php if (get_option('dg_sect_cat4') != "Choose a category") { ?>
 		<div id="home_cat4" class="left">
 			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat4'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat4')); ?> 
@@ -200,6 +204,9 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
+		<?php if (get_option('dg_sect_cat5') != "Choose a category") { ?>
 		<div id="home_cat5" class="left">
 			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat5'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat5')); ?> 
@@ -235,6 +242,8 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
 		<div class="home-profit-wrangler300x250 left">
 			
 			<script type="text/javascript"><!--
@@ -251,6 +260,8 @@ Template Name: Home
 
 		</div>
 		<div style="clear: both;"></div>
+		
+		<?php if (get_option('dg_sect_cat6') != "Choose a category") { ?>
 		<div id="home_cat6" class="home_other_cats left">
 			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat6'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat6')); ?> 
@@ -278,6 +289,9 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
+		<?php if (get_option('dg_sect_cat7') != "Choose a category") { ?>
 		<div id="home_cat7" class="home_other_cats left">
 			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat7'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat7')); ?> 
@@ -305,6 +319,9 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
+		<?php if (get_option('dg_sect_cat8') != "Choose a category") { ?>
 		<div id="home_cat8" class="home_other_cats left">
 			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat8'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat8')); ?> 
@@ -332,6 +349,9 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
+		<?php if (get_option('dg_sect_cat9') != "Choose a category") { ?>
 		<div id="home_cat9" class="home_other_cats left">
 			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat9'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat9')); ?> 
@@ -359,6 +379,9 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
+		<?php if (get_option('dg_sect_cat10') != "Choose a category") { ?>
 		<div id="home_cat10" class="home_other_cats left">
 			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat10'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat10')); ?> 
@@ -386,7 +409,11 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
 		<div style="clear:both;"></div>
+		
+		<?php if (get_option('dg_sect_cat11') != "Choose a category") { ?>
 		<div id="home_cat11" class="home_other_cats left">
 				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat11'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat11')); ?> 
@@ -414,6 +441,9 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
+		<?php if (get_option('dg_sect_cat12') != "Choose a category") { ?>
 		<div id="home_cat12" class="home_other_cats left">
 				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat12'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat12')); ?> 
@@ -441,6 +471,9 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
+		<?php if (get_option('dg_sect_cat13') != "Choose a category") { ?>
 		<div id="home_cat13" class="home_other_cats left">
 				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat13'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat13')); ?> 
@@ -468,6 +501,9 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
+		<?php if (get_option('dg_sect_cat14') != "Choose a category") { ?>
 		<div id="home_cat14" class="home_other_cats left">
 				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat14'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat14')); ?> 
@@ -495,6 +531,9 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
+		<?php if (get_option('dg_sect_cat15') != "Choose a category") { ?>
 		<div id="home_cat15" class="home_other_cats left">
 				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat15'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat15')); ?> 
@@ -522,6 +561,8 @@ Template Name: Home
 				</div>
 			<?php } ?>
 		</div>
+		<?php } ?>
+		
 		<div class="home-blockofwin-bottom">
 			
 		</div>
