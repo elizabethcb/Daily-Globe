@@ -768,12 +768,12 @@ function mytheme_add_admin() {
 		if ( 'save' == $_REQUEST['action'] ) {
 	 
 			foreach ($options as $value) {
-				update_option( $value['id'], $_REQUEST[ $value['id'] ] ); 
+				update_option( $value['id'], htmlspecialchars($_REQUEST[ $value['id'] ]) ); 
 			}
 	 
 			foreach ($options as $value) {
 				if( isset( $_REQUEST[ $value['id'] ] ) ) { 
-					update_option( $value['id'], $_REQUEST[ $value['id'] ]  ); 
+					update_option( $value['id'], htmlspecialchars($_REQUEST[ $value['id'] ])  ); 
 				} else { 
 					delete_option( $value['id'] ); 
 				}

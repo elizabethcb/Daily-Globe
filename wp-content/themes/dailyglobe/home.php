@@ -108,6 +108,7 @@ Template Name: Home
 				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat2'); ?></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat2')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 4);
+
 				foreach($pops1 as $pop) { ?>
 					<h3 class="home_post_title left"><a href="<?php echo $pop->post->guid;?>">
 					<?php echo $pop->post->post_title;?> &raquo;</a></h3>

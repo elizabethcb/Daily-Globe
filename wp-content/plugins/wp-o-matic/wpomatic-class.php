@@ -2017,7 +2017,7 @@ function wpo_get_post_image($id = false){
 							    slug varchar(250) default '',         
 							    template MEDIUMTEXT default '',         
   							  frequency int(5) default '180',
-							    feeddate tinyint(1) default '0', 
+							    feeddate tinyint(1) default '1', 
 							    cacheimages tinyint(1) default '1',
 							    posttype enum('publish','draft','private') NOT NULL default 'publish',
 							    authorid int(11) default NULL,                  
