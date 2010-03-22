@@ -108,8 +108,10 @@ function get_popular_posts_featured(&$pops = false) {
 // If there aren't enough posts to fill maxcount, retrieve more.
 
 function get_popular_posts_by_category(&$pops = false, $cat = 1, $maxcount = 5) {
-	if ( !$pops or empty($pops) )
-		return false;
+	if ( !$pops or empty($pops) ) {
+		return get_posts('posts_per_page=' . $maxcount . '&category=' . $cat);
+		
+	}
 	$results = array();
 	$yes = false;
 	$count = 0;
