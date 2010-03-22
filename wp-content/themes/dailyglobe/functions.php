@@ -109,8 +109,13 @@ function get_popular_posts_featured(&$pops = false) {
 
 function get_popular_posts_by_category(&$pops = false, $cat = 1, $maxcount = 5) {
 	if ( !$pops or empty($pops) ) {
-		return get_posts('posts_per_page=' . $maxcount . '&category=' . $cat);
-		
+		$more = get_posts('posts_per_page=' . $maxcount . '&category=' . $cat);
+		if (count($more) > 0) {
+			for ( $i=0; $i<=$maxcount; $i++) {
+				$results[$i]->post = $more[$i];
+			}
+		}
+		return $results;
 	}
 	$results = array();
 	$yes = false;
