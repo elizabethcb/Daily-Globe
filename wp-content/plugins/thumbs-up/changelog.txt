@@ -1,0 +1,11 @@
+ThumbsUp Changelog
+
+==== Version 1.1.0 - August 29th, 2009 ====
+- Added pagination to ThumbsUp admin.
+- New setting in config.php: admin_items_per_page
+
+==== Version 1.0.1 - July 24th, 2009 ====
+- Bugfix: prevented possible multiple clicks by immediately disabling the submit buttons in jquery.js.php (affected templates: digg-thumbs, mini-thumbs, thumbs-up-down).
+
+==== Version 1.0.0 - July 19th, 2009 ====
+- Initial release

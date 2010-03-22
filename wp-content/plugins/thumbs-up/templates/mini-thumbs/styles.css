@@ -1,0 +1,28 @@
+/* Reset form margin/padding */
+.thumbsup_template_mini-thumbs form { position:relative; margin:0; padding:0; height:16px; color:#000; }
+
+/* Stuff to hide */
+.thumbsup_template_mini-thumbs .thumbsup_hide { display:none; }
+
+/* Position buttons */
+.thumbsup_template_mini-thumbs input { position:absolute; top:0; left:0; width:16px; height:16px; background:url(./images/sprite.png) no-repeat 0 0; border:0; text-indent:-9999px; cursor:pointer; }
+.thumbsup_template_mini-thumbs input.vote_down { left:18px; background-position:-16px 0; }
+.thumbsup_template_mini-thumbs input:hover { background-position:0 -16px; }
+.thumbsup_template_mini-thumbs input.vote_down:hover { background-position:-16px -16px; }
+.thumbsup_template_mini-thumbs input:active { background-position:0 -32px; }
+.thumbsup_template_mini-thumbs input.vote_down:active { background-position:-16px -32px; }
+
+/* Position score */
+.thumbsup_template_mini-thumbs strong { display:block; margin:0 0 0 40px; font-size:12px; line-height:16px; text-align:left; }
+
+/* Closed form */
+.thumbsup_template_mini-thumbs .closed input, .thumbsup_template_mini-thumbs .closed input:hover { background-position:0 -48px; cursor:default; }
+.thumbsup_template_mini-thumbs .closed input.vote_down, .thumbsup_template_mini-thumbs .closed input.vote_down:hover { background-position:-16px -48px; }
+
+/* Right aligned */
+.thumbsup_template_mini-thumbs.right input { left:auto; right:18px; }
+.thumbsup_template_mini-thumbs.right input.vote_down { right:0; }
+.thumbsup_template_mini-thumbs.right strong { margin:0 40px 0 0; text-align:right; }
+
+/* Fix for IE <= 7: text-indent does not work to hide text on submit buttons */
+.thumbsup_template_mini-thumbs input { font-size:0; line-height:999px; }

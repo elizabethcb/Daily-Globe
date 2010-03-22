@@ -1,0 +1,33 @@
+/* Stretching box that fills up all available horizontal space */
+.thumbsup_template_mini-poll { position:relative; height:61px; background:#eee; border:3px double #999; line-height:30px; color:#000; }
+
+/* Reset form margin/padding */
+.thumbsup_template_mini-poll form { margin:0; padding:0; }
+
+/* Stuff to hide */
+.thumbsup_template_mini-poll .thumbsup_hide { display:none; }
+
+/* Spinner alignment */
+.thumbsup_template_mini-poll img { vertical-align:middle; }
+
+/* Arrange the stat bars */
+.thumbsup_template_mini-poll form p { position:absolute; top:0; left:0; right:0; margin:0; height:30px; cursor:pointer; }
+.thumbsup_template_mini-poll form p:hover { background:#fff; }
+.thumbsup_template_mini-poll form p.thumbsup_option2 { top:30px; border-top:1px solid #999; }
+
+/* Position the radio inputs and their labels */
+.thumbsup_template_mini-poll form p input { cursor:pointer; }
+.thumbsup_template_mini-poll form p label { position:absolute; top:0; left:25px; cursor:pointer; }
+.thumbsup_template_mini-poll form p label.yourvote { font-weight:bold; }
+
+/* Position the result percentages */
+.thumbsup_template_mini-poll form p em { position:absolute; top:0; right:5px; font-style:normal; text-align:right; }
+
+/* Position the graph bars */
+.thumbsup_template_mini-poll form p span { position:absolute; top:0; bottom:0; left:0; width:0; background:#ccc; }
+
+/* Closed form */
+.thumbsup_template_mini-poll .closed input { display:none; }
+.thumbsup_template_mini-poll .closed p { cursor:default; }
+.thumbsup_template_mini-poll .closed p:hover { background:none; }
+.thumbsup_template_mini-poll .closed p label { left:5px; cursor:default; }

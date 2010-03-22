@@ -1,0 +1,2 @@
+/* Prevent small vertical shift caused by spinner img */
+.thumbsup_template_yes-no-text form img { vertical-align:middle; }

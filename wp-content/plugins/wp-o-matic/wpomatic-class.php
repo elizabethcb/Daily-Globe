@@ -2006,7 +2006,7 @@ function wpo_get_post_image($id = false){
      'wpo_cacheimages'  => array(0, 'Cache all images. Overrides campaign options'),
      'wpo_cachepath'    => array('cache', 'Cache path relative to wpomatic directory')
     ));
-    
+    //$force_install = true;
     // only re-install if new version or uninstalled
     if($force_install || ! $this->installed || $this->installed != $this->version) {			
 			# wpo_campaign

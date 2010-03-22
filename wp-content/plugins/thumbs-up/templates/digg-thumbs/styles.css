@@ -1,0 +1,23 @@
+/* Box */
+.thumbsup_template_digg-thumbs { position:relative; margin-left:auto; margin-right:auto; width:100px; height:100px; background:url(./images/sprite.png); text-align:center; color:#000; }
+
+/* Stuff to hide */
+.thumbsup_template_digg-thumbs .thumbsup_hide { display:none; }
+
+/* Reset form margin/padding */
+.thumbsup_template_digg-thumbs form { margin:0; padding:0; }
+
+/* Vote count */
+.thumbsup_template_digg-thumbs strong { position:absolute; left:0; top:5px; width:100%; font:bold 36px 'Myriad Pro',Myriad,Helvetica,Arial,sans-serif; letter-spacing:-0.05em; }
+
+/* Vote button */
+.thumbsup_template_digg-thumbs .submit { position:absolute; left:0; bottom:0; padding:0; width:100%; height:40px; background:url(./images/sprite.png) 0 -60px; border:0; text-indent:-9999px; cursor:pointer; }
+.thumbsup_template_digg-thumbs .submit:hover { background-position:0 -100px; }
+.thumbsup_template_digg-thumbs .submit:active { background-position:0 -140px; }
+
+/* Closed form */
+.thumbsup_template_digg-thumbs .thanks .submit { background-position:0 -180px; cursor:default; }
+.thumbsup_template_digg-thumbs .closed .submit { background-position:0 -220px; cursor:default; }
+
+/* Fix for IE <= 7: text-indent does not work to hide text on submit buttons */
+.thumbsup_template_digg-thumbs .submit { font-size:0; line-height:999px; }

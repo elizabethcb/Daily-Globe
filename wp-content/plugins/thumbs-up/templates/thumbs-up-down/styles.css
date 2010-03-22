@@ -1,0 +1,33 @@
+/* Box */
+.thumbsup_template_thumbs-up-down { position:relative; margin-left:auto; margin-right:auto; width:300px; height:40px; background:url(./images/sprite.png) no-repeat 0 0; color:#000; }
+
+/* Reset form margin/padding */
+.thumbsup_template_thumbs-up-down form { margin:0; padding:0; }
+
+/* Stuff to hide */
+.thumbsup_template_thumbs-up-down .thumbsup_hide { display:none; }
+
+/* Positive and negative vote count */
+.thumbsup_template_thumbs-up-down strong { position:absolute; top:0; padding:4px 0 0; width:100px; font:bold 30px 'Myriad Pro',Myriad,Helvetica,Arial,sans-serif; text-align:center; color:#000; letter-spacing:-0.05em; }
+.thumbsup_template_thumbs-up-down strong.positive_votes { left:0; }
+.thumbsup_template_thumbs-up-down strong.negative_votes { right:0; }
+
+/* Vote buttons */
+.thumbsup_template_thumbs-up-down input { position:absolute; top:0; width:50px; height:40px; background:url(./images/sprite.png) no-repeat 50px 0; border:0; text-indent:-9999px; cursor:pointer; }
+.thumbsup_template_thumbs-up-down input.vote_positive { left:100px; }
+.thumbsup_template_thumbs-up-down input.vote_negative { right:100px; }
+.thumbsup_template_thumbs-up-down input.vote_positive:hover { background-position:-300px 0; }
+.thumbsup_template_thumbs-up-down input.vote_negative:hover { background-position:-350px 0; }
+.thumbsup_template_thumbs-up-down input:active { outline:0; }
+.thumbsup_template_thumbs-up-down input.vote_positive:active { background-position:-400px 0; }
+.thumbsup_template_thumbs-up-down input.vote_negative:active { background-position:-450px 0; }
+
+/* Closed form */
+.thumbsup_template_thumbs-up-down .thanks input, .thumbsup_template_thumbs-up-down .closed input { cursor:default; }
+.thumbsup_template_thumbs-up-down .thanks input.vote_positive { background-position:-500px 0; }
+.thumbsup_template_thumbs-up-down .thanks input.vote_negative { background-position:-550px 0; }
+.thumbsup_template_thumbs-up-down .closed input.vote_positive { background-position:-600px 0; }
+.thumbsup_template_thumbs-up-down .closed input.vote_negative { background-position:-650px 0; }
+
+/* Fix for IE <= 7: text-indent does not work to hide text on submit buttons */
+.thumbsup_template_thumbs-up-down input { font-size:0; line-height:999px; }
