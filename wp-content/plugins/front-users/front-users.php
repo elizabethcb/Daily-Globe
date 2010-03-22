@@ -23,8 +23,9 @@ define('FU_INCLUDES_DIR', FU_PLUGIN_DIR_PATH . 'includes/');
 require_once(FU_INCLUDES_DIR.'fu_functions.include.php');
 include(FU_PLUGIN_DIR_PATH . 'front-users-class.php');
 // Enqueue scripts and stylesheets.
-register_activation_hook(__FILE__, 'fu_activate');
+
 $anotherfu = new FrontUsers;
+register_activation_hook(__FILE__, array(&$anotherfu, 'activate') );
 $myfu = fu_post('fu');
 if ('' != $myfu['post_title'] ) {
 	$anotherfu->process_article_submit($myfu);
@@ -73,21 +74,5 @@ function fu_wp_head() {
 	</script>
 HERE;
 }
-function fu_activate() {
-	global $wpdb;
-	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
-	//$tblname = $wpdb->prefix . "tu_votes";
-	$tblname = $wpdb->prefix . 'feedmeta';
-	$tbl = "CREATE TABLE " . $tblname . " (
-					id mediumint(9) NOT NULL AUTO_INCREMENT,
-					feed_id mediumint(9), 
-					reputation mediumint(9),
-					date timestamp DEFAULT NOW(),
-					UNIQUE KEY id (id) )";
-	if($wpdb->get_var("SHOW TABLES LIKE '$tblname'") != $tblname) {
-		dbDelta($tbl);
-	}
-		
- }
 ?>

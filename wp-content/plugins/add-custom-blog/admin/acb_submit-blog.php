@@ -1,3 +1,7 @@
+<h2>Yey!  It was setup!</h2>
+<p>Next step, go to your *new* blog's plugins menu, click checkall, uncheck intense debate (as of 3/19/2010),
+select activate from the drop down menu.  Once you've done that, go to Add a Custom Blog > Setup</p>
+
 <?php
 //Submit Blog
 if(acb_post('blog')) {

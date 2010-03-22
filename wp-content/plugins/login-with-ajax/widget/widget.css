@@ -46,3 +46,15 @@
     width: 180px;
     margin: 0 auto;
 }
+#lwa_wp-submit {
+    background: #444;
+    border: 1px solid black;
+    border-bottom-left-radius: 5px 5px;
+    border-bottom-right-radius: 5px 5px;
+    border-top-left-radius: 5px 5px;
+    border-top-right-radius: 5px 5px;
+    color: white;
+    font-weight: bold;
+    padding: 2px 3px;
+
+}

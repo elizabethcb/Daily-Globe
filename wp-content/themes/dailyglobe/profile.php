@@ -8,7 +8,8 @@ Template Name: Profile
 
 <div id="content">
 	<div id="sub-container">
-<?php // plugins/front-user/layout/html/profile-page.php ?>
+<?php // plugins/front-user/layout/html/profile-page.php
+// if feed-info plugins/front-user/layout/html/something or other ?>
 		<?php if (have_posts()){ 
 			the_post();
 			echo the_content();

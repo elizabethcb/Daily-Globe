@@ -56,6 +56,8 @@
 		
 	<div style="clear:both"></div>	
 </div><!--/profile-info-->
+
+<!-- Can this be separated for feeds to reuse? -->
 <div id="profile-stuff">	
 	<?php //echo $uname; ?>
 	<ul class="profile-tabs">

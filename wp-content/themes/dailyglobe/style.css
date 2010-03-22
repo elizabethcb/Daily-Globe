@@ -361,12 +361,20 @@ li.top-location {
 #change-location-text {
 	margin-left: 13px;
 	margin-right: 14px;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 }
 #submit-location-lookup, #submit-location-search {
 	position: relative;
 	top: 6px;
 	background: #444444;
 	border: 1px solid black;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	color: white;
 	font-weight: bold;
 	padding: 3px;
@@ -986,13 +994,37 @@ h2.pagetitle, div.event-header {
 	width: 505px;
 	float: left;
 }
+.single_post a {}
+.single_post ul {}
+.single_post ul li {}
+.single_post strong {}
+.single_post ol {}
 .single_post .entry {
 	width: 495px;
 }
+
 .nocomments {
 	margin-left: 182px;
 	text-align: center;
 	width: 418px;
+}
+
+.syndicated-content {
+	font-size: 1.3em;
+}
+
+.syndication-info {
+	width: 250px;
+	float: left;
+	margin-left: 20px;
+	margin-top: 50px;
+	line-height: 20px;
+}
+
+.thumbsup_template_up-down {
+	float: right;
+	margin-right: 80px;
+	margin-top: 20px;
 }
 #article_page .thumbsup, #article_page .votes_balance {
 	

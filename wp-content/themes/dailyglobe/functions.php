@@ -17,6 +17,7 @@ function string_limit_words($string, $word_limit){
 // echo $words;
   }
 
+// TODO : Really don't need these anymore
 // Functions for event page with Event Manager plugin
 function dbem_is_locations_page () {
 	if(dbem_is_events_page() && $_REQUEST['locations'] == 1) {
@@ -41,38 +42,72 @@ function dbem_is_single_location_page () {
 		return false;
 	}
 }
+
 // playing with session manager info
 // foreach ($populars as $pop)
 // get_post($pop->post_id);
+
 function setup_popular_posts() {
-	// limit is the optional 3rd option.
+	// Need to combine votes.
 	if(!get_option('sm_settings'))
 		return;
 
-	$pages = my_sm_get_pages('hits', 'DESC', 400);
+	$pages = my_sm_get_pages('hits', 'DESC', 40);
+	// Session Manager doesn't store post_id, so I have to retrieve that before retrieving the category.
+	global $wpdb, $blog_id;
+	
+	$sql = "
+	SELECT 
+		COUNT(*) 		AS total_votes,
+		SUM(v.rating)	 AS positive_votes,
+		MAX(v.date)		AS last_vote_date
+		FROM ". $wpdb->prefix . "posts i 
+	JOIN wp_tu_votes v ON i.ID = v.post_id
+	WHERE i.ID=%d  AND v.blog_id=%d
+	GROUP BY i.ID";
+
 	if ($results_num = count($pages)) {
 		foreach($pages as $obj) {
 			$obj->post_id = url_to_postid($obj->url);
 			$categories = get_the_category($obj->post_id);
+			$obj->votes = $wpdb->get_row( $wpdb->prepare( $sql, array($obj->post_id, $blog_id) ), 'ARRAY_A' );
 			$obj->cat_ids = array();
 			foreach ($categories as $cat) {
 				array_push($obj->cat_ids, intval($cat->cat_ID));
 			}
+			$neg = $obj->votes['total_votes'] - $obj->votes['positive_votes'];
+			$vb = $obj->votes['total_votes'] - $neg;
+
+			$obj->value = $obj->hits + $vb * 5;
 
 		} 
 	}
-
+	
+	usort($pages, "pop_sort");
+	//echo '<pre>'; print_r($pages); echo '</pre>';
 
 	return $pages;
 }
+
+function pop_sort( $a, $b ) {
+	if ( $a->value == $b->value )
+		return 0;
+	return ( $a->value > $b->value ) ? -1 : 1;
+}
+
 function sort_by_cats( $a, $b ) { 
   if(  $a->cat_ids[0] ==  $b->cat_ids[0] ) return 0 ; 
   return ($a->cat_ids[0] < $b->cat_ids[0]) ? -1 : 1;
 } 
 
+function get_popular_posts_featured(&$pops = false) {
+	if ( !$pops or empty($pops) )
+		return false;
+	return array_slice($pops, 0, 6);
+}
 // If there aren't enough posts to fill maxcount, retrieve more.
 
-function get_popular_posts_by_category($pops = false, $cat = 1, $maxcount = 5) {
+function get_popular_posts_by_category(&$pops = false, $cat = 1, $maxcount = 5) {
 	if ( !$pops or empty($pops) )
 		return false;
 	$results = array();
@@ -98,7 +133,7 @@ function get_popular_posts_by_category($pops = false, $cat = 1, $maxcount = 5) {
 			}
 		}
 	}
-	//	echo '<pre>'; print_r($results); echo '</pre>';
+	//echo '<pre>'; print_r($results); echo '</pre>';
 	return $results;
 
 }

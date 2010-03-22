@@ -56,10 +56,16 @@
 				<div class="entry left">
 					<?php $perma = get_post_meta( get_the_ID(), 'wpo_sourcepermalink', 1);
 						if ($perma) { ?>
-						<p>Story originally posted here: <a class="topic-tag-link" href="<?php echo $perma; ?>">at this original source</a></p>
-						
+						<p>Story originally posted <a class="topic-tag-link" href="<?php echo $perma; ?>">at this original source</a></p>
+						<div class="syndicated-content">
 						<?php the_content(); ?>
-						<p>Click <a class="topic-tag-link" href="<?php echo $perma; ?>">here</a> to read more.</p>
+						</div>
+						<p id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $perma; ?>">Read More</a> Click your browser's 
+						back button to come back and vote or discuss.</p>
+						<p id="synd-feed-info" class="syndication-info">
+							Feed information 
+							<a class="topic-tag-link" href="/feed-info/">here</a>.
+						</p>
 					<?php } else {
 						the_content();
 					} ?>

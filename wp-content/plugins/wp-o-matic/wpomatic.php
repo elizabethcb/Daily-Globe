@@ -15,7 +15,7 @@ define('WPOINC', WPODIR . 'inc/');
 define('WPOTPL', WPOINC . 'admin/');
 include('wpomatic-class.php');
 # Dependencies                            
-require_once( WPOINC . 'tools.class.php' );               
+require_once( WPOINC . 'tools.class.php' );
 
 $wpomatic = new WPOMatic();
 # Actions

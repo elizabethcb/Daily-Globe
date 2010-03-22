@@ -18,7 +18,10 @@ Template Name: Home
 			<div id="home_cat1" class="left">
 				
 				<div id="slideshow">
-					<?php $count=0; query_posts('category_name=featured&posts_per_page=6'); ?>
+					<?php 
+					// $featured is the six top posts.  
+					$featured = get_popular_posts_featured($pages);
+					$count=0; query_posts('category_name=featured&posts_per_page=6'); ?>
 	
 					<?php while (have_posts()) : the_post(); ?>
 						<div class="slide slide<?php echo $count; ?>" title="t<?php echo $count; ?>">
@@ -61,11 +64,12 @@ Template Name: Home
 			
 			<?php if (get_option('dg_sect_cat3') != "Choose a category") { ?>
 			<div id="home_cat3" class="left">
-				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat3'); ?></h2></div>
-				<?php $catNum = get_cat_id(get_option('dg_sect_cat3')); ?> 
+			<?php $catNum = get_cat_id(get_option('dg_sect_cat3')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat3'); ?>"><?php echo get_option('dg_sect_cat3'); ?></a></h2></div>
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 2);
 					foreach($pops1 as $pop) { ?>
-					<h3 class="home_post_title left"><a href="<?php echo $pop->url;?>">
+					<h3 class="home_post_title left"><a href="<?php echo $pop->post->guid;?>">
 					<?php echo $pop->post->post_title;?>&ensp;&raquo;</a></h3>
 					<div class="home_post_wrapper left">
 						<p class="cat3_posts home_post">
@@ -83,13 +87,13 @@ Template Name: Home
 						<div class="home_post_meta">
 							<?php $count = $pop1->post->comment_count; ?> 
 							<?php if($count > 0) { ?> 
-								<a href="<?php $pop->url; ?>">Comments (<?php echo $pop->post->comment_count; ?>) | </a>
+								<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $pop->post->comment_count; ?>) | </a>
 								<?php }
 								elseif ($count == 1) {
-									echo '<a href="' . $pop->url . '">1 Comment</a> | '; }
+									echo '<a href="' . $pop->post->guid . '">1 Comment</a> | '; }
 								else { 
-									echo '<a href="' . $pop->url . '">No Comments</a> | '; } ?>
-								<a href="<?php echo $pop->url; ?>">Read More &raquo;</a> |
+									echo '<a href="' . $pop->post->guid . '">No Comments</a> | '; } ?>
+								<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
 								<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
 						</div>
 					</div>
@@ -105,7 +109,7 @@ Template Name: Home
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat2')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 4);
 				foreach($pops1 as $pop) { ?>
-					<h3 class="home_post_title left"><a href="<?php echo $pop->url;?>">
+					<h3 class="home_post_title left"><a href="<?php echo $pop->post->guid;?>">
 					<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 					<div class="home_post_wrapper left">
 						<p class="cat2_posts home_post">
@@ -123,13 +127,13 @@ Template Name: Home
 						<div class="home_post_meta">
 							<?php $count = $pop1->post->comment_count; ?> 
 							<?php if($count > 0) { ?> 
-								<a href="<?php $pop->url; ?>">Comments (<?php echo $pop->post->comment_count; ?>) | </a>
+								<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $pop->post->comment_count; ?>) | </a>
 								<?php }
 								elseif ($count == 1) {
-									echo '<a href="' . $pop->url . '">1 Comment</a> | '; }
+									echo '<a href="' . $pop->post->guid . '">1 Comment</a> | '; }
 								else { 
-									echo '<a href="' . $pop->url . '">No Comments</a> | '; } ?>
-								<a href="<?php echo $pop->url; ?>">Read More &raquo;</a> |
+									echo '<a href="' . $pop->post->guid . '">No Comments</a> | '; } ?>
+								<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
 								<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
 						</div>
 					</div>
@@ -174,7 +178,7 @@ Template Name: Home
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat4')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 4);
 			foreach($pops1 as $pop) { ?>
-				<h3 class="home_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat4_posts home_post">
@@ -192,13 +196,13 @@ Template Name: Home
 					<div class="home_post_meta">
 						<?php $count = $pop1->post->comment_count; ?> 
 						<?php if($count > 0) { ?> 
-							<a href="<?php $pop->url; ?>">Comments (<?php echo $pop->post->comment_count; ?>) | </a>
+							<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $pop->post->comment_count; ?>) | </a>
 							<?php }
 							elseif ($count == 1) {
-								echo '<a href="' . $pop->url . '">1 Comment</a> | '; }
+								echo '<a href="' . $pop->post->guid . '">1 Comment</a> | '; }
 							else { 
-								echo '<a href="' . $pop->url . '">No Comments</a> | '; } ?>
-							<a href="<?php echo $pop->url; ?>">Read More &raquo;</a> |
+								echo '<a href="' . $pop->post->guid . '">No Comments</a> | '; } ?>
+							<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
 							<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
 					</div>
 				</div>
@@ -212,7 +216,7 @@ Template Name: Home
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat5')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 2);
 			foreach($pops1 as $pop) { ?>
-				<h3 class="home_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat5_posts home_post">
@@ -230,13 +234,13 @@ Template Name: Home
 					<div class="home_post_meta">
 						<?php $count = $pop1->post->comment_count; ?> 
 						<?php if($count > 0) { ?> 
-							<a href="<?php $pop->url; ?>">Comments (<?php echo $pop->post->comment_count; ?>) | </a>
+							<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $pop->post->comment_count; ?>) | </a>
 							<?php }
 							elseif ($count == 1) {
-								echo '<a href="' . $pop->url . '">1 Comment</a> | '; }
+								echo '<a href="' . $pop->post->guid . '">1 Comment</a> | '; }
 							else { 
-								echo '<a href="' . $pop->url . '">No Comments</a> | '; } ?>
-							<a href="<?php echo $pop->url; ?>">Read More &raquo;</a> |
+								echo '<a href="' . $pop->post->guid . '">No Comments</a> | '; } ?>
+							<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
 							<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
 					</div>
 				</div>
@@ -270,7 +274,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -284,7 +288,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>
@@ -300,7 +304,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -314,7 +318,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>
@@ -330,7 +334,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -344,7 +348,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>
@@ -360,7 +364,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -374,7 +378,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>
@@ -390,7 +394,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -404,7 +408,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>
@@ -422,7 +426,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -436,7 +440,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>
@@ -452,7 +456,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -466,7 +470,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>
@@ -482,7 +486,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -496,7 +500,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>
@@ -512,7 +516,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -526,7 +530,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>
@@ -542,7 +546,7 @@ Template Name: Home
 				<?php $post_content_old = $pop->post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $pop->url;?>">
+				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
 					<p class="cat_other_posts">
@@ -556,7 +560,7 @@ Template Name: Home
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $pop->url; ?>">Read More &raquo;</a>
+						 | <a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a>
 					</div>
 				</div>
 			<?php } ?>

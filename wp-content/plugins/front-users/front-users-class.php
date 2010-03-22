@@ -10,6 +10,14 @@ class FrontUsers {
 	
 	protected $tutable = 'wp_tu_votes';
 	
+	protected $tables = array(
+		'activity'		=> 'wp_activity',
+		'reputation'	=> 'wp_reputation',
+		'badges'		=> 'wp_badges',
+		'user_badges'	=> 'wp_user_badges',
+		'feed_badges'	=> 'wp_feed_badges'
+	);
+	
 	function __construct() {
 		// some variables that needs to be instatiated
 		// new FrontUsers(blah, blah, blah
@@ -242,11 +250,11 @@ HERE;
 		//require_once('../wp-o-matic/wpomatic.php');
 		// Instantiate appropriate feed thing.
 		$wpom = new WPOMatic;
-		
+		$campid = get_option('wpo-fu-campaign-id');
 		// Save feed, and capture feedback.
 		
 		// TODO Not hardcoded cid
-		$fid = $wpom->addCampaignFeed(2, $fu['url']);
+		$fid = $wpom->addCampaignFeed($campid, $fu['url']);
 		if (!$fid) 
 			$feed['error'] = " Unable to insert Feed";
 		
@@ -309,6 +317,58 @@ HERE;
 		global $wp_rewrite;
 		$wp_rewrite->flush_rules();
 	}
+
+	function activate() {
+		global $wpdb;
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		
+		$tbls[0] = "CREATE TABLE " . $this->tables['activity'] . " (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			object_id mediumint(9) NOT NULL, 
+			user_id mediumint(9) NOT NULL,
+			blog_id mediumint(9) NOT NULL,
+			type enum('post','comment','vote') NOT NULL DEFAULT 'post',
+			date timestamp DEFAULT NOW(),
+			PRIMARY KEY (id) )";
+			
+		$tbls[1] = "CREATE TABLE " . $this->tables['reputation'] . " (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			subject_id mediumint(9) NOT NULL,
+			subject_type enum('user','feed') NOT NULL DEFAULT 'user',
+			value tinyint(2) NOT NULL DEFAULT '10',
+			object_id mediumint(9) NOT NULL,
+			object_type enum('vote', 'badge') NOT NULL DEFAULT 'vote',
+			PRIMARY KEY (id) )";
+		
+		$tbls[2] = "CREATE TABLE " . $this->tables['badges'] . " (
+			id mediumint(9) NOT NULL AUTO_INCREMENT,
+			title varchar(255) NOT NULL,
+			description text,
+			value smallint(4) NOT NULL DEFAULT '10',
+			type enum('feed', 'user', 'both') NOT NULL DEFAULT 'both',
+			PRIMARY KEY (id) )";
+			
+		$tbls[3] = "CREATE TABLE " . $this->tables['user_badges'] . " (
+			badge_id mediumint(9) NOT NULL,
+			user_id mediumint(9) NOT NULL,
+			PRIMARY KEY (badge_id, user_id) )";
+		
+		$tbls[4] = "CREATE TABLE " . $this->tables['feed_badges'] . " (
+			badge_id mediumint(9) NOT NULL,
+			feed_id mediumint(9) NOT NULL,
+			blog_id mediumint(9) NOT NULL,
+			PRIMARY KEY (badge_id, feed_id, blog_id) )";
+		
+		$count = 0;
+		foreach ( array( 'activity', 'reputation', 'badges', 'user_badges', 'feed_badges') as $tblname ) {
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . $this->tables[$tblname] . "'") != $this->tables[$tblname] ) {
+				dbDelta($tbls[$count]);
+			}
+			$count++;
+		}
+	}
+		
+
 }
 	
 ?>

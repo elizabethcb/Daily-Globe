@@ -93,7 +93,7 @@ function acb_admin_page() {
 	$access_level = 'manage_options';
 
 	$sub_pages = array(
-	__('Neat Stuff','acb')=>'acb_neat_stuff'
+	__('Setup','acb')=>'acb_setup'
 //	, __('Hits By User','sm')=>'sm_all_by_user'
 ///	, __('Recent Hits','sm')=>'sm_all_data'
 //	, __('Settings','sm')=>'sm_settings'

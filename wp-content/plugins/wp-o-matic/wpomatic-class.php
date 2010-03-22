@@ -189,8 +189,20 @@ class WPOMatic {
 			$result = $wpdb->get_row( 
 				$wpdb->prepare("SELECT * FROM " . $this->db['authors'] . " WHERE id=%d", $aid)
 			);
+			//echo ' Result: <pre>'; print_r($result); echo '<pre>';
 			return $result->name; 
+		} elseif ( 0 == $aid ) {
+			$fid = get_post_meta($this->actpost->ID, 'wpo_feedid', true);
+			if ($fid > 0 ) {
+				$result = $wpdb->get_row(
+					$wpdb->prepare("SELECT * FROM " . $this->db['campaign_feed'] . " WHERE id=%d", $fid)
+				);
+				return $result->title;
+			} else {
+				return $stuff;
+			}
 		} else {
+			//echo ' Stuff: ' . $stuff;
 			return $stuff;
 		}
 	}
@@ -400,8 +412,9 @@ class WPOMatic {
     
     // Processes post stack
     foreach($items as $item) {
-      $this->processItem($campaign, $feed, $item);
-      $lasthash = $this->getItemHash($item);
+       $test = $this->processItem($campaign, $feed, $item);
+      if ($test == true) 
+      	$lasthash = $this->getItemHash($item);
     }
     
     // If we have added items, let's update the hash
@@ -414,8 +427,10 @@ class WPOMatic {
     
       $this->log( $count . ' posts added' );
     }
-    $wpdb->insert(	$wpdb->prefix . 'feedmeta', 
-    	array('feed_id' => $feed->id), array('%d') );
+    if(isset($this->campaign_data['feeds']['new']) )
+    	$wpdb->insert(	$wpdb->prefix . 'feedmeta', 
+    		array('feed_id' => $feed->id), array('%d') );
+    
     return $count;
   }              
   
@@ -436,6 +451,14 @@ class WPOMatic {
 
 // echo $words;
   } 
+  
+  function get_feedmeta($fid, $key = 'reputation') {
+  	$keys = array(
+  		'reputation' => 10,
+  		'string_limit' => 400
+  	);
+  	return $keys[$key];
+  }
    
   /**
    * Processes an item
@@ -450,9 +473,12 @@ class WPOMatic {
     $this->log('Processing item');
     
     // Item content
+    // We can limit words by feed source's request via get_feedmeta($feed->id, 'string_limit');
+    // That way we can appease some people, but still have something more than one sentance for
+    // feeds that don't mind.
+    
     $content = $this->parseItemContent($campaign, $feed, $item);
-    $content = $this->string_limit_words($content,75);
-    $content .= "...";
+   $content = $this->string_limit_words( $content, $this->get_feedmeta($feed->id, 'string_limit') );
     
     // Item date
     if($campaign->feeddate && ($item->get_date('U') > (current_time('timestamp', 1) - $campaign->frequency) && $item->get_date('U') < current_time('timestamp', 1)))
@@ -471,8 +497,27 @@ class WPOMatic {
       'wpo_author' => $author_id
     );  
     
-    // Create post
-    $postid = $this->insertPost($wpdb->escape($item->get_title()), $wpdb->escape($content), $date, $categories, $campaign->posttype, $this->feeduser, $campaign->allowpings, $campaign->comment_status, $meta);
+    
+    
+    // Save post to wpo table
+    // if it fails abort.  This will help with preventing duplicate entries.
+    $test = $wpdb->query(WPOTools::insertQuery($this->db['campaign_post'], array(
+      'campaign_id' => $campaign->id,
+      'feed_id' => $feed->id,
+      'post_id' => $postid,
+      'hash' => $this->getItemHash($item)
+    )));
+    
+    if ($test == false) 
+     return false;
+    
+        // Create post
+    $postid = $this->insertPost(
+    	$wpdb->escape($item->get_title()), 
+    	$wpdb->escape($content), 
+    	$date, $categories, $campaign->posttype, 
+    	$this->feeduser, $campaign->allowpings, 
+    	$campaign->comment_status, $meta);
     
     // If pingback/trackbacks
     if ($campaign->dopingbacks) {
@@ -480,15 +525,9 @@ class WPOMatic {
       
       require_once(ABSPATH . WPINC . '/comment.php');
     	pingback($content, $postid);      
-    }      
+    }  
     
-    // Save post to log database
-    $wpdb->query(WPOTools::insertQuery($this->db['campaign_post'], array(
-      'campaign_id' => $campaign->id,
-      'feed_id' => $feed->id,
-      'post_id' => $postid,
-      'hash' => $this->getItemHash($item)
-    )));
+    return true;
   }
   
   /** Processes an author
@@ -589,11 +628,12 @@ class WPOMatic {
 		return $wpdb->insert_id;		
 	}
 	
-function wpo_get_post_image($id=NULL){
+function wpo_get_post_image($id = false){
+	if (!$id) return;
 	global $wpdb;
 	$categories = $wpdb->get_results("SELECT * FROM category_images WHERE term_id = $id", ARRAY_A);
 	shuffle($categories);
-	echo "<h3>" . $categories[0]['image_src'] . "</h3>";
+	//echo "<h3>" . $categories[0]['image_src'] . "</h3>";
 	//die('bitch');
 	return $categories[0]['image_src'];
 }
@@ -608,12 +648,39 @@ function wpo_get_post_image($id=NULL){
    */
   function parseItemContent(&$campaign, &$feed, &$item) {
   	$cat_id = $this->getCampaignData($campaign->id, 'categories');
-  	$content_img = $this->wpo_get_post_image($cat_id[0]);  
-    $content = '<img src="'.$content_img.'" alt="post_img" width="80" />'.$item->get_content();
+  	//$content_img = $this->wpo_get_post_image($cat_id[0]);  
+    //$content = '<img src="'.$content_img.'" alt="post_img" width="80" />'.$item->get_content();
     
+    $images = WPOTools::parseImages($content);
+    //echo '<pre>';
+    $thing = $item->get_enclosures(0);
+   // print_r($thing); print_r($images);
+    //echo '<pre>'; die('bitch');
+    if (sizeof($thing) > 0 ) {
+    	foreach ( $thing as $link ) {
+    		$tmp = getimagesize($img);
+    		if ($tmp[0] < 75 || $tmp[1] < 75 ) {
+    			$content = '<img src="'. $this->wpo_get_post_image($cat_id[0]) 
+    				. '" alt="post_img" width="80" />' . $item->get_content();
+    		} else {
+    			$content = '<img src="' . $link . '" alt="post_img" width="80" />' 
+    				. $item->get_content();
+    		}
+    	}
+    } elseif ( sizeof($images[2]) > 0 ) {
+    	foreach ($images[2] as $img) {
+    		$tmp = getimagesize($img);
+    		if ($tmp[0] < 100 || $tmp[1] < 100) {
+    			$content = '<img src="'. $this->wpo_get_post_image($cat_id[0]) 
+    				. '" alt="post_img" width="80" />' . $item->get_content();
+    		}
+    	}
+    } else {
+		$content = '<img src="'. $this->wpo_get_post_image($cat_id[0]) 
+			. '" alt="post_img" width="80" />' . $item->get_content();
+	}
     // Caching
     if ( get_option('wpo_cacheimages') || $campaign->cacheimages ) {
-      $images = WPOTools::parseImages($content);
       $urls = $images[2];
       
       if ( sizeof($urls) ) {
@@ -1964,11 +2031,13 @@ function wpo_get_post_image($id=NULL){
 							    created_on datetime NOT NULL default '0000-00-00 00:00:00',  							  
 							    PRIMARY KEY (id)
 						   );" ); 
+		
 			dbDelta( "CREATE TABLE {$this->db['authors']} (
-						id mediumint(9) NOT NULL auto_increment primary,
+						id mediumint(9) NOT NULL auto_increment,
 						name varchar(255) NOT NULL,
 						email varchar(255),
-						url varchar(255)
+						url varchar(255),
+						PRIMARY KEY (id)
 					);" );
 		 
 		 # wpo_campaign_category 			               
@@ -1989,7 +2058,7 @@ function wpo_get_post_image($id=NULL){
   							  description varchar(255) NOT NULL default '',
   							  logo varchar(255) default '',                         
   							  count int(11) default '0',
-  							  hash varchar(255) default '',
+  							  hash varchar(255) default '' UNIQUE,
   							  lastactive datetime NOT NULL default '0000-00-00 00:00:00',							    
   							  PRIMARY KEY  (id)
   						 );" );  
@@ -2026,7 +2095,18 @@ function wpo_get_post_image($id=NULL){
       
       
       add_option('wpo_version', $this->version, 'Installed version log');
-      
+      $main = array(
+			'title' => 'Feeds to Approve',
+			'posttype' => 'draft',
+			'active' => 0,
+			'comment_status' => 'closed',
+			'lastactive' => time(),
+			'created_on' => time()
+		);
+	global $wpdb;
+	 $wpdb->insert($this->db['campaign'], $main, array( '%s', '%s', '%d', '%s', '%s', '%s'));    
+	 update_option('wpo-fu-campaign-id', $wpdb->insert_id);
+   	  
    	  $this->installed = true;
     }
                                                                                      
