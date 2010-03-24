@@ -17,7 +17,7 @@ if ('' != fu_get('a') ) {
  } ?>
 <div class="fu-submit-article" id="hide-show-form" style="<?php echo $show ?>">
 	<form method="post" action="<?php echo FU_PLUGIN_DIR_URL; ?>front-users.php">
-	
+	<input type="hidden" name="fuaction" value="fu-fu" />
 	<?php // I create a nonce instead of printing fields, because I want to use the nonce
 		$nonce = wp_create_nonce('fu-submit-feed'); ?>
 	<input type="hidden" id="_wpnonce" name="_wpnonce" value="<?php echo $nonce; ?>" />

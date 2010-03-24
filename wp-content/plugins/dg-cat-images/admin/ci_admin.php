@@ -42,8 +42,10 @@ $j(document).ready(function() {
 	
 	$j('#findImage').click(function(){
 		var searchVal = $j('#searchTerm').val();
+		alert(searchVal);
 		pageVal = 1;
-		$j('#results').load('<?php echo CI_PLUGIN_DIR_URL."includes/json/ci_search.php"?>?search='+searchVal+'&page='+pageVal);
+		//alert("<?php echo CI_PLUGIN_DIR_URL."includes/json/ci_search.php"?>?search="+searchVal+"&page="+pageVal);
+		$j('#results').load('<?php echo CI_PLUGIN_DIR_URL."includes/json/ci_search.php"?>?search='+escape(searchVal)+'&page='+pageVal);
 		return false;
 	});
 	

@@ -130,7 +130,7 @@ HERE;
 	
 	private function load_page($file = false) {
 		if (!$file) return false;
-		global $wp_query;
+		global $wp_query, $wpdb;
 		//$vars['uname'] = FU_USERNAME;
 		if ($wp_query->query_vars['username']) {
 			$vars['user'] = get_user_details($wp_query->query_vars['username']);
@@ -139,11 +139,30 @@ HERE;
 			$vars['user'] = $current_user;
 		}
 		// Activity
-		// Votes by user
-		// articles submitted and comments made
+
+		// Votes by user the votes you've made.
+		$vars['votes'] = $wpdb->get_results( $wpdb->prepare(
+			"SELECT 
+				COUNT(id) AS total_votes,
+				SUM(rating) AS positive_votes
+			FROM $this->tutable
+			WHERE user_id=%d
+			GROUP BY id", $vars['user']->ID ) );
 		
-		// Rep is stored in usermeta
-		$vars['reputation'] = get_usermeta($vars['user']->ID, 'reputation');
+		
+		// Reputation
+		
+		$vars['reputation'] = $wpdb->get_results( $wpdb->prepare(
+			"SELECT 
+				subject_id, 
+				object_id,
+				SUM(value) AS total_reputation
+				FROM " . $this->tables['reputation'] . "
+			WHERE subject_id=%d AND subject_type='user'
+			GROUP BY subject_id",
+			$vars['user']->ID ) );
+			
+		// articles submitted and comments made
 		
 		$vars['posts'] = $this->get_posts($vars['user']->ID);
 		
@@ -165,22 +184,24 @@ HERE;
 		$blogids = get_usermeta($uid, 'blogs_posted');
 		$results = array();
 		//update_usermeta(1, 'blogs_posted', array(3,7,9) );
-		foreach ($blogids as $bid) {
-			$select = $wpdb-> prepare("
-				SELECT
-					i.id AS id,
-					i.post_title AS title,
-					i.post_date AS date,
-					i.comment_count AS comments,
-					COUNT(v.id) AS total_votes,
-					SUM(v.rating) AS positive_votes
-				FROM $this->tutable v
-				JOIN wp_". $bid . "_posts i ON i.id = v.post_id
-				WHERE v.blog_id = %d
-				GROUP BY i.ID
-				ORDER BY i.post_title ASC
-				", $bid);
-			$results = array_merge($results,  $wpdb->get_results($select));
+		if (!empty($blogids) ) {
+			foreach ($blogids as $bid) {
+				$select = $wpdb-> prepare("
+					SELECT
+						i.id AS id,
+						i.post_title AS title,
+						i.post_date AS date,
+						i.comment_count AS comments,
+						COUNT(v.id) AS total_votes,
+						SUM(v.rating) AS positive_votes
+					FROM $this->tutable v
+					JOIN wp_". $bid . "_posts i ON i.id = v.post_id
+					WHERE v.blog_id = %d
+					GROUP BY i.ID
+					ORDER BY i.post_title ASC
+					", $bid);
+				$results = array_merge($results,  $wpdb->get_results($select));
+			}
 		}
 		//echo '<pre>'; print_r($results); echo '</pre>';
 		
@@ -201,6 +222,7 @@ HERE;
 			$post['error'] = "Naughty Naughty";
 			$post['nonce'] = $nonce;
 			// Do something here.  whoops.
+			wp_redirect(get_bloginfo('url'));
 		}
 		
 		$post['post_content'] = $fu['post_content']
@@ -263,12 +285,7 @@ HERE;
 		wp_redirect(get_bloginfo('url') . '/submit-a-feed?a=y&t='.$nonce);
 	}
 	
-	// Voting
-	
-	public function comment_vote($id, $vote, $rating) {
-		
-		
-	}
+
 	
 	public function caught_post_vote($args) {
 		// Do we have a pid and a rating?
@@ -281,26 +298,97 @@ HERE;
 		$feedid = get_post_meta( $args['pid'], 'wpo_feedid', 1);
 		if ($feedid) {
 			// We're dealing with a syndicated post so +rep feed
-			$result = $wpdb->get_row( 
-				$wpdb->prepare( "SELECT rating from wp_feedmeta WHERE feed_id = %d", $feedid)
-			);
-			$frating = $result->rating > 0 ? $result->rating + $newval : $newval;
-			$wpdb->update($wpdb->prefix . 'feedmeta', 
-				array( 'rating' => $result->rating + $newval ), 
-				array( 'feed_id' => $feedid ),
-				array( '%d' ), array( '%d' )
+
+			// don't need to insert object type, because the default is vote.
+			$wpdb->insert( $this->tables['reputation'], 
+				array( 
+					'subject_id' 	=> $feedid,
+					'subject_type' 	=> 'feed',
+					'value'			=> $newval,
+					'object_id'		=> $args['object_id']
+				),
+				array ( '%d', '%s', '%d', '%d' )
 			);
 		} else {
 			// We're dealing with an authored post
+			// We have to get the author's id.
 			$results = $wpdb->get_row( 
 				$wpdb->prepare("SELECT post_author FROM " . $wpdb->prefix . 'posts WHERE ID=%d', $args['pid'] )
 			);
-			// TODO will need to update to get_metadata('user', etc) in 3.0
-			$urating = get_usermeta( $results->post_author, 'reputation' );
-			$new_rating = $urating > 0 ? $urating + $newval : $newval;
-			update_usermeta( $results->post_author, 'reputation', $new_rating);
+			
+			// Don't need subject type or object types as we're dealing with defaults.
+			$wpdb->insert ($this->tables['reputation'],
+				array(
+					'subject_id'	=> $results->post_author,
+					'value'			=> $newval,
+					'object_id'		=> $args['object_id']
+				), 
+				array( '%d', '%d', '%d' )
+			);
+			global $blog_id;
+			$wpdb->insert( $this->tables['activity'],
+				array(
+					'object_id'	=> $args['object_id'],
+					'user_id'	=> $args['user_id'],
+					'blog_id'	=> $blog_id,
+					'type'		=> 'voted'
+				), array( '%d', '%d', '%d', '%s' )
+			);
+			$wpdb->insert( $this->tables['activity'],
+				array(
+					'object_id'	=> $args['object_id'],
+					'user_id'	=> $results->post_author,
+					'blog_id'	=> $blog_id,
+					'type'		=> 'vote'
+				), array( '%d', '%d', '%d', '%s' )
+			);
 		}
 	}
+	
+	// Comment actions, called from hooks.
+	
+	public function comment_vote($data) {
+		// $id, $vote, $rating
+		error_log(print_r($data, true));
+		
+	}
+	
+	public function cache_activity_comment($cid, $comment) {
+		global $wpdb, $user_ID, $blog_id;
+		$wpdb->insert( $this->tables['activity'],
+			array(
+				'object_id' => $cid,
+				'user_id'	=> $user_ID,
+				'blog_id'	=> $blog_id,
+				'type'		=> 'comment'
+			), array( '%d', '%d', '%d', '%s' )
+		);
+		
+	}
+	
+	// Post actions, called from hooks.
+	public function cache_activity_post($pid, $post) {
+		// TODO this isn't assured.  But will work for this project.
+		// simple and cheat cheat cheat (35 for prod) to see if it's a feed post
+		// checking that these aren't revisions or pages
+		if ($post->post_type != 'post'
+			|| $post->post_parent != 0
+			|| $post->post_author == 61) 
+			return;
+
+		global $wpdb, $blog_id;
+		$wpdb->insert( $this->tables['activity'],
+			array(
+				'object_id'	=> $pid,
+				'user_id'	=> $post->post_author,
+				'blog_id'	=> $blog_id
+			), array ( '%d', '%d', '%d' )
+		);
+		
+		return;
+	
+	}
+	
 	
 	public function rewrite_rules($rules) {
 		$newrules = array();
@@ -327,7 +415,7 @@ HERE;
 			object_id mediumint(9) NOT NULL, 
 			user_id mediumint(9) NOT NULL,
 			blog_id mediumint(9) NOT NULL,
-			type enum('post','comment','vote') NOT NULL DEFAULT 'post',
+			type enum('post','comment','voted', 'badge', 'vote') NOT NULL DEFAULT 'post',
 			date timestamp DEFAULT NOW(),
 			PRIMARY KEY (id) )";
 			
@@ -366,6 +454,9 @@ HERE;
 			}
 			$count++;
 		}
+		
+		// Only first activation.
+		//add_filter('init', array(&$fu, 'flush_rules'));
 	}
 		
 

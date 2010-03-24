@@ -72,13 +72,15 @@
 	<div id="profile_all">
 	
 		<div class="cred_full">
-			Reputation: <?php echo $reputation; ?>
+			Reputation (a print_r for now): <?php if ($reputation) { ?>
+			<pre><?php print_r($reputation); ?></pre><? } ?>
 		</div>
 		
 		<div class="stats_full">
 		<pre><?php //print_r($posts); ?></pre>
+		<?php if ($posts) { ?>
 		<table>
-			<?php foreach ($posts as $post) { ?>
+				<?php foreach ($posts as $post) { ?>
 				<tr >
 					<td class="votes">
 						<span class="amt">
@@ -94,7 +96,9 @@
 				</tr>
 			<?php } ?>
 		</table>
-			
+		<?php } else { ?>
+			No articles posted yet.
+		<?php } ?>
 		</div>
 		
 		<div class="badges_full">
@@ -107,11 +111,12 @@
 		</div>
 		
 		<div class="activity_full">
+			Votes Made: <pre><?php print_r($votes); ?></pre>
 			<table>
 				<tr>
 					<td class="when">1h</td>
-					<td class="type">awarded</td>
-					<td class="what">enlightened!</td>
+					<td class="type">post</td>
+					<td class="what">post_title</td>
 
 				</tr>
 			</table>

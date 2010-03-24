@@ -24,30 +24,44 @@ require_once(FU_INCLUDES_DIR.'fu_functions.include.php');
 include(FU_PLUGIN_DIR_PATH . 'front-users-class.php');
 // Enqueue scripts and stylesheets.
 
+// I don't like having two of these.  It's fraking dumb.
 $anotherfu = new FrontUsers;
 register_activation_hook(__FILE__, array(&$anotherfu, 'activate') );
-$myfu = fu_post('fu');
-if ('' != $myfu['post_title'] ) {
-	$anotherfu->process_article_submit($myfu);
-	echo "process...ha!";
-} elseif ( '' != $myfu['title'] ) {
-	$anotherfu->process_feed_submit($myfu);
-}
 
+// The original test seemed to work, but didn't seem constrained enough.
+// Added the if wrapper to make doubly sure we're coming from a fu form.
+$myfu = fu_post('fu');
+$myact = fu_post('fuaction');
+//echo '<pre>'; print_r($myfu); print_r($myact); echo '<pre>';
+if ( 'fu-fu' == $myact) {
+	if ('' != $myfu['post_title'] ) {
+		$anotherfu->process_article_submit($myfu);
+		echo "process...ha!";
+	} elseif ( '' != $myfu['title'] ) {
+		$anotherfu->process_feed_submit($myfu);
+	}
+} elseif ( isset($myfu['data']) ) {
+	// if some parameter is set do some function for intense debate's comment_vote
+	$anotherfu->comment_vote($myfu['data']);  // vals retrieved from js.
+}
 
 function fu_loaded() {
 	$fu = new FrontUsers;
-	add_action( 'admin_menu', 			array(&$fu, 'admin_page') );
-	add_action( 'admin_head', 			array(&$fu, 'admin_head') );
-
+	if (is_admin()) {
+		add_action( 'admin_menu', 			array(&$fu, 'admin_page') );
+		add_action( 'admin_head', 			array(&$fu, 'admin_head') );
+	}
 	add_action( 'the_content', 			array(&$fu, 'front_article_form') );
+
+	add_action( 'wp_insert_comment',	array(&$fu, 'cache_activity_comment') );
+	add_action( 'wp_insert_post',		array(&$fu, 'cache_activity_post') );
 
 	add_filter( 'rewrite_rules_array', 	array(&$fu, 'rewrite_rules') );
 	add_filter( 'query_vars', 			array(&$fu, 'rewrite_vars') );
-	// should be in register...if I had one.
-	//add_filter('init', array(&$fu, 'flush_rules'));
+
 
 	add_action( 'fu_caught_vote', 		array(&$fu, 'caught_post_vote') );
+	wp_enqueue_script( 'fu-comments', FU_PLUGIN_DIR_URL . 'layout/javascript/fu-javascript.js', '', '', true);
 
 }
 add_action('plugins_loaded', 'fu_loaded');
@@ -55,13 +69,13 @@ add_action('plugins_loaded', 'fu_loaded');
 
 function fu_parse() {
 	if(is_page('submit-an-article') ) {
-		add_action('wp_footer', 'fu_wp_head');
+		add_action('wp_footer', 'fu_wp_foot');
 	}
 }
 add_action('loop_end', 'fu_parse');
 	//	wp_enqueue_script('post');
 	//	wp_enqueue_script('editor');
-function fu_wp_head() {
+function fu_wp_foot() {
 	echo "<script type='text/javascript' src='". FU_PLUGIN_DIR_URL. "tinymce/jscripts/tiny_mce/tiny_mce.js'></script>";
 	echo<<<HERE
 	<script type="text/javascript">

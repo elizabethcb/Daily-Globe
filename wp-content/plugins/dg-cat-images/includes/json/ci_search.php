@@ -1,8 +1,7 @@
 <?php
 
-	$searchTerm = $_GET['search'];
+	$searchTerm = urlencode($_GET['search']);
 	$page = $_GET['page'];
-
 	$apiKey = '2c9b25de6281b22c47c6b1c963e54d4a';
 	 
 	$search = "http://flickr.com/services/rest/?method=flickr.photos.search&api_key=$apiKey&text=$searchTerm&per_page=30&format=php_serial&license=4&safe_search=1&media=photos&sort=interestingness-desc&content_type=1&extras=url_o&page=$page";

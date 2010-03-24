@@ -253,7 +253,9 @@ class ThumbsUp {
 		do_action('fu_caught_vote', 
 			array( 	
 				'pid' 		=> $this->new_vote['post_id'],
-				'rating'	=> $this->new_vote['rating']
+				'rating'	=> $this->new_vote['rating'],
+				'object_id'	=> $wpdb->insert_id,
+				'user_id'	=> $current_user->ID
 			) );
 		
 		// Add the current item id to the cookie list
@@ -371,6 +373,8 @@ class ThumbsUp {
 		// No item loaded yet
 		if (empty($this->item['ID']))
 			return FALSE;
+		
+		global $current_user;
 
 		// A new vote was cast for the current item
 		if (isset($this->new_vote['post_id']) AND $this->new_vote['post_id'] == $this->item['ID']) {
@@ -382,7 +386,9 @@ class ThumbsUp {
 
 			// The item id is stored in item[id] already
 			unset($this->item['vote']['post_id']);
-
+			
+			
+			
 			// Vote found
 			return TRUE;
 		}
@@ -402,7 +408,7 @@ class ThumbsUp {
 
 		} else {
 
-			global $current_user, $blog_id, $wpdb;
+			global $blog_id, $wpdb;
 			//get_currentuserinfo();
 			
 			$select = $wpdb->prepare(
@@ -435,13 +441,13 @@ class ThumbsUp {
 	 *
 	 * @return  boolean  TRUE if results were loaded; FALSE otherwise
 	 */
-	protected function load_results($pid = 0) {
+	protected function load_results() {
 		// No item loaded yet
-		if (empty($this->item['ID']) && $pid == 0)
+		if (empty($this->item['ID']))
 			return FALSE;
 		
 		// Quick clean up.
-		$id = $pid > 0 ? $pid : (int) $this->item['ID'];
+		$id = (int) $this->item['ID'];
 
 		// Join-query to retrieve vote results
 
@@ -487,8 +493,6 @@ class ThumbsUp {
 		$this->item['results']['positive_percentage'] = $this->item['results']['positive_votes'] / $this->item['results']['total_votes'] * 100;
 		$this->item['results']['negative_percentage'] = 100 - $this->item['results']['positive_percentage'];
 
-		//if ($pid > 0) 
-		//	return $this->item['results'];
 		return TRUE;
 	}
 

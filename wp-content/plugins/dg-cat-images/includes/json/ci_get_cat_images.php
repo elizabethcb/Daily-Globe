@@ -27,6 +27,23 @@
 		'autoDimensions'		:	'true',
 		'overlayShow'			:	true,
 		'type'					:	'inline',
-		'hideOnContentClick'	:	false
+		'hideOnContentClick'	:	false,
+		callbackOnShow			:	function(){
+			var category = '';
+			category = $j('.ci-category').val();
+			var messageTxt = "Delete from "+category;
+			$j('#fancy_content').append('<div style="z-index: 9000; margin: 20px auto; display: block; position: relative; text-align: center; background: #fff; width: 150px;" class="image-meta"><a class="deletePicture" href=" ">'+messageTxt+'</a></div>');
+			
+			$j('.deletePicture').live("click", function(){
+				var imgSrc = $j('#fancy_img').attr('src');
+				var mycat = $j('.ci-category').val();
+				$j(this).hide();
+				$j('.image-meta').append('<p>Thanks!</p>');
+				$j('#fancy_content').load('/wp-content/plugins/dg-cat-images/includes/json/ci_delete_image.php?src='+imgSrc+'&cat='+mycat);
+				$j("img[src='"+imgSrc+"']").fadeOut("slow");
+				return false;
+			});
+			
+		}
 	});
 </script>

@@ -18,33 +18,32 @@ Template Name: Home
 			<div id="home_cat1" class="left">
 				
 				<div id="slideshow">
-					<?php 
+					<?php
 					// $featured is the six top posts.  
 					$featured = get_popular_posts_featured($pages);
-					$count=0; query_posts('category_name=featured&posts_per_page=6'); ?>
+					$count=0; ?>
 	
-					<?php while (have_posts()) : the_post(); ?>
-						<div class="slide slide<?php echo $count; ?>" title="t<?php echo $count; ?>">
-							<?php $content = get_the_content();
-							$image_link = catch_that_image($content);?>
+					<?php foreach ($featured as $pop) { ?>
+						<div class="slide slide<?php echo $count; ?>">
+							<?php $postid=$pop->post_id;
+							$post = wp_get_single_post( $postid );
+ 							$image_link = catch_that_image($post->post_content);?>
 							<img src="<?php echo $image_link; ?>" />
-							<h3 class="slide_title"><a href="<?php the_permalink() ?>"><?php the_title(); ?></a></h3>
-						
+							<h3 class="slide_title"><a href="<?php echo $post->guid; ?>"><?php echo $post->post_title; ?></a></h3>
 						</div>
 						<?php $count++; ?>
-					 <?php endwhile;?>
+					 <?php } ?>
 				</div>
 				<div class="slide_nav">
 					<?php $count=0; query_posts('category_name=featured&posts_per_page=6'); ?>
 						<ul class="thumblist">
-							<?php while (have_posts()) : the_post(); ?>
+							<?php foreach ($featured as $pop) { ?>
 								<li>
-									
-									<?php $content = get_the_content();
-									$image_link = catch_that_image($content);?>
+									<?php $postid=$pop->post_id;
+									$post = wp_get_single_post( $postid );
+									$image_link = catch_that_image($post->post_content);?>
 									<img class="thumb t<?php echo $count;?> <?php if($count == 0){ echo 'current';} ?>" src="<?php echo $image_link; ?>" />
 									
-					 	
 					 				<script type="text/javascript">
 										$("img.t<?php echo $count ;?>").click(function(){
 											$('#slideshow').cycle(<?php echo $count; ?>);
@@ -56,7 +55,7 @@ Template Name: Home
 								
 								<?php $count++; ?>
 						 		
-					 	<?php endwhile;?>
+					 	<?php } ?>
 					 </ul>
 				</div>
 				
@@ -114,16 +113,18 @@ Template Name: Home
 					<?php echo $pop->post->post_title;?> &raquo;</a></h3>
 					<div class="home_post_wrapper left">
 						<p class="cat2_posts home_post">
-							<?php $post_content_old = $pop->post->post_content;
-							$post_content = strip_tags($post_content_old);
-							$post_image = catch_that_image($post_content_old);
+							<?php 
+							$post_content = strip_tags($pop->post->post_content);
+							$post_image = catch_that_image($pop->post->post_content);
 							if (strlen($post_content) <= 300) {
 								echo '<img src="' . $post_image . '" />';
-								echo $post_content;}
-								else {
-									for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 300; $i++) {}
-									$i --;
-									echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) . "..."; }?>
+								echo $post_content;
+							} else {
+									//for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 300; $i++) {}
+									//$i --;
+									$i = 20;
+									echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) . "..."; 
+							}?>
 						</p>
 						<div class="home_post_meta">
 							<?php $count = $pop1->post->comment_count; ?> 
