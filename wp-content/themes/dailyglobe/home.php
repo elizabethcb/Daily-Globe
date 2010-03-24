@@ -11,7 +11,7 @@ Template Name: Home
 
 <div id="home_sub-container" class="left">
 	<div id="home_content">
-		<?php $pages = setup_popular_posts(); ?>
+		<?php $pages = setup_popular_posts();?>
 	
 		<div id="content_wrangler_1" class="left">	
 			
@@ -121,8 +121,8 @@ Template Name: Home
 								echo '<img src="' . $post_image . '" />';
 								echo $post_content;}
 								else {
-									for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 300; $i++) {}
-									$i --;
+									//for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 300; $i++) {}
+									$i =20;
 									echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) . "..."; }?>
 						</p>
 						<div class="home_post_meta">

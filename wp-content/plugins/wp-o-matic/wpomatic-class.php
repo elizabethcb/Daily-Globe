@@ -122,7 +122,7 @@ class WPOMatic {
 
   var $section = false;
   
-  var $feeduser = 61; // This is cheating.
+  var $feeduser = 35; // This is cheating.
   # __construct()
   function WPOMatic() {              
     global $wpdb, $wp_version;
