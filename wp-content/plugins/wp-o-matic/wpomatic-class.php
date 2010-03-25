@@ -122,7 +122,7 @@ class WPOMatic {
 
   var $section = false;
   
-  //var $feeduser = 35; // Still cheating.  For prod.
+	# var $feeduser = 35;
   var $feeduser = 61; // This is cheating.
   # __construct()
   function WPOMatic() {              
