@@ -36,7 +36,7 @@ register_activation_hook(__FILE__, array(&$anotherfu, 'activate') );
 // Added the if wrapper to make doubly sure we're coming from a fu form.
 $myfu = fu_post('fu');
 $myact = fu_post('fuaction');
-echo '<pre>'; print_r($myfu); print_r($myact); echo '</pre>';
+//echo '<pre>'; print_r($myfu); print_r($myact); echo '</pre>';
 if ( 'fu-fu' == $myact) {
 	if ('' != $myfu['post_title'] ) {
 		$anotherfu->process_article_submit($myfu);
