@@ -531,10 +531,10 @@ HERE;
 						array('id' => $id),
 						array('%d', '%d')
 					);
-					$cid = get_cat_id($cmp->slug);
+					$cid = get_cat_id($cmp->title);
 					if (!$cid) {
-						echo "Can't find: " . $cmp->slug . " for campaign" .
-							$cmp->title . ' in blog ' . $res->blog_id . "<br />";
+						echo "Can't find: " . $cmp->title 
+						. ' in blog ' . $res->blog_id . "<br />";
 						continue;
 					}
 					
