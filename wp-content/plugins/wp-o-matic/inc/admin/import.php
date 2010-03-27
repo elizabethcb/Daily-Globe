@@ -42,7 +42,7 @@
       <?php echo input_hidden_tag('add', 1) ?>
       
       <ul id="importtree">                
-        <?php import_process_tree($opml); ?>  
+        <?php import_process_tree($opml, $campaigns); ?>  
       </ul>                  
     
       <div id="importoptions">
@@ -51,13 +51,17 @@
         <ul>
           <li><?php echo radiobutton_tag('import_mode', 1, !_data_value($_REQUEST, 'import_mode') || _data_value($_REQUEST, 'import_mode') == 1, 'id=import_mode_1') ?>
           <?php echo label_for('import_mode_1', 'Make a campaign per category') ?></li>
-      
+      <pre><?php print_r($campaigns); ?></pre>
           <?php if(count($campaigns)): ?>
           <li>
             <?php echo radiobutton_tag('import_mode', 2, _data_value($_REQUEST, 'import_mode') == 2, 'id=import_mode_2') ?>
             <?php echo label_for('import_mode_2', 'Insert feeds into campaign:') ?>
             <?php echo select_tag('import_custom_campaign', options_for_select($campaigns, _data_value($_REQUEST, 'import_custom_campaign'))) ?>
           </li>
+           <li>
+            <?php echo radiobutton_tag('import_mode', 4, _data_value($_REQUEST, 'import_mode') == 4, 'id=import_mode_4') ?>
+            <?php echo label_for('import_mode_4', 'Use dropdown box values') ?>
+           </li>
           <?php endif ?>
 
           <li>
@@ -65,6 +69,7 @@
             <?php echo label_for('import_mode_3', 'Insert feeds in a new campaign called') ?>        
             <?php echo input_tag('import_new_campaign', attribute_escape(_data_value($_REQUEST, 'import_new_campaign'))) ?>
           </li>
+          
         </ul>        
       </div>
     

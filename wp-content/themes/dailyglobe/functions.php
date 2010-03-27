@@ -118,12 +118,15 @@ function get_popular_posts_by_category(&$pops = false, $cat = 1, $maxcount = 5) 
 		return $results;
 	}
 	$results = array();
+	$already_used = "0";
 	$yes = false;
 	$count = 0;
 	foreach ($pops as $pop) {
 		if($pop->cat_ids[0] !=  $cat) continue; 
 		$count++;
-
+		
+		$already_used .= "," . $pop->post_id;
+		
 		$pop->post = get_post($pop->post_id);
 		array_push($results, $pop);
 		if ($count == $maxcount) break;
@@ -131,7 +134,7 @@ function get_popular_posts_by_category(&$pops = false, $cat = 1, $maxcount = 5) 
 	
 	if ($count != $maxcount) {
 		$num = $maxcount - $count;
-		$more = get_posts('posts_per_page=' . $num . '&category=' . $cat);
+		$more = get_posts('posts_per_page=' . $num . '&category=' . $cat . '&exclude=' . $already_used);
 		if (count($more) > 0) {
 			$co2 = 0;
 			for ( $i=$count +1; $i<=$maxcount; $i++) {

@@ -515,7 +515,6 @@ HERE;
 	
 	public function dontdoiteither() {
 		global $wpdb;
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
 		echo "<h2>Hi</h2>";
 		foreach ($results as $res) {
@@ -556,6 +555,27 @@ HERE;
 		
 		echo "<h1>woot</h1>";
 	}
+	public function dontdothisone() {
+		global $wpdb;
+		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
+		echo "<h2>Hi</h2>";
+		foreach ($results as $res) {
+			 if(switch_to_blog($res->blog_id)) {
+				$wpdb->query("ALTER TABLE ". $wpdb->prefix . 'wpo_campaign_category
+					DROP COLUMN id');
+				$wpdb->query("ALTER TABLE ".$wpdb->prefix . 'wpo_campaign_category
+						ADD PRIMARY KEY (category_id, campaign_id)');
+				$wpdb->query("DROP INDEX hash ON ". $wpdb->prefix . 'wpo_campaign_feed');
+				$wpdb->query("CREATE UNIQUE INDEX hash ON ".$wpdb->prefix.'wpo_campaign_post (hash)');
+			} else {
+				echo "whoops";
+			}
+		}
+			//restore_current_blog();
+		
+		echo "<h1>woot</h1>";
+	}
+
 	
 	public function rewrite_rules($rules) {
 		$newrules = array();

@@ -969,7 +969,7 @@ function wpo_get_post_image($id = false){
     
     $simplepie = $this->fetchFeed($feed, true);
     $url = $wpdb->escape($simplepie->subscribe_url());
-    
+    // use the other way.  hash has a unique index.
     // If it already exists, ignore it
     if(! $wpdb->get_var("SELECT id FROM {$this->db['campaign_feed']} WHERE campaign_id = $id AND url = '$url' ")) {
       $wpdb->query(WPOTools::insertQuery($this->db['campaign_feed'], 
@@ -1427,7 +1427,7 @@ function wpo_get_post_image($id = false){
         $success = 1;
         
         # Campaigns dropdown
-        $campaigns = array();
+        $campaigns = array( 0 => "Select...");
         foreach($this->getCampaigns() as $campaign)
           $campaigns[$campaign->id] = $campaign->title;
       } else { 
@@ -1464,7 +1464,7 @@ function wpo_get_post_image($id = false){
                 if(!$title) continue;
                 
                 $slug = WPOTools::stripText($title);
-                $wpdb->query("INSERT INTO {$this->db['campaign']} (title, active, slug, lastactive, count) VALUES ('$title', 0, '$slug', 0, 0) ");
+                $wpdb->query("INSERT INTO {$this->db['campaign']} (title, active, slug, lastactive, count) VALUES ('$title', 1, '$slug', 0, 0) ");
                 $created_campaigns[] = $wpdb->insert_id;  
               
                 // Add feeds
@@ -1509,6 +1509,41 @@ function wpo_get_post_image($id = false){
             $this->add_success = sprintf(__('Feeds added successfully. <a href="%s">Edit campaign</a>', 'wpomatic'), $this->adminurl . '&s=edit&id=' . $campaignid);
             
             break;
+           // insert into existing campaign and use this category
+          case '4':
+          	foreach($_REQUEST['feed'] as $count => $feeds) {
+				$acampid = $_REQUEST['use_this_campaign-'.$count];
+				$cid = $wpdb->get_row($wpdb->prepare('SELECT id FROM ' . $this->db['campaign'].
+					' WHERE id=%d', $acampid));
+				if ($cid > 0) {
+					echo "I'll use this one: $cid->id<br />";
+
+					$campaignid = $cid->id;
+				} else {
+					echo "I'll make a new one <br />";
+					$title = $_REQUEST['campaign'][$count];
+					$slug = WPOTools::stripText($title);
+					$wpdb->query("INSERT INTO {$this->db['campaign']} (title, active, slug, lastactive, count) VALUES ('$title', 1, '$slug', 0, 0) ");
+					$campaignid = $wpdb->insert_id;
+ 				}
+				$cat_id = isset($_REQUEST['cat'][$count]) ? $_REQUEST['cat'][$count] : 0;
+				if ($cat_id > 1) {
+					$wpdb->insert($this->db['campaign_category'],
+						array(
+							'category_id' => $cat_id,
+							'campaign_id' => $campaignid
+						), array( '%d', '%d')
+					);
+				}
+			  // Add feeds              
+			  foreach($feeds as $feedurl => $yes)
+				$this->addCampaignFeed($campaignid, urldecode($feedurl));
+			}
+			echo 'done';
+            	echo '<pre>'; print_r($_REQUEST);echo '</pre>';
+        	
+          
+          break;
         }
       }
     }
@@ -2059,7 +2094,7 @@ function wpo_get_post_image($id = false){
   							  description varchar(255) NOT NULL default '',
   							  logo varchar(255) default '',                         
   							  count int(11) default '0',
-  							  hash varchar(255) default '' UNIQUE,
+  							  hash varchar(255) default '',
   							  lastactive datetime NOT NULL default '0000-00-00 00:00:00',							    
   							  PRIMARY KEY  (id)
   						 );" );  
@@ -2070,7 +2105,7 @@ function wpo_get_post_image($id = false){
     					  campaign_id int(11) NOT NULL,
     					  feed_id int(11) NOT NULL,
     					  post_id int(11) NOT NULL,					
-						    hash varchar(255) default '',	    
+						    hash varchar(255) default '' UNIQUE,	    
     					  PRIMARY KEY  (id)
     				 );" ); 
   						 

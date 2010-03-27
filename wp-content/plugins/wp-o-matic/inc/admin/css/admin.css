@@ -439,7 +439,8 @@ p.errors {
 }
 
 #importtree {
-  width: 400px;
+  /*width: 400px;*/
+  margin-right: 50px;
 }
 
 #importtree ul {
