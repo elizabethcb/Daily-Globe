@@ -56,16 +56,17 @@
 				<div class="entry left">
 					<?php $perma = get_post_meta( get_the_ID(), 'wpo_sourcepermalink', 1);
 						if ($perma) { ?>
-						<p>Story originally posted <a class="topic-tag-link" href="<?php echo $perma; ?>">at this original source</a></p>
+						<span>Story originally posted <a class="topic-tag-link" href="<?php echo $perma; ?>">at this original source</a></span>
 						<div class="syndicated-content">
 						<?php the_content(); ?>
 						</div>
-						<p id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $perma; ?>">Read More</a> Click your browser's 
-						back button to come back and vote or discuss.</p>
-						<p id="synd-feed-info" class="syndication-info">
+						<span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $perma; ?>">Read More</a> Click your browser's 
+						back button to come back and vote or discuss.</span>
+						<br/>
+						<span id="synd-feed-info" class="syndication-info">
 							Feed information 
-							<a class="topic-tag-link" href="/feed-info/">here</a>.
-						</p>
+							<a class="topic-tag-link" href="/feed-info/">here</a>
+						</span>
 					<?php } else {
 						the_content();
 					} ?>
@@ -88,7 +89,6 @@
 				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 				</script>
 			</div>
-		<!-- MOBILE -->
 			<?php comments_template(); ?>
 	<?php else : ?>
 	
@@ -97,6 +97,7 @@
 			<?php include (TEMPLATEPATH . "/searchform.php"); ?>
 	
 	<?php endif; ?>
+		<!-- MOBILE -->
 			
 			
 			

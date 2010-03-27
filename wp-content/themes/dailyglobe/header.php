@@ -303,7 +303,7 @@ $(document).ready(function() {
 					<?php } ?>
 				</li>
 				<li><a href="<?php bloginfo('siteurl'); ?>">Home</a></li>
-				<li><a href="/category/featured/">Featured</a></li>
+				<li><a href="/featured/">Featured</a></li>
 				<?php
 					if (!preg_match('/No categories/', $featured)) { 
 						echo $featured; 

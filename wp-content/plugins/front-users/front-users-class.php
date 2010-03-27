@@ -15,7 +15,11 @@ class FrontUsers {
 		'reputation'	=> 'wp_reputation',
 		'badges'		=> 'wp_badges',
 		'user_badges'	=> 'wp_user_badges',
-		'feed_badges'	=> 'wp_feed_badges'
+		'feed_badges'	=> 'wp_feed_badges',
+		'sharing'		=> 'wp_sharing',
+		'caring'		=> 'sharing_is_caring',
+		'post_count'	=> 'wp_user_post_count',
+		'comment_count'	=> 'wp_user_comment_count'
 	);
 	
 	function __construct() {
@@ -209,6 +213,7 @@ HERE;
 	}
 	
 	public function process_article_submit($fu = '') {
+
 		if ('' == $fu)
 			return;
 		
@@ -234,7 +239,8 @@ HERE;
 		global $current_user;
 		$post['post_author'] = $current_user->ID;
 		$post['post_status'] = ( current_user_can('publish_posts') ) ? 'publish' : 'pending';
-		
+		echo '<pre>';print_r($post); echo '</pre>';
+		die('bitch');
 		$sf = wp_insert_post($post);
 		if($sf) {
 			$fu['message'] = "Success";		
@@ -294,7 +300,7 @@ HERE;
 		$newval = $args['rating'] ? 10 : -1;
 		
 		// What are we voting on, a syndication or authored post?
-		global $wpdb;
+		global $wpdb, $blog_id;
 		$feedid = get_post_meta( $args['pid'], 'wpo_feedid', 1);
 		if ($feedid) {
 			// We're dealing with a syndicated post so +rep feed
@@ -325,15 +331,7 @@ HERE;
 				), 
 				array( '%d', '%d', '%d' )
 			);
-			global $blog_id;
-			$wpdb->insert( $this->tables['activity'],
-				array(
-					'object_id'	=> $args['object_id'],
-					'user_id'	=> $args['user_id'],
-					'blog_id'	=> $blog_id,
-					'type'		=> 'voted'
-				), array( '%d', '%d', '%d', '%s' )
-			);
+
 			$wpdb->insert( $this->tables['activity'],
 				array(
 					'object_id'	=> $args['object_id'],
@@ -342,7 +340,16 @@ HERE;
 					'type'		=> 'vote'
 				), array( '%d', '%d', '%d', '%s' )
 			);
+
 		}
+		$wpdb->insert( $this->tables['activity'],
+			array(
+				'object_id'	=> $args['object_id'],
+				'user_id'	=> $args['user_id'],
+				'blog_id'	=> $blog_id,
+				'type'		=> 'voted'
+			), array( '%d', '%d', '%d', '%s' )
+		);
 	}
 	
 	// Comment actions, called from hooks.
@@ -362,6 +369,13 @@ HERE;
 				'blog_id'	=> $blog_id,
 				'type'		=> 'comment'
 			), array( '%d', '%d', '%d', '%s' )
+		);
+		$wpdb->insert( $this->tables['comment_count'],
+			array(
+				'user_id'	=> $user_ID,
+				'blog_id'	=> $blog_id,
+				'comment_id'	=> $cid
+			), array( '%d', '%d', '%d' )
 		);
 		
 	}
@@ -384,11 +398,120 @@ HERE;
 				'blog_id'	=> $blog_id
 			), array ( '%d', '%d', '%d' )
 		);
+		$wpdb->insert( $this->tables['post_count'],
+			array(
+				'user_id'	=> $post->post_author,
+				'post_id'	=> $pid,
+				'blog_id'	=> $blog_id
+			), array( '%d', '%d', '%d' )
+		);
 		
 		return;
 	
 	}
 	
+	public function dontdoit() {
+		global $wpdb;
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
+		foreach ($results as $res) {
+			// insert pages
+			 if(switch_to_blog($res->blog_id)) {
+			 	// pages needed to add Feed Information and Featured
+			 	
+			 	// post_author, post_content, post_title, post_status, comment_status (closed),
+			 	// ping_status (closed), post_type (page)
+				$pagesadded = array();
+				foreach(array("profile+Feed Information", "featured+Featured") as $page) {
+					$post = array();
+					$post['post_type'] = 'page';
+					list($slug, $post['post_title'] ) = explode('+', $page);
+					$post['post_status'] = 'publish';
+					$post['post_author'] = 1;
+					$post['post_content'] = '';
+					if($slug == 'feed-information') {
+						$post['post_content'] = '[CONTENT]';
+					}
+					$post['comment_status'] = $post['ping_status'] = 'closed';
+									
+					$postid = wp_insert_post($post);
+					if ($postid > 0) {
+						add_post_meta($postid, '_wp_page_template', $slug . '.php');
+						$pagesadded[] = $postid;
+					} else {
+						echo 'Oops';
+					}
+				}
+				echo '<pre>';
+				print_r($pagesadded);
+				echo '</pre>';
+				// alter table wpdb->prefix . wpo_campaign
+				// alter column feeddate default 1
+				$wpdb->query("ALTER TABLE ". $wpdb->prefix . 'wpo_campaign
+					ALTER COLUMN feeddate SET DEFAULT 1');
+				$camps = $wpdb->get_results("SELECT id FROM ". $wpdb->prefix .'wpo_campaign');
+				foreach ($camps as $cmp) {
+					$id = $cmp->id;
+					$wpdb->update($wpdb->prefix. 'wpo_campaign',
+						array('feeddate' => 1),
+						array('id' => $id),
+						array('%d')
+					);
+				}
+				$messages = array();
+				$sql['badges'] = "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . 'feed_badges (
+					badge_id mediumint(9) NOT NULL,
+					feed_id mediumint(9) NOT NULL,
+					date timestamp NOT NULL DEFAULT NOW(),
+					count smallint(4),
+					PRIMARY KEY (badge_id, feed_id) )';
+				
+				$sql['rep'] ="CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . "feed_reputation (
+					id mediumint(9) NOT NULL AUTO_INCREMENT,
+					feed_id mediumint(9) NOT NULL,
+					value tinyint(2) NOT NULL DEFAULT 10,
+					object_id mediumint(9) NOT NULL,
+					object_type enum('vote','badge') NOT NULL DEFAULT 'vote',
+					PRIMARY KEY (id) )";
+				
+				if ($res->blog_id > 3)
+					$messages[] = dbDelta($sql['badges']);
+				if ($res->blog_id > 1)
+					$messages[] = dbDelta($sql['rep']);
+				
+				//echo '<ul>' . $res->blog_id;
+				//$count = 0;
+				//if (preg_match('/Created/',$messages[0][$wpdb->prefix.'feed_badges'] ) ){
+				//	echo '<li>Badges</li>';
+				//	$count++;
+				//}
+				//if (preg_match('/Created/',$messages[0][$wpdb->prefix.'feed_reputation']) ){
+				//	echo '<li>Reputation</li>';
+				//	$count++;
+				//}
+				//echo '</ul>';
+				//if ($res->blog_id == 3 && $count == 1)
+				//	continue;
+					
+				//if ($count < 2 )
+				//	break;
+				
+			// insert options
+			
+			} else {
+				echo "Didn't switch. but I'll do something like manually add pages.";
+			}
+
+			
+
+			// insert feed_badges and feed_reputation for all blogs
+			
+			
+			restore_current_blog();
+		}
+		
+		echo "<h1>woot</h1>";
+	}
 	
 	public function rewrite_rules($rules) {
 		$newrules = array();

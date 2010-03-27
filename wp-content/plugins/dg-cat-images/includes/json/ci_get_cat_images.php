@@ -40,10 +40,7 @@
 				$j(this).hide();
 				$j('.image-meta').append('<p>Thanks!</p>');
 				$j('#fancy_content').load('/wp-content/plugins/dg-cat-images/includes/json/ci_delete_image.php?src='+imgSrc+'&cat='+mycat);
-<<<<<<< HEAD:wp-content/plugins/dg-cat-images/includes/json/ci_get_cat_images.php
 				$j("img[src='"+imgSrc+"']").fadeOut("slow");
-=======
->>>>>>> 07e83249614aa5fca79aee4727d0bf9174b25b61:wp-content/plugins/dg-cat-images/includes/json/ci_get_cat_images.php
 				return false;
 			});
 			

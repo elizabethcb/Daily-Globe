@@ -167,7 +167,7 @@ if(acb_post('blog')) {
 	?>
 	</pre>
 <?php 
-	//restore_current_blog();
+	restore_current_blog();
 } else {
 	echo 'Strange.  There seems to be no info here.';
 }

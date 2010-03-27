@@ -725,6 +725,9 @@ h2.pagetitle, div.event-header {
 	font-weight: bold;
 	font-size: 10px;
 }
+#category_page > h2 {
+	margin-bottom: 5px;
+}
 
 /* Just-In */
 
@@ -979,13 +982,13 @@ h2.pagetitle, div.event-header {
 }
 #article_profit_wrangler2 {
 	width: 468px;
-	height: 60px;
+	height: 25px;
 	margin: 0px 0px 10px 27px;
 }
 #article_profit_wrangler3 {
 	width: 468px;
-	height: 60px;
-	margin: 0px 0px 15px 27px;
+	height: 25px;
+	margin: 0px 0px 10px 27px;
 }
 
 .single_post {
@@ -994,13 +997,58 @@ h2.pagetitle, div.event-header {
 	width: 505px;
 	float: left;
 }
-.single_post a {}
-.single_post ul {}
-.single_post ul li {}
-.single_post strong {}
-.single_post ol {}
 .single_post .entry {
 	width: 495px;
+}
+.single_post h1, .single_post h2, .single_post h3, .single_post h4, .single_post h5 {
+	margin-bottom: 5px;
+}
+.single_post p a {
+	color: #0A1291;
+}
+.single_post a:hover {
+		
+}
+.single_post ul {
+	list-style: disc inside;
+	margin-bottom: 10px;
+}
+.single_post ul li, .single_post ol li {
+	margin-bottom: 3px;
+}
+.single_post ol {
+	list-style: decimal inside;
+	margin-bottom: 10px;
+}
+.single_post strong {
+	font-size: 14px;
+	font-style: normal;
+}
+.single_post small {
+	font-size: 10px;
+}
+.single_post blockquote {
+	color: #707070;
+	background: #FAFAFA;
+	border-bottom: 1px solid #DCDCDC;
+	border-left: 3px solid #DEDEDE;
+	border-right: 3px solid #EEE;
+	border-top: 1px solid #DCDCDC;
+	-khtml-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	font-style: oblique;
+	font-weight: bold;
+}
+.single_post dl {
+	list-style: disc;
+}
+.single_post dt {
+	list-style: circle;
+}
+#article_page #idc-container-parent {
+	float: right;
 }
 
 .nocomments {
@@ -1014,17 +1062,20 @@ h2.pagetitle, div.event-header {
 }
 
 .syndication-info {
-	width: 250px;
-	float: left;
-	margin-left: 20px;
-	margin-top: 50px;
-	line-height: 20px;
+	min-width: 250px;
+	margin: auto;
+	line-height: 24px;
+
+}
+.synd-feed-info {
+
 }
 
 .thumbsup_template_up-down {
-	float: right;
-	margin-right: 80px;
-	margin-top: 20px;
+	margin: 0 auto;
+	min-width: 120px;
+	height: 110px;
+	text-align: center;
 }
 #article_page .thumbsup, #article_page .votes_balance {
 	
@@ -1857,6 +1908,11 @@ h2.pagetitle, div.event-header {
 #submit_page input, #submit_page select, #submit_page textarea	{
 	width:300px;
 	margin:5px 0;
+	-moz-border-radius: 5px;
+	-khtml-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+
 }
 
 #submit_page label	{

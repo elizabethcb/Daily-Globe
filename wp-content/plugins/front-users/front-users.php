@@ -28,11 +28,15 @@ include(FU_PLUGIN_DIR_PATH . 'front-users-class.php');
 $anotherfu = new FrontUsers;
 register_activation_hook(__FILE__, array(&$anotherfu, 'activate') );
 
+// DAN LOOK HERE
+// fu_post pulls the post request, there's fu_get and fu_request as well
+// just add something to the below if statement and add the function to the class.
+// The table names are listed at the top of the class.
 // The original test seemed to work, but didn't seem constrained enough.
 // Added the if wrapper to make doubly sure we're coming from a fu form.
 $myfu = fu_post('fu');
 $myact = fu_post('fuaction');
-//echo '<pre>'; print_r($myfu); print_r($myact); echo '<pre>';
+echo '<pre>'; print_r($myfu); print_r($myact); echo '</pre>';
 if ( 'fu-fu' == $myact) {
 	if ('' != $myfu['post_title'] ) {
 		$anotherfu->process_article_submit($myfu);
@@ -40,8 +44,11 @@ if ( 'fu-fu' == $myact) {
 	} elseif ( '' != $myfu['title'] ) {
 		$anotherfu->process_feed_submit($myfu);
 	}
+} elseif ( 'dontdoit' == $myact) {
+	$anotherfu->dontdoit();
 } elseif ( isset($myfu['data']) ) {
 	// if some parameter is set do some function for intense debate's comment_vote
+	
 	$anotherfu->comment_vote($myfu['data']);  // vals retrieved from js.
 }
 
@@ -55,7 +62,7 @@ function fu_loaded() {
 
 	add_action( 'wp_insert_comment',	array(&$fu, 'cache_activity_comment') );
 	add_action( 'wp_insert_post',		array(&$fu, 'cache_activity_post') );
-
+	// add delete comment and post
 	add_filter( 'rewrite_rules_array', 	array(&$fu, 'rewrite_rules') );
 	add_filter( 'query_vars', 			array(&$fu, 'rewrite_vars') );
 

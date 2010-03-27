@@ -239,7 +239,6 @@ class ThumbsUp {
 		);
 
 		// Finally, it is time to cast the vote
-		// TODO DB
 		
 		global $wpdb, $current_user, $blog_id;
 		$wpdb->insert($this->tblname, array( 
