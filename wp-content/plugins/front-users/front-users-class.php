@@ -513,6 +513,50 @@ HERE;
 		echo "<h1>woot</h1>";
 	}
 	
+	public function dontdoiteither() {
+		global $wpdb;
+		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
+		echo "<h2>Hi</h2>";
+		foreach ($results as $res) {
+			 if(switch_to_blog($res->blog_id)) {
+				$wpdb->query("ALTER TABLE ". $wpdb->prefix . 'wpo_campaign
+					ALTER COLUMN max SET DEFAULT 40,
+					ALTER COLUMN cacheimages SET DEFAULT 0');
+				$camps = $wpdb->get_results("SELECT id, title, slug FROM ". $wpdb->prefix .'wpo_campaign');
+				foreach ($camps as $cmp) {
+					$id = $cmp->id;
+					$wpdb->update($wpdb->prefix. 'wpo_campaign',
+						array('max' => 40, 'cacheimages' => 0 ),
+						array('id' => $id),
+						array('%d', '%d')
+					);
+					$cid = get_cat_id($cmp->slug);
+					if (!$cid) {
+						echo "Can't find: " . $cmp->slug . " for campaign" .
+							$cmp->title . ' in blog ' . $res->blog_id . "<br />";
+						continue;
+					}
+					
+					$wpdb->update($wpdb->prefix. 'wpo_campaign_category',
+						array( 
+							'campaign_id' => $cmp->id, 
+							'category_id' => $cid
+						),
+						array( 'id' => $id),
+						array( '%d', '%d')
+					);
+				}
+			} else {
+				echo "whoops";
+			}
+	
+		}
+			//restore_current_blog();
+		
+		echo "<h1>woot</h1>";
+	}
+	
 	public function rewrite_rules($rules) {
 		$newrules = array();
 		$newrules['(profile)/(\w*)$'] = 'index.php?pagename=$matches[1]&username=$matches[2]';

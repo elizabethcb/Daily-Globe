@@ -46,6 +46,8 @@ if ( 'fu-fu' == $myact) {
 	}
 } elseif ( 'dontdoit' == $myact) {
 	$anotherfu->dontdoit();
+} elseif ( 'dontdothiseither' == $myact ) {
+	$anotherfu->dontdoiteither();
 } elseif ( isset($myfu['data']) ) {
 	// if some parameter is set do some function for intense debate's comment_vote
 	
