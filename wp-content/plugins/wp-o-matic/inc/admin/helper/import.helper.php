@@ -24,7 +24,7 @@
         <h4><?php echo import_get_item_title($item) ?></h4> 
         <span>Existing Campaign?:</span>
         <?php echo select_tag('use_this_campaign-'.$count, options_for_select($campaigns)) ?>
-        <span>Category</span><?php wp_dropdown_categories(array('name'=> 'cat['.$count.']')); ?>
+        <span>Category</span><?php wp_dropdown_categories(array('hide_empty' => 0, 'name'=> 'cat['.$count.']')); ?>
         <ul>
           <?php import_process_item($item, $campaigns, $count) ?>
         </ul>
