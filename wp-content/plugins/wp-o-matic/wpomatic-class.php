@@ -630,7 +630,7 @@ class WPOMatic {
 	}
 	
 function wpo_get_post_image($id = false){
-	if (!$id) return;
+	if (!$id) return $id;
 	global $wpdb;
 	$categories = $wpdb->get_results("SELECT * FROM category_images WHERE term_id = $id", ARRAY_A);
 	shuffle($categories);
@@ -653,33 +653,50 @@ function wpo_get_post_image($id = false){
     //$content = '<img src="'.$content_img.'" alt="post_img" width="80" />'.$item->get_content();
     
     $images = WPOTools::parseImages($content);
-    //echo '<pre>';
+    echo '<pre>';
     $thing = $item->get_enclosures(0);
-   // print_r($thing); print_r($images);
-    //echo '<pre>'; die('bitch');
-    if (sizeof($thing) > 0 ) {
+    print_r($thing); print_r($images);
+
+    if (sizeof($thing) > 0 && isset($thing[0]) ) {
+    	echo "thing";
+    	$content = '';
     	foreach ( $thing as $link ) {
-    		$tmp = getimagesize($img);
-    		if ($tmp[0] < 75 || $tmp[1] < 75 ) {
-    			$content = '<img src="'. $this->wpo_get_post_image($cat_id[0]) 
-    				. '" alt="post_img" width="80" />' . $item->get_content();
-    		} else {
-    			$content = '<img src="' . $link . '" alt="post_img" width="80" />' 
-    				. $item->get_content();
-    		}
+    		if ( preg_match('/^http/', $link) ) {
+				$tmp = getimagesize($link);
+				if ($tmp[0] < 75 || $tmp[1] < 75 ) {
+					$img = $this->wpo_get_post_image($cat_id[0]);
+					if ($img) {
+						$content .= '<img src="'.  $img
+						. '" alt="post_img" width="80" />';
+					}
+				} else {
+					$content .= '<img src="' . $link . '" alt="post_img" width="80" />';
+				}
+			}
     	}
+    	$content .= $item->get_content();
     } elseif ( sizeof($images[2]) > 0 ) {
+    	echo "tools";
+    	$content = '';
     	foreach ($images[2] as $img) {
     		$tmp = getimagesize($img);
     		if ($tmp[0] < 100 || $tmp[1] < 100) {
-    			$content = '<img src="'. $this->wpo_get_post_image($cat_id[0]) 
-    				. '" alt="post_img" width="80" />' . $item->get_content();
+    			$content .= '<img src="'. $this->wpo_get_post_image($cat_id[0]) 
+    				. '" alt="post_img" width="80" />';
     		}
     	}
+    	$content .=  $item->get_content();
     } else {
-		$content = '<img src="'. $this->wpo_get_post_image($cat_id[0]) 
-			. '" alt="post_img" width="80" />' . $item->get_content();
+    	echo "default";
+    	$img = $this->wpo_get_post_image($cat_id[0]);
+    	if($img) {
+			$content = '<img src="'. $img
+				. '" alt="post_img" width="80" />';
+		}
+		$content .= $item->get_content();
 	}
+	print_r($content);
+	    echo '<pre>'; //die('bitch');
     // Caching
     if ( get_option('wpo_cacheimages') || $campaign->cacheimages ) {
       $urls = $images[2];
@@ -2078,10 +2095,9 @@ function wpo_get_post_image($id = false){
 		 
 		 # wpo_campaign_category 			               
      dbDelta(  "CREATE TABLE {$this->db['campaign_category']} (
-  						    id int(11) unsigned NOT NULL auto_increment,
   							  category_id int(11) NOT NULL,
   							  campaign_id int(11) NOT NULL,
-  							  PRIMARY KEY  (id)
+  							  PRIMARY KEY  (category_id, campaign_id)
   						 );" );              
   	 
   	 # wpo_campaign_feed 				 

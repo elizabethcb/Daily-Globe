@@ -49,7 +49,7 @@
         <h4>Import Options</h4>
       
         <ul>
-          <li><?php echo radiobutton_tag('import_mode', 1, !_data_value($_REQUEST, 'import_mode') || _data_value($_REQUEST, 'import_mode') == 1, 'id=import_mode_1') ?>
+          <li><?php echo radiobutton_tag('import_mode', 1,  _data_value($_REQUEST, 'import_mode') == 1, 'id=import_mode_1') ?>
           <?php echo label_for('import_mode_1', 'Make a campaign per category') ?></li>
       <pre><?php print_r($campaigns); ?></pre>
           <?php if(count($campaigns)): ?>
@@ -59,7 +59,7 @@
             <?php echo select_tag('import_custom_campaign', options_for_select($campaigns, _data_value($_REQUEST, 'import_custom_campaign'))) ?>
           </li>
            <li>
-            <?php echo radiobutton_tag('import_mode', 4, _data_value($_REQUEST, 'import_mode') == 4, 'id=import_mode_4') ?>
+            <?php echo radiobutton_tag('import_mode', 4, !_data_value($_REQUEST, 'import_mode') || _data_value($_REQUEST, 'import_mode') == 4, 'id=import_mode_4') ?>
             <?php echo label_for('import_mode_4', 'Use dropdown box values') ?>
            </li>
           <?php endif ?>

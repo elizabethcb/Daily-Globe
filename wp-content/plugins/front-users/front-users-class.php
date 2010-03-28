@@ -381,15 +381,17 @@ HERE;
 	}
 	
 	// Post actions, called from hooks.
-	public function cache_activity_post($pid, $post) {
+	public function cache_activity_post($pid, $post = false) {
 		// TODO this isn't assured.  But will work for this project.
 		// simple and cheat cheat cheat (35 for prod) to see if it's a feed post
 		// checking that these aren't revisions or pages
+		if(!$post)
+			return;
 		if ($post->post_type != 'post'
 			|| $post->post_parent != 0
 			|| $post->post_author == 61) 
 			return;
-
+		
 		global $wpdb, $blog_id;
 		$wpdb->insert( $this->tables['activity'],
 			array(
