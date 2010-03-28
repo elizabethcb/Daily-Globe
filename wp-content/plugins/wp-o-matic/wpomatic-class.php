@@ -655,14 +655,55 @@ function wpo_get_post_image($id = false){
     $images = WPOTools::parseImages($content);
     echo '<pre>';
     $thing = $item->get_enclosures(0);
-    print_r($thing); print_r($images);
-
-    if (sizeof($thing) > 0 && isset($thing[0]) ) {
-    	echo "thing";
+   //print_r($thing); print_r($images);
+	
+	$text = $this->string_limit_words($item->get_content(), 300);
+    
+    if ( sizeof($images) > 0 ) {
+    	echo "tools";
     	$content = '';
-    	foreach ( $thing as $link ) {
-    		if ( preg_match('/^http/', $link) ) {
-				$tmp = getimagesize($link);
+    	$count = 0;
+    	foreach ($images as $img) {
+    		$tmp = getimagesize($img);
+    		if ($tmp[0] < 100 || $tmp[1] < 100) {
+    			$img = $this->wpo_get_post_image($cat_id[0]);
+    			if ($img) {
+	    			$content .= '<img src="'. $img
+    					. '" alt="post_img" width="80" />';
+    			}
+    			break;
+    		} else {
+    			if ($count > 4) {
+    				$content .= '<img src"'.$img.'" alt="post_img" width="80" />';
+    				break;
+    			}
+    		}
+    		$count++;
+    	}
+    	$content .=  $text;
+    } elseif (preg_match( '/(jpg|png|gif)$/', $thing->link) ) {
+    	print_r($thing);
+    	echo " thing link ";
+     	$content = '';	
+		$tmp = getimagesize($thing->link);
+		if ($tmp[0] < 75 || $tmp[1] < 75 ) {
+			$img = $this->wpo_get_post_image($cat_id[0]);
+			if ($img) {
+				$content .= '<img src="'.  $img
+				. '" alt="post_img" width="80" />';
+			}
+		} else {
+			$content .= '<img src="' . $link . '" alt="post_img" width="80" />';
+		}
+    	$content .= $text;    	
+    
+    } elseif ($thing->thumbnails > 0 && isset($thing->thumbnails[0]) ) {
+    	print_r($thing);
+    	echo " thing thumb ";
+    	$content = '';
+ //   	foreach ( $thing as $link ) {
+    		
+				$tmp = getimagesize($thing->thumbnails[0]);
 				if ($tmp[0] < 75 || $tmp[1] < 75 ) {
 					$img = $this->wpo_get_post_image($cat_id[0]);
 					if ($img) {
@@ -672,30 +713,20 @@ function wpo_get_post_image($id = false){
 				} else {
 					$content .= '<img src="' . $link . '" alt="post_img" width="80" />';
 				}
-			}
-    	}
-    	$content .= $item->get_content();
-    } elseif ( sizeof($images[2]) > 0 ) {
-    	echo "tools";
-    	$content = '';
-    	foreach ($images[2] as $img) {
-    		$tmp = getimagesize($img);
-    		if ($tmp[0] < 100 || $tmp[1] < 100) {
-    			$content .= '<img src="'. $this->wpo_get_post_image($cat_id[0]) 
-    				. '" alt="post_img" width="80" />';
-    		}
-    	}
-    	$content .=  $item->get_content();
-    } else {
+			//}
+   // 	}
+    	$content .= $text; 
+    
+    }  else {
     	echo "default";
     	$img = $this->wpo_get_post_image($cat_id[0]);
     	if($img) {
 			$content = '<img src="'. $img
 				. '" alt="post_img" width="80" />';
 		}
-		$content .= $item->get_content();
+		$content .= $text;
 	}
-	print_r($content);
+	echo " content "; print_r($content);
 	    echo '<pre>'; //die('bitch');
     // Caching
     if ( get_option('wpo_cacheimages') || $campaign->cacheimages ) {
