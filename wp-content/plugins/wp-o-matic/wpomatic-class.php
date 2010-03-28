@@ -659,11 +659,11 @@ function wpo_get_post_image($id = false){
 	
 	$text = $this->string_limit_words($item->get_content(), 300);
     
-    if ( sizeof($images) > 0 ) {
+    if ( sizeof($images[2]) > 0  ) {
     	echo "tools";
     	$content = '';
     	$count = 0;
-    	foreach ($images as $img) {
+    	foreach ($images[2] as $img) {
     		$tmp = getimagesize($img);
     		if ($tmp[0] < 100 || $tmp[1] < 100) {
     			$img = $this->wpo_get_post_image($cat_id[0]);
