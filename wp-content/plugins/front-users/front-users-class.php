@@ -352,11 +352,15 @@ HERE;
 		);
 	}
 	
+	public function sharing($who=false, $what=false) {
+		if(!$who || !$what)
+			return;
+	}
 	// Comment actions, called from hooks.
 	
-	public function comment_vote($data) {
+	public function comment_vote() {
 		// $id, $vote, $rating
-		error_log(print_r($data, true));
+		//error_log(print_r($data, true));
 		
 	}
 	
@@ -521,32 +525,32 @@ HERE;
 		echo "<h2>Hi</h2>";
 		foreach ($results as $res) {
 			 if(switch_to_blog($res->blog_id)) {
-				$wpdb->query("ALTER TABLE ". $wpdb->prefix . 'wpo_campaign
-					ALTER COLUMN max SET DEFAULT 40,
-					ALTER COLUMN cacheimages SET DEFAULT 0');
+				//$wpdb->query("ALTER TABLE ". $wpdb->prefix . 'wpo_campaign
+				//	ALTER COLUMN max SET DEFAULT 40,
+				//	ALTER COLUMN cacheimages SET DEFAULT 0');
 				$camps = $wpdb->get_results("SELECT id, title, slug FROM ". $wpdb->prefix .'wpo_campaign');
 				foreach ($camps as $cmp) {
 					$id = $cmp->id;
 					$wpdb->update($wpdb->prefix. 'wpo_campaign',
-						array('max' => 40, 'cacheimages' => 0 ),
+						array('max' => 40, 'feeddate' => 1 ),
 						array('id' => $id),
 						array('%d', '%d')
 					);
-					$cid = get_cat_id($cmp->title);
-					if (!$cid) {
-						echo "Can't find: " . $cmp->title 
-						. ' in blog ' . $res->blog_id . "<br />";
-						continue;
-					}
+					//$cid = get_cat_id($cmp->title);
+					//if (!$cid) {
+					//	echo "Can't find: " . $cmp->title 
+					//	. ' in blog ' . $res->blog_id . "<br />";
+					//	continue;
+					//}
 					
-					$wpdb->update($wpdb->prefix. 'wpo_campaign_category',
-						array( 
-							'campaign_id' => $cmp->id, 
-							'category_id' => $cid
-						),
-						array( 'id' => $id),
-						array( '%d', '%d')
-					);
+					//$wpdb->update($wpdb->prefix. 'wpo_campaign_category',
+					//	array( 
+					//		'campaign_id' => $cmp->id, 
+					//		'category_id' => $cid
+					//	),
+					//	array( 'id' => $id),
+					//	array( '%d', '%d')
+					//);
 				}
 			} else {
 				echo "whoops";
