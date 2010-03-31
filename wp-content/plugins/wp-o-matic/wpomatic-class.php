@@ -479,7 +479,8 @@ class WPOMatic {
     // feeds that don't mind.
     
     $content = $this->parseItemContent($campaign, $feed, $item);
-   $content = $this->string_limit_words( $content, $this->get_feedmeta($feed->id, 'string_limit') );
+    $content = strip_tags($content, '<img>');
+    $content = $this->string_limit_words( $content, $this->get_feedmeta($feed->id, 'string_limit') );
     
     // Item date
     if($campaign->feeddate && ($item->get_date('U') > (current_time('timestamp', 1) - $campaign->frequency) && $item->get_date('U') < current_time('timestamp', 1)))
@@ -542,7 +543,9 @@ class WPOMatic {
 		global $wpdb;
 		$aid = 0;
 		if ( $author = $item->get_author() ) {
-			$res = $wpdb->get_row("SELECT * FROM " . $wpdb->prefix . "wpo_authors WHERE name LIKE '%" . $author->get_name() . "%'" );
+			$res = $wpdb->get_row(
+				$wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "wpo_authors WHERE name LIKE '%%%s%%" ),
+				$author->get_name());
 			if ($res && $res->name) {
 				$aid = $res->id;
 			} else {
