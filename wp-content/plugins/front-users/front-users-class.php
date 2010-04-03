@@ -940,15 +940,15 @@ HERE;
 			//		);
 			///		if ($test) echo "yey!";
 			//	}
-			$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=%d";
-			$results = $wpdb->get_results($sql, 61);
+				$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=%d";
+				$results = $wpdb->get_results($sql, 61);
 				foreach ($result as $res) { 
 				//$pagesadded = array();
 				//foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
 					//$page = "profile+Profile";
 					//$post = array();
 					//$post['post_type'] = 'page';
-					//list($slug, $post['post_title'] ) = explode('+', $page);
+						//list($slug, $post['post_title'] ) = explode('+', $page);
 					//$test =  $wpdb->get_row($wpdb->prepare($sql, $slug));
 					//if ( $slug == $test->post_name) 
 					//	continue;
@@ -965,6 +965,18 @@ HERE;
 //						echo 'Oops';
 //					}
 				}
+				$othertble = "CREATE TABLE " . $this->tables['feeds']['badges'] . " (
+					badge_id mediumint(9) NOT NULL,
+					feed_id mediumint(9) NOT NULL,
+					date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+					count smallint(4),
+					PRIMARY KEY (badge_id, feed_id) )";				
+	
+				if ( $wpdb->get_var("SHOW TABLES LIKE '" . $this->tables['feeds']['badges'] . "'") 
+					!= $this->tables['feeds']['badges'] ) {
+						dbDelta($othertble);
+				}
+
 			} else {
 			 	echo "whoops";
 			}
@@ -1050,14 +1062,13 @@ HERE;
 			object_id mediumint(9) NOT NULL, 
 			user_id mediumint(9) NOT NULL,
 			blog_id mediumint(9) NOT NULL,
-			type enum('post','comment','voted', 'badge', 'vote') NOT NULL DEFAULT 'post',
+			type enum('post','comment','sharing','voted', 'badge', 'vote') NOT NULL DEFAULT 'post',
 			date timestamp DEFAULT NOW(),
 			PRIMARY KEY (id) )";
 			
 		$tbls[1] = "CREATE TABLE " . $this->tables['reputation'] . " (
 			id mediumint(9) NOT NULL AUTO_INCREMENT,
-			subject_id mediumint(9) NOT NULL,
-			subject_type enum('user','feed') NOT NULL DEFAULT 'user',
+			user_id mediumint(9) NOT NULL,
 			value tinyint(2) NOT NULL DEFAULT '10',
 			object_id mediumint(9) NOT NULL,
 			object_type enum('vote', 'badge') NOT NULL DEFAULT 'vote',
@@ -1069,27 +1080,46 @@ HERE;
 			description text,
 			value smallint(4) NOT NULL DEFAULT '10',
 			type enum('feed', 'user', 'both') NOT NULL DEFAULT 'both',
+			group enum('sharing', 'posts', 'votes', 'comments', 'reputation', 'misc'),
+			subgroup enum('minmax', 'top', 'first', 'worst'),
 			PRIMARY KEY (id) )";
 			
 		$tbls[3] = "CREATE TABLE " . $this->tables['user_badges'] . " (
 			badge_id mediumint(9) NOT NULL,
 			user_id mediumint(9) NOT NULL,
+			date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			count smallint(4),
 			PRIMARY KEY (badge_id, user_id) )";
 		
-		$tbls[4] = "CREATE TABLE " . $this->tables['feed_badges'] . " (
+		$othertbls[0] = "CREATE TABLE " . $this->tables['feeds']['badges'] . " (
 			badge_id mediumint(9) NOT NULL,
 			feed_id mediumint(9) NOT NULL,
-			blog_id mediumint(9) NOT NULL,
-			PRIMARY KEY (badge_id, feed_id, blog_id) )";
+			date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+			count smallint(4),
+			PRIMARY KEY (badge_id, feed_id) )";
 		
+		$othertbls[1] = "CREATE TABLE " . $this->tables['feeds']['reputation'] . " (
+			id mediumint(9) NOT NULL,
+			feed_id mediumint(9) NOT NULL,
+			value tinyint(2) NOT NULL DEFAULT 10,
+			object_id mediumint(9) NOT NULL,
+			object_type enum('vote', 'badges', 'sharing') NOT NULL DEFAULT 'vote'
+			PRIMARY KEY (id) )";
+		
+		//$count = 0;
+		//foreach ( array( 'activity', 'reputation', 'badges', 'user_badges') as $tblname ) {
+		//	if ( $wpdb->get_var("SHOW TABLES LIKE '" . $this->tables[$tblname] . "'") != $this->tables[$tblname] ) {
+		//		dbDelta($tbls[$count]);
+		//	}
+		//	$count++;
+		//}
 		$count = 0;
-		foreach ( array( 'activity', 'reputation', 'badges', 'user_badges', 'feed_badges') as $tblname ) {
-			if ( $wpdb->get_var("SHOW TABLES LIKE '" . $this->tables[$tblname] . "'") != $this->tables[$tblname] ) {
-				dbDelta($tbls[$count]);
+		foreach ( array( 'badges', 'reputation') as $tblname ) {
+			if ( $wpdb->get_var("SHOW TABLES LIKE '" . $this->tables['feeds'][$tblname] . "'") != $this->tables['feeds'][$tblname] ) {
+				dbDelta($othertbls[$count]);
 			}
 			$count++;
 		}
-		
 		// Only first activation.
 		//add_filter('init', array(&$this, 'flush_rules'));
 	}
