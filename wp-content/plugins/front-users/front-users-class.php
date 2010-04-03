@@ -942,7 +942,8 @@ HERE;
 			//	}
 			$sql = "SELECT post_name FROM " . $wpdb->posts . " WHERE post_name LIKE %s";
 							$pagesadded = array();
-				foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
+				//foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
+					$page = "profile+Profile";
 					$post = array();
 					$post['post_type'] = 'page';
 					list($slug, $post['post_title'] ) = explode('+', $page);
@@ -951,7 +952,7 @@ HERE;
 						continue;
 					$post['post_status'] = 'publish';
 					$post['post_author'] = 1;
-					$post['post_content'] = '';
+					$post['post_content'] = '[CONTENT]';
 					$post['comment_status'] = $post['ping_status'] = 'closed';
 													
 					$postid = wp_insert_post($post);
@@ -961,7 +962,7 @@ HERE;
 					} else {
 						echo 'Oops';
 					}
-				}
+				//}
 			} else {
 			 	echo "whoops";
 			}
@@ -999,9 +1000,9 @@ HERE;
 		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
 		foreach ($results as $res) {
 			if(switch_to_blog($res->blog_id)) {
-				$sql = "SELECT ID FROM " . $wpdb->posts . " WHERE post_name LIKE 'cities'";
+				$sql = "SELECT ID FROM " . $wpdb->posts . " WHERE post_name LIKE 'profile'";
 				$stuff = $wpdb->get_row($sql);
-				//$stuff->post_content = '[CONTENT]';
+				$stuff->post_content = '[CONTENT]';
 				update_post_meta($stuff->ID, '_wp_page_template', 'topics.php');
 				//wp_update_post($stuff);
 				
