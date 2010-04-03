@@ -54,8 +54,8 @@ if ( 'fu-fu' == $myact) {
 } elseif ( 'dontdoit' == $myact) {
 	//$anotherfu->dontdoit();
 } elseif ( 'dontdothiseither' == $myact ) {
-	$fu->grrr();
-	//$fu->dontdoiteither();
+	//$fu->grrr();
+	$fu->dontdoiteither();
 } elseif ( 'dontdothisone' == $myact ) {
 	//$fu->dontdothisone();
 } elseif ( 'comment_vote' == $mygetfu ) {

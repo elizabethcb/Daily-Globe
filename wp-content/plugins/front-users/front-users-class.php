@@ -622,7 +622,7 @@ HERE;
 		);
 		$args = array_merge($defaults, $inargs);
 				// don't need to insert object type, because the default is vote.
-		$wpdb->insert( $this->tables['feed_reputation'], 
+		$wpdb->insert( $this->tables['feeds']['reputation'], 
 			$args,
 			array ( '%d', '%d', '%d', '%s' )
 		);
@@ -940,29 +940,31 @@ HERE;
 			//		);
 			///		if ($test) echo "yey!";
 			//	}
-			$sql = "SELECT post_name FROM " . $wpdb->posts . " WHERE post_name LIKE %s";
-							$pagesadded = array();
+			$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=%d";
+			$results = $wpdb->get_results($sql, 61);
+				foreach ($result as $res) { 
+				//$pagesadded = array();
 				//foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
-					$page = "profile+Profile";
-					$post = array();
-					$post['post_type'] = 'page';
-					list($slug, $post['post_title'] ) = explode('+', $page);
-					$test =  $wpdb->get_row($wpdb->prepare($sql, $slug));
-					if ( $slug == $test->post_name) 
-						continue;
-					$post['post_status'] = 'publish';
-					$post['post_author'] = 1;
-					$post['post_content'] = '[CONTENT]';
-					$post['comment_status'] = $post['ping_status'] = 'closed';
+					//$page = "profile+Profile";
+					//$post = array();
+					//$post['post_type'] = 'page';
+					//list($slug, $post['post_title'] ) = explode('+', $page);
+					//$test =  $wpdb->get_row($wpdb->prepare($sql, $slug));
+					//if ( $slug == $test->post_name) 
+					//	continue;
+					//$post['post_status'] = 'publish';
+					$post['post_author'] = get_usermeta(1, 'feeduserid');
+					//$post['post_content'] = '[CONTENT]';
+					//$post['comment_status'] = $post['ping_status'] = 'closed';
 													
-					$postid = wp_insert_post($post);
-					if ($postid > 0) {
-						add_post_meta($postid, '_wp_page_template', $slug . '.php');
-						$pagesadded[] = $postid;
-					} else {
-						echo 'Oops';
-					}
-				//}
+					$postid = wp_update_post($res->ID, $post);
+//					if ($postid > 0) {
+//						add_post_meta($postid, '_wp_page_template', $slug . '.php');
+//						$pagesadded[] = $postid;
+//					} else {
+//						echo 'Oops';
+//					}
+				}
 			} else {
 			 	echo "whoops";
 			}

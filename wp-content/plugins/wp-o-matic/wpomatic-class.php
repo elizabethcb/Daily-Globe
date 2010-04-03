@@ -123,7 +123,7 @@ class WPOMatic {
   var $section = false;
   
 	# var $feeduser = 35;
-  var $feeduser = 61; // This is cheating.
+  //var $feeduser = 61; // This is cheating.
   # __construct()
   function WPOMatic() {              
     global $wpdb, $wp_version;
@@ -146,7 +146,7 @@ class WPOMatic {
     # Is installed ?
     $this->installed = get_option('wpo_version');
     $this->setup = get_option('wpo_setup');
-
+	$this->feeduser = get_usermeta(1, 'feeduserid');
 	# Wordpress init      
     add_action('init', 	array(&$this, 'init'));         
     # Filters
@@ -2190,12 +2190,19 @@ function wpo_get_post_image($id = false){
 			'lastactive' => time(),
 			'created_on' => time()
 		);
-	global $wpdb;
-	 $wpdb->insert($this->db['campaign'], $main, array( '%s', '%s', '%d', '%s', '%s', '%s'));    
-	 update_option('wpo-fu-campaign-id', $wpdb->insert_id);
    	  
    	  $this->installed = true;
     }
+	global $wpdb;
+
+    if (!get_option('wpo-fu-campaign-id')) {
+    	$wpdb->insert($this->db['campaign'], $main, array( '%s', '%s', '%d', '%s', '%s', '%s'));    
+	 	update_option('wpo-fu-campaign-id', $wpdb->insert_id);
+	 }
+	global $current_site;
+	$id = ('campdx.com' == $current_site->domain) ? 61 : 35;
+	 
+	 update_usermeta(1, 'feeduserid', $id);
                                                                                      
   }
   /**
