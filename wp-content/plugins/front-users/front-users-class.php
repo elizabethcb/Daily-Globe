@@ -725,7 +725,7 @@ HERE;
 	}	
 	
 	public function check_for_badge($args) {
-		$myb = new Minmax(
+		$myb = new MinmaxSubGroup(
 			array(
 				'object_id' => $args['object_id'], 
 				'who_id' 	=> $args['user_id'],
@@ -931,14 +931,36 @@ HERE;
 			// I should probably date these: April 1st.
 			
 			// Getting croncodes into a table
-				$codestuff = $wpdb->get_row($sqlfirst . $wpdb->options . $sqllast);
-				$croncode = $codestuff->cron_code;
-				if ($croncode) {
-					$test = $wpdb->insert('wp_croncodes', 
-						array('blog_id' => $res->blog_id, 'cron_code' => $croncode),
-						array('%d', '%s')
-					);
-					if ($test) echo "yey!";
+			//	$codestuff = $wpdb->get_row($sqlfirst . $wpdb->options . $sqllast);
+			//	$croncode = $codestuff->cron_code;
+			//	if ($croncode) {
+			//		$test = $wpdb->insert('wp_croncodes', 
+			//			array('blog_id' => $res->blog_id, 'cron_code' => $croncode),
+			//			array('%d', '%s')
+			//		);
+			///		if ($test) echo "yey!";
+			//	}
+			$sql = "SELECT post_name FROM " . $wpdb->posts . " WHERE post_name LIKE %s";
+							$pagesadded = array();
+				foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
+					$post = array();
+					$post['post_type'] = 'page';
+					list($slug, $post['post_title'] ) = explode('+', $page);
+					$test =  $wpdb->get_row($wpdb->prepare($sql, $slug));
+					if ( $slug == $test->post_name) 
+						continue;
+					$post['post_status'] = 'publish';
+					$post['post_author'] = 1;
+					$post['post_content'] = '';
+					$post['comment_status'] = $post['ping_status'] = 'closed';
+													
+					$postid = wp_insert_post($post);
+					if ($postid > 0) {
+						add_post_meta($postid, '_wp_page_template', $slug . '.php');
+						$pagesadded[] = $postid;
+					} else {
+						echo 'Oops';
+					}
 				}
 			} else {
 			 	echo "whoops";
