@@ -1013,7 +1013,8 @@ h2.pagetitle, div.event-header {
 #article_page {}
 
 #article_page .single_post_meta {
-	width: 600px;
+	width: 620px;
+	margin: 10px;
 	
 }
 .single_post_meta img {
@@ -1028,7 +1029,7 @@ h2.pagetitle, div.event-header {
 	background: #EFEFEF none repeat scroll 0 0;
 	font-weight: bold;
 	margin-bottom: 10px;
-	padding: 0px;
+	padding: 1px;
 }
 #article_profit_wrangler {
 	width: 120px;

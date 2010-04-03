@@ -492,7 +492,7 @@ function sm_show_all_sessions() {
 
 function sm_store_session_data() {
 	get_currentuserinfo();
-	global $wpdb, $table_name, $current_user, $excludes_table, $user_excludes_table;
+	global $wpdb, $table_name, $current_user, $excludes_table, $user_excludes_table, $current_site;
 
 	//echo '<pre>';
 	//print_r($_SERVER);
@@ -508,6 +508,7 @@ function sm_store_session_data() {
 	$user_id = (int)$current_user->id;
 	
 	if(!isset($_SESSION)) {
+		session_set_cookie_params(0, '/', '.'.$current_site->domain);
 		session_start();
 	}
 	global $sm_session_id;
@@ -548,12 +549,12 @@ function sm_store_session_data() {
 			}
 		}
 	}
-
 	if ($track) {
+	
 		$sql = 'INSERT INTO ' . $table_name . ' (user_id, session_id, url, ip_address, user_agent, unixtime)
 				VALUES (
 					' . $user_id . '
-					, "' . $session_id . '"
+					, "' . $sm_session_id . '"
 					, "' . mysql_real_escape_string($url) . '"
 					, "' . $_SERVER['REMOTE_ADDR'] . '"
 					, "' . $_SERVER['HTTP_USER_AGENT'] . '"
@@ -561,12 +562,12 @@ function sm_store_session_data() {
 				)';
 		$wpdb->query($sql);
 
-		if ($user_id > 0) {
-			$sql = 'UPDATE ' . $table_name . '
-					SET user_id = ' . $user_id . '
-					WHERE session_id = "' . $session_id . '"';
-			$wpdb->query($sql);
-		}
+//		if ($user_id > 0) {
+//			$sql = 'UPDATE ' . $table_name . '
+//					SET user_id = ' . $user_id . '
+//					WHERE session_id = "' . $session_id . '"';
+//			$wpdb->query($sql);
+//		}
 	}
 }
 
