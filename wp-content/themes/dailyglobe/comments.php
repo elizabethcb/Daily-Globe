@@ -16,9 +16,9 @@
 ?>
 
 <!-- You can start editing here. -->
-
+<div id="comment-container">
 <?php if ( have_comments() ) : ?>
-	<h3 id="comments"><?php comments_number('No Comments', 'One Comment', '% Comments' );?> to &#8220;<?php the_title(); ?>&#8221;</h3>
+	<h3 id="comments"><?php comments_number('No Comments', 'One Comment', '<span>%</span> Comments' );?> to &#8220;<?php the_title(); ?>&#8221;</h3>
 
 	<div class="navigation">
 		<div class="alignleft"><?php previous_comments_link() ?></div>
@@ -26,7 +26,7 @@
 	</div>
 
 	<ul class="commentlist">
-	<?php wp_list_comments();  ?>
+	<?php wp_list_comments("callback=dg_comment");  ?>
 
 
 	</ul>
@@ -73,18 +73,21 @@ Comments:<pre>
 
 <?php else : ?>
 
-<p><input type="text" name="author" id="author" value="<?php echo $comment_author; ?>" size="22" tabindex="1" <?php if ($req) echo "aria-required='true'"; ?> />
-<label for="author"><small>Name <?php if ($req) echo "(required)"; ?></small></label></p>
+<p><label for="author">Name <small><?php if ($req) echo "(required)"; ?></small></label>
+   <input type="text" name="author" id="author" value="<?php echo $comment_author; ?>" tabindex="1" <?php if ($req) echo "aria-required='true'"; ?> />
+</p>
 
-<p><input type="text" name="email" id="email" value="<?php echo $comment_author_email; ?>" size="22" tabindex="2" <?php if ($req) echo "aria-required='true'"; ?> />
-<label for="email"><small>Mail <?php if ($req) echo "(required)"; ?></small></label></p>
+<p><label for="email">Email <small><?php if ($req) echo "(required)"; ?></small></label>
+   <input type="text" name="email" id="email" value="<?php echo $comment_author_email; ?>" tabindex="2" <?php if ($req) echo "aria-required='true'"; ?> />
+</p>
 
-<p><input type="text" name="url" id="url" value="<?php echo $comment_author_url; ?>" size="22" tabindex="3" />
-<label for="url"><small>Website</small></label></p>
+<p><label for="url">Website </label>
+   <input type="text" name="url" id="url" value="<?php echo $comment_author_url; ?>" tabindex="3" />
+</p>
 
 <?php endif; ?>
 
-<p><textarea name="comment" id="comment" cols="44" rows="10" tabindex="4"></textarea></p>
+<p><textarea name="comment" id="comment-text" tabindex="4"></textarea></p>
 
 <p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
 <?php comment_id_fields(); ?>
@@ -97,3 +100,4 @@ Comments:<pre>
 </div>
 
 <?php endif; // if you delete this the sky will fall on your head ?>
+</div>

@@ -97,7 +97,6 @@ $(document).ready(function() {
     timeout: 0
     
    });
-   
 });
 </script>
 
@@ -132,8 +131,10 @@ $(document).ready(function() {
 			<li id="tweets_link"><a href="/local-tweets/">News Tweets</a></li>
 			<li id="local_search_link"><a href="/local-search/">Local Search</a></li>
 			<li id="local_events_link"><a href="/events/">City Events</a></li>
-			<li id="register"><a href="/wp-login.php?action=register">Become a Globe Blogger</a></li>
-			<li><a href="#search-location" id="search-for-location">Browse Cities</a></li>
+			<li id="register"><a href="/register/">Become a Globe Blogger</a></li>
+			<li id="cities_link"><a href="/cities/">Browse Cities</a></li>
+			
+			<!--<li><a href="#search-location" id="search-for-location">Browse Cities</a></li>-->
 			<li id="submit_link"><a href ="#">Submit</a>
 				<div class="submenu closed" style="display: none;">
 					<div class="carrottop"></div>
@@ -151,7 +152,7 @@ $(document).ready(function() {
 		<?php global $current_user;
 			get_currentuserinfo();
 			if (!$current_user->user_login) { ?>
-				<a href="" id="register">Register</a> 
+				<a href="/register/" id="register">Register</a> 
 			<?php } else { ?>
 				<a href="/profile/"><?php echo $current_user->display_name; ?></a>
 			<?php } ?> | <?php if ($current_user->user_login) {
@@ -162,6 +163,7 @@ $(document).ready(function() {
 		</span>
 		<div id="ajaxlogin" style="display:none"><?php if ( function_exists('login_with_ajax') ) { login_with_ajax(); } ?></div>
 	</div>
+	<!-- INSERT HAS BADGE HERE OR SOMETHING <?php //if (user_has_a_new_badge()) show, otherwise don't ?>-->
 	<div class="search">
 		<?php include (TEMPLATEPATH . '/searchform.php'); ?>
 		<span id="main_search_undertext">Search for articles in your location</span>
@@ -227,7 +229,7 @@ $(document).ready(function() {
 		// }  ?>
 		</h2>
 		 -->
-		<h1 id="blogname">
+		<h1 id="blogname"><a href="<?php bloginfo('siteurl'); ?>">
 		<?php if (is_page('Topics')) {
 				echo "Topics";
 			} elseif(is_page('Advertise')) {
@@ -246,7 +248,7 @@ $(document).ready(function() {
 				bloginfo('name'); 
 			}?>
 		
-		</h1>
+		</a></h1>
 		
 		<h3 id="todaysdate">
 			<?php if (is_page('Advertise'))	{
@@ -261,18 +263,16 @@ $(document).ready(function() {
 		</h3>
 		
 		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search")){ echo 'style="height: 100px;"'; } ?>>
-			<?php if (is_page("Topics") || is_page("international")) { ?>
+			<?php if (is_page("Topics") || is_page("international") || is_page('Cities') ) { ?>
 				<div id="alphabet">
 					<?php
 					$alphabet = explode(' ', "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
 						foreach ( $alphabet as $letter ) { ?>
-						<a href="<?php bloginfo('url') ?>/topics/?letter=<?php echo $letter ?>" class="alphabet">
+						<a href="?letter=<?php echo $letter ?>" class="alphabet">
 							<?php echo $letter ?></a>
 					<?php } ?>
 				</div>
-				<div id="suggest-a-topic">
-					<span class="suggest-a-topic-text">Suggest a Topic</span>
-				</div>
+				
 				
 			<?php } elseif (is_page("Local Tweets")) { ?>
 			

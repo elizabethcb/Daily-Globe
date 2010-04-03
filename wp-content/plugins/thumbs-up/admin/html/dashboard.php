@@ -69,7 +69,7 @@
 
 				<td class="tu-center">
 					<form method="post" action="<?php echo THUMBSUP_WEBROOT ?>admin/admin-ajax-response.php?action=toggle_closed">
-						<input name="post_id" type="hidden" value="<?php echo $item->id ?>" />
+						<input name="item_id" type="hidden" value="<?php echo $item->item_id ?>" />
 						<input class="lock <?php echo ('0' == $item->closed) ? 'closed' : '' ?>" type="submit" title="Close/open voting" />
 					</form>
 				</td>
@@ -81,7 +81,7 @@
 				<td class="tu-right">
 					<form method="post" action="<?php echo THUMBSUP_WEBROOT ?>admin/admin-ajax-response.php?action=reset_votes">
 						<span class="votes" title="Positive votes/Total votes"><?php echo $item->positive_votes.'/'.$item->total_votes ?></span>
-						<input name="post_id" type="hidden" value="<?php echo $item->id ?>" />
+						<input name="item_id" type="hidden" value="<?php echo $item->item_id ?>" />
 						<input type="submit" value="reset" title="Are you sure you want to delete all votes for “<?php echo htmlspecialchars($item->title) ?>”?" />
 					</form>
 				</td>
@@ -92,7 +92,7 @@
 
 				<td class="delete tu-tu-center">
 					<form method="post" action="?action=delete">
-						<input name="post_id" type="hidden" value="<?php echo $item->id ?>" />
+						<input name="item_id" type="hidden" value="<?php echo $item->item_id ?>" />
 						<input class="delete" type="submit" value="delete" title="Are you sure you want to completely delete “<?php echo htmlspecialchars($item->title) ?>”?" />
 					</form>
 				</td>

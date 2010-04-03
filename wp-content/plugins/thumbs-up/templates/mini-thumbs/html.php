@@ -7,15 +7,15 @@ $align = (isset($config['align']) AND $config['align'] === 'right') ? 'right' : 
 ?>
 
 <!-- START THUMBSUP: <?php echo htmlspecialchars($item['name']) ?> -->
-<div id="thumbsup_<?php echo $item['id'] ?>" class="thumbsup thumbsup_template_<?php echo $config['template'] ?> <?php echo $align ?>">
+<div id="thumbsup_<?php echo $item['item_id'] ?>" class="thumbsup thumbsup_template_<?php echo $config['template'] ?> <?php echo $align ?>">
 
 	<?php if ( ! empty($item['vote']['error'])) { ?>
 		<p><em><?php echo htmlspecialchars($item['vote']['error']) ?></em></p>
 	<?php } ?>
 
 	<form method="post" class="<?php if ($item['vote'] OR $item['closed']) echo 'closed' ?>">
-		<input type="hidden" name="thumbsup_id" value="<?php echo $item['id'] ?>" />
-
+		<input type="hidden" name="thumbsup_id" value="<?php echo $item['item_id'] ?>" />
+		<input type="hidden" name="thumbsup_type" value="comment" />
 		<span class="thumbsup_hide">Score:</span>
 		<strong class="votes_balance"><?php echo (($item['results']['votes_balance'] > 0) ? '+' : '').$item['results']['votes_balance'] ?></strong>
 

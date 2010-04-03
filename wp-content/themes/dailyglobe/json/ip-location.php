@@ -11,7 +11,12 @@ $selected = mysql_select_db(DB_NAME,$dbhandle)
 	$lat = $_REQUEST['lat'];
 	$lng = $_REQUEST['lng'];
 	
-	$query = "SELECT wp_blogs.blog_name displayTitle, wp_blogs.domain link, (((".$lng."- cities.longitude)*(".$lng."- cities.longitude))+((".$lat."- cities.latitude)*(".$lat."- cities.latitude))) distance FROM cities, wp_blogs WHERE cities.blog_id = wp_blogs.blog_id ORDER BY distance ASC";
+	$query = "SELECT wp_blogs.blog_name displayTitle, 
+	wp_blogs.domain link, (
+		((".$lng."- cities.longitude)*(".$lng."- cities.longitude)) 
+		+ ((".$lat."- cities.latitude)*(".$lat."- cities.latitude))
+		) distance FROM cities, 
+		wp_blogs WHERE cities.blog_id = wp_blogs.blog_id ORDER BY distance ASC";
 	$result = mysql_query($query);
 	$row = mysql_fetch_array($result);
 	$response = array(

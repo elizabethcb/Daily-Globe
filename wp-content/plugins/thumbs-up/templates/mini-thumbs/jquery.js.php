@@ -41,10 +41,12 @@ $(document).ready(function() {
 		// Collect the POST data to send to the server
 		var postdata = {
 			thumbsup_id : $('input[name=thumbsup_id]', $thumbsup_form).val(),
-			thumbsup_rating: $(this).val() };
+			thumbsup_rating: $(this).val(),
+			thumbsup_type: $('input[name=thumbsup_type]', $thumbsup_form).val()
+		};
 
 		// AJAX POST request
-		$.post('<?php echo THUMBSUP_WEBROOT ?>thumbsup/core/thumbsup.php', postdata, function(item) {
+		$.post('<?php echo THUMBSUP_WEBROOT ?>ajax-response.php', postdata, function(item) {
 
 			// Show error message, if any
 			if (item.vote.error) {

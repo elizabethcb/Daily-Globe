@@ -1,15 +1,15 @@
 <?php defined('THUMBSUP_DOCROOT') or exit('No direct script access.') ?>
 
 <!-- START THUMBSUP: <?php echo htmlspecialchars($item['post_title']) ?> -->
-<div id="thumbsup_<?php echo $item['ID'] ?>" class="thumbsup thumbsup_template_<?php echo $config['template'] ?>">
+<div id="thumbsup_<?php echo $item['item_id'] ?>" class="thumbsup thumbsup_template_<?php echo $config['template'] ?>">
 
 	<?php if ( ! empty($item['vote']['error'])) { ?>
 		<p><em><?php echo htmlspecialchars($item['vote']['error']) ?></em></p>
 	<?php } ?>
 		<span style="font-size:xx-small">Put your vote somewhere?</span>
 	<form method="post" class="<?php if ($item['vote'] OR ('0' == $item['closed'])) echo 'closed' ?>">
-		<input type="hidden" name="thumbsup_id" value="<?php echo $item['ID'] ?>" />
-
+		<input type="hidden" name="thumbsup_id" value="<?php echo $item['item_id'] ?>" />
+		<input type="hidden" name="thumbsup_type" value="post" />
 		<span class="thumbsup_hide">Score:</span>
 		<strong class="votes_balance"><?php echo $item['results']['votes_balance'] ?></strong>
 

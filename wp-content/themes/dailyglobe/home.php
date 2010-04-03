@@ -77,11 +77,12 @@ Template Name: Home
 							$post_image = catch_that_image($post_content_old);
 							if (strlen($post_content) <= 300) {
 								echo '<img src="' . $post_image . '" />';
-								echo $post_content;}
-								else {
-									for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 300; $i++) {}
-									$i --;
-									echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) . "..."; }?>
+								echo $post_content;
+							} else {
+								//for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 300; $i++) {}
+								$i =20;
+								echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) . "..."; 
+							}?>
 						</p>
 						<div class="home_post_meta">
 							<?php $count = $pop1->post->comment_count; ?> 

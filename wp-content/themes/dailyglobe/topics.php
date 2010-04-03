@@ -11,11 +11,11 @@ $(document).ready(function() {
 </script>
 <div id="sub-container">	
 <div id="content" class="left">
-		
+	<?php if (is_page('Topics')) { $type = 'topic';} else { $type = 'city';} ?>	
 	<div id="topics_page" class="left">
 		<?#php echo get_option('topic'); ?>
 		<?php $topics = (isset($_REQUEST['letter']) && $_REQUEST['letter'] != '') ?
-				get_topic_list($_REQUEST['letter']) : get_topic_list(); ?>
+				get_site_list($type, $_REQUEST['letter']) : get_site_list($type); ?>
 					
 			<?php foreach($topics as $topic) { ?>
 					<a class="topic-link" href="<?php echo $topic['siteurl'] ?>">
@@ -27,10 +27,9 @@ $(document).ready(function() {
 	</div><!--/topicspage -->
 </div><!--/content-->
 <div id="sidebar">
-	<?php get_sidebar (1); ?>
-	<div class="widget_bg">
-	<?php if (function_exists('get_mostpopular')) get_mostpopular(); ?>
-	</div>
+	<?php get_sidebar (2); ?>
+	<?php get_sidebar (3); ?>
+
 </div>
 </div><!--/subcontainer -->
 <?php get_footer(); ?>

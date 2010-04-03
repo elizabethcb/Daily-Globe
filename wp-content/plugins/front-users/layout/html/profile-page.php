@@ -2,12 +2,11 @@
 	<h2 class="pagetitle"><?php echo $user->display_name; ?></h2>	
 	<div class="profiletop left" >
 		<div class="profile-details">
-			<img class="avatar" src="" /> 
-			
+			<?php echo get_avatar( $user->id, $size = '125', $default = '/css/images/dgdefault.png' ); ?> 
+	
 			
 			<div class="rep">
-				<span class="big">123,456,999</span>
-				<br />reputation
+				<span class="big"><?php if ($reputation) {echo $reputation[0]->total_reputation . "<br /> reputation";} ?></span>
 			</div>
 
 			
@@ -22,7 +21,7 @@
 				<td><?php echo $user->user_nicename; ?></td>
 			</tr>
 			<tr>
-				<td class="filled">member for</td>
+				<td class="filled">member since</td>
 				<td><?php echo time_since($user->user_registered); ?></td>
 			</tr>
 			<tr>
@@ -36,7 +35,7 @@
 					if ($site = $user->user_url) {
 						echo $site; 
 					} else {
-						echo "you have none";
+						echo get_bloginfo('siteurl') . "/profile-page/" . $user->user_nicename;
 					}?></td>
 			</tr>
 			<tr>
@@ -72,12 +71,11 @@
 	<div id="profile_all">
 	
 		<div class="cred_full">
-			Reputation (a print_r for now): <?php if ($reputation) { ?>
-			<pre><?php print_r($reputation); ?></pre><? } ?>
+			Rep: <pre><?php print_r($reputation); ?></pre>
 		</div>
 		
 		<div class="stats_full">
-		<pre><?php //print_r($posts); ?></pre>
+		<!--<pre><?php //print_r($posts); ?></pre>-->
 		<?php if ($posts) { ?>
 		<table>
 				<?php foreach ($posts as $post) { ?>
@@ -93,6 +91,7 @@
 					<td class="faved"><span class="amt">33</span>faved</td>
 					<td class="shared"><span class="amt">57</span>shared</td>
 					<td class="title"><?php echo $post->title; ?></td>
+					<td><?php echo $post->post_author; ?></td>
 				</tr>
 			<?php } ?>
 		</table>
@@ -103,22 +102,40 @@
 		
 		<div class="badges_full">
 			<ul>
-			<li><span class="bullit-silver"> </span>yermom</li>
-			<li><span class="bullit-gold"> </span>chump</li>
-			<li><span class="bullit-bronze"> </span>joker</li>
+			<li><span class="bullit-silver"> </span>BADGE NAME</li>
 			</ul>
 
 		</div>
 		
 		<div class="activity_full">
-			Votes Made: <pre><?php print_r($votes); ?></pre>
+			<!--<pre><?php //print_r($activity); ?></pre>-->
 			<table>
+			<?php foreach ($activity as $action) { ?>
+			<?php 
+			
+			if ($action->type == "comment") {
+				$actionText = "Commented on: ";
+			} elseif ($action->type == "voted") {
+				$actionText = "Voted on: ";
+			} elseif ($action->type == "sharing") {
+				$actionText = "Shared: ";
+			} elseif ($action->type == "post") {
+				$actionText = "Posted: ";
+			} elseif ($action->type == "vote") {
+				$actionText = "Received Vote on: ";
+			} else {
+				$actionText = "Did: ";
+			}
+			
+			?>
 				<tr>
-					<td class="when">1h</td>
-					<td class="type">post</td>
-					<td class="what">post_title</td>
+					<td class="when"><?php echo time_since($action->date); ?></td>
+					<td class="type"><?php echo $actionText; ?></td>
+					<td class="what"><a href="<?php echo $action->url; ?>"><?php echo $action->post_title; ?></a></td>
+					<!--<td><pre><?php //print_r($action); ?></pre></td>-->
 
 				</tr>
+			<?php } ?>
 			</table>
 		</div>
 		

@@ -7,4 +7,4 @@ function fu_comments(args) {
 	});
 }
 
-id_add_action( 'comment_vote', fu_comments);
+//id_add_action( 'comment_vote', fu_comments);

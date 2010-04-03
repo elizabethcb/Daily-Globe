@@ -5,8 +5,8 @@
 	include_once('../../../../wp-includes/wp-db.php');
 	$city = $_REQUEST['city'];
 	//echo "Your Search: ".$city."<br />";
-	$query = "SELECT * FROM cityview WHERE blogname LIKE '%".$city."%'";
-	$results = $wpdb->get_results($query);
+	//$query = "SELECT  FROM cityview WHERE blogname LIKE '%".$city."%'";
+	//$results = $wpdb->get_results($query);
 	if ($results) {
 		echo '<ul>';
 		foreach ($results as $res) { ?>

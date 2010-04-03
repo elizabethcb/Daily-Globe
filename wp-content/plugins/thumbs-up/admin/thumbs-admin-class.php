@@ -46,6 +46,7 @@ class ThumbsUp_Admin {
 	 */
 	protected $is_logged_in;
 
+	protected $tblname = 'wp_tu_votes';
 	/**
 	 * Constructor. Starts session. Loads database and template classes.
 	 * Sets up the layout template wrapper. Routes the request to the correct
@@ -117,7 +118,7 @@ class ThumbsUp_Admin {
 
 		// Pagination
 		$per_page = ( ! empty($this->config['admin_items_per_page'])) ? max(1, (int) $this->config['admin_items_per_page']) : 100;
-		$counting = "SELECT COUNT(DISTINCT post_id) FROM " . $wpdb->prefix . "tu_votes ";
+		$counting = "SELECT COUNT(DISTINCT post_id) FROM " . $this->tblname;
 		$total_items = ($filter === '') ?
 			$wpdb->get_var($wpdb->prepare($counting)) :
 			$wpdb->get_var($wpdb->prepare($counting. $filter_sql));
@@ -135,7 +136,7 @@ class ThumbsUp_Admin {
 				i.post_date AS date,
 				COUNT(v.id) AS total_votes,
 				SUM(v.rating) AS positive_votes
-			FROM " . $wpdb->prefix . "tu_votes v
+			FROM " . $this->tblname. " v
 			JOIN ". $wpdb->prefix . "posts i ON i.id = v.post_id
 			$filter_sql
 			GROUP BY i.id
@@ -168,11 +169,11 @@ class ThumbsUp_Admin {
 	 */
 	public function action_toggle_closed() {
 		// We need an item id
-		if (empty($_POST['post_id'])) {
+		if (empty($_POST['item_id'])) {
 			$error = 'No post ID given.';
 		} else {
 			// Clean post id
-			$post_id = (int) $_POST['post_id'];
+			$post_id = (int) $_POST['item_id'];
 
 			// Toggle the closed value in the database
 			//add_post_meta( $post_id, 'vote_closed', 0, true) or
@@ -221,7 +222,7 @@ class ThumbsUp_Admin {
 
 			global $wpdb;
 			
-			$deleted = $wpdb->query($wpdb->prepare("DELETE FROM " . $wpdb->prefix . "tu_votes
+			$deleted = $wpdb->query($wpdb->prepare("DELETE FROM " . $this->tblname ."
 				WHERE post_id = %d", $post_id));
 			
 			// Nothing changed, this means the item id is invalid

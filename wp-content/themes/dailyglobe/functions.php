@@ -56,14 +56,16 @@ function setup_popular_posts() {
 	// Session Manager doesn't store post_id, so I have to retrieve that before retrieving the category.
 	global $wpdb, $blog_id;
 	
+	// limit this to the last 14 days
+	// http://dev.mysql.com/doc/refman/5.0/en/date-and-time-functions.html#function_date-add
 	$sql = "
 	SELECT 
 		COUNT(*) 		AS total_votes,
 		SUM(v.rating)	 AS positive_votes,
 		MAX(v.date)		AS last_vote_date
 		FROM ". $wpdb->prefix . "posts i 
-	JOIN wp_tu_votes v ON i.ID = v.post_id
-	WHERE i.ID=%d  AND v.blog_id=%d
+	JOIN wp_tu_votes v ON i.ID = v.item_id
+	WHERE i.ID=%d  AND v.blog_id=%d AND v.item_type='post'
 	GROUP BY i.ID";
 
 	if ($results_num = count($pages)) {
@@ -240,7 +242,29 @@ function get_topic_list($letter=false) {
 	}
 	return $names;
 }
-	
+
+
+function get_site_list($type = 'city', $letter=false) {
+		global $wpdb;
+	$names = array();
+	$query = "SELECT blog_name, domain, blog_type FROM wp_blogs WHERE blog_type='$type' ORDER BY blog_name";
+	$results = array();
+	// may seem wierd to check letter twice, but I love the ternery operator.
+	// It's fun.
+	if ($letter) {
+		$query .=" AND blog_name LIKE %s";
+		$letter .= '%';
+	}
+	$results = ($letter) ? 
+		$wpdb->get_results($wpdb->prepare($query, $letter)) : 
+		$wpdb->get_results($query);
+
+	foreach( $results as $result) {
+		$domain = 'http://' . $result->domain .'/';
+		array_push($names, array('name' => $result->blog_name, 'siteurl' => $domain));
+	}
+	return $names;
+}	
 		
 // get all topic term ids by the original blog id and find the topic blog id
 //call once before post list
@@ -519,6 +543,32 @@ function is_city() {
 		return false;
 	}
 }
+
+
+function dg_comment($comment, $args, $depth) {
+   $GLOBALS['comment'] = $comment; ?>
+   <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
+     <div id="comment-<?php comment_ID(); ?>">
+      <div class="comment-author vcard">
+         <?php echo get_avatar($comment,$size='48',$default='<path_to_url>' ); ?>
+ 
+         <?php printf(__('<cite class="fn">%s</cite> <span class="says">says:</span>'), get_comment_author_link()) ?>
+      </div>
+      <?php if ($comment->comment_approved == '0') : ?>
+         <em><?php _e('Your comment is awaiting moderation.') ?></em>
+         <br />
+      <?php endif; ?>
+ 
+      <div class="comment-meta commentmetadata"><a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"><?php printf(__('%1$s at %2$s'), get_comment_date(),  get_comment_time()) ?></a><?php edit_comment_link(__('(Edit)'),'  ','') ?></div>
+ 
+      <?php comment_text() ?>
+ 
+      <div class="reply">
+         <?php comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth']))) ?>
+      </div>
+     </div>
+<?php
+        }
 
 ?>
 <?php //custom options page

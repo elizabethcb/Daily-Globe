@@ -102,15 +102,15 @@ function tu_admin_loader() {
  * all the votes when a post is deleted
  * @return  void
  */
-function tu_delete_votes( $post_id = false ) {
+function tu_delete_votes( $item_id = false ) {
 	global $wpdb;
 	// We need an item id
-	if (! $post_id )
+	if (! $item_id )
 		return;
 			// Delete all votes for the item
 	//$delete = 'DELETE FROM '. $wpdb->prefix . "tu_votes
 	$delete = "DELETE FROM wp_tu_votes 
-		WHERE post_id = $post_id";
+		WHERE item_id = $item_id";
 	
 	$wpdb->query($delete);
 	// Error checking?
@@ -127,7 +127,7 @@ function tu_activate() {
 	$tblname = 'wp_tu_votes';
 	$tbl = "CREATE TABLE " . $tblname . " (
 					id mediumint(9) NOT NULL AUTO_INCREMENT,
-					post_id mediumint(9), 
+					item_id mediumint(9), 
 					blog_id mediumint(9) NOT NULL DEFAULT 0,
 					user_id mediumint(9),
 					rating tinyint,

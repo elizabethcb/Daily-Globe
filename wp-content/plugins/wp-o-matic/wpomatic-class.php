@@ -656,7 +656,7 @@ function wpo_get_post_image($id = false){
     //$content = '<img src="'.$content_img.'" alt="post_img" width="80" />'.$item->get_content();
     
     $images = WPOTools::parseImages($content);
-    echo '<pre>';
+    //echo '<pre>';
     $thing = $item->get_enclosures(0);
    //print_r($thing); print_r($images);
 	
@@ -685,8 +685,8 @@ function wpo_get_post_image($id = false){
     	}
     	$content .=  $text;
     } elseif (preg_match( '/(jpg|png|gif)$/', $thing->link) ) {
-    	print_r($thing);
-    	echo " thing link ";
+    	//print_r($thing);
+    	//echo " thing link ";
      	$content = '';	
 		$tmp = getimagesize($thing->link);
 		if ($tmp[0] < 75 || $tmp[1] < 75 ) {
@@ -701,7 +701,7 @@ function wpo_get_post_image($id = false){
     	$content .= $text;    	
     
     } elseif ($thing->thumbnails > 0 && isset($thing->thumbnails[0]) ) {
-    	print_r($thing);
+    	//print_r($thing);
     	echo " thing thumb ";
     	$content = '';
  //   	foreach ( $thing as $link ) {
@@ -721,7 +721,7 @@ function wpo_get_post_image($id = false){
     	$content .= $text; 
     
     }  else {
-    	echo "default";
+    	//echo "default";
     	$img = $this->wpo_get_post_image($cat_id[0]);
     	if($img) {
 			$content = '<img src="'. $img
@@ -729,8 +729,8 @@ function wpo_get_post_image($id = false){
 		}
 		$content .= $text;
 	}
-	echo " content "; print_r($content);
-	    echo '<pre>'; //die('bitch');
+	//echo " content "; print_r($content);
+	  //  echo '<pre>'; //die('bitch');
     // Caching
     if ( get_option('wpo_cacheimages') || $campaign->cacheimages ) {
       $urls = $images[2];
@@ -1222,13 +1222,14 @@ function wpo_get_post_image($id = false){
   /** 
    * Setup admin
    *
-   *
+   * TODO LAUNCH insert into croncodes 
+      $wpdb->insert('wp_croncodes', array('cron_code' => 
    */
   function adminSetup() {
+  	global $wpdb, $blog_id;
     if ( isset($_POST['dosetup']) ) {
       update_option('wpo_unixcron', isset($_REQUEST['option_unixcron']));
       update_option('wpo_setup', 1);
-      
       $this->adminHome();
       exit;
     }

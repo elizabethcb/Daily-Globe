@@ -13,12 +13,13 @@
 		<!-- MOBILE -->
 			<h2 class="pagetitle"><?php the_title(); ?></h2>
 			<div class="author_info"><?php //$author_email = get_the_author_meta('user_email'); echo get_avatar( $author_email, 32 ); ?>
-				<p class="single_post_meta">
-					Posted by <?php the_author(); ?> on <?php  the_time('F jS, Y'); ?>
-					<br/>Filed under <?php the_category(', '); ?>.<br/>
-					<span class="mobile_hide">You can follow any responses to this entry through the RSS 2.0.
-					<br/> You can leave a response or trackback to this entry.</span>
-				</p>
+				<div class="single_post_meta">
+					<img src="/css/images/dgdefault.png" width="50" height="50"/>
+					<h3><a class="single-feed-title left" href="/feed-information/<?php echo get_post_meta( get_the_ID(), 'wpo_feedid', true); ?>">Feed Title Goes Here</a><br/></h3>
+					<p class="left">Posted by <?php the_author(); ?> on <?php  the_time('F jS, Y'); ?></p><br/>
+					<p class="left">Filed under <?php the_category(', '); ?>.</p>
+					<div class="clear"></div>
+				</div>
 			</div>
 			<div id="article_profit_wrangler" class="<?php echo get_option('dg_ad_placement'); ?>">
 				<script type="text/javascript"><!--
@@ -60,12 +61,11 @@
 						<div class="syndicated-content">
 						<?php the_content(); ?>
 						</div>
-						<span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $perma; ?>">Read More</a> Click your browser's 
-						back button to come back and vote or discuss.</span>
+						<span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $perma; ?>" target="_blank">Read More</a></span>
 						<br/>
 						<span id="synd-feed-info" class="syndication-info">
-							Feed information 
-							<a class="topic-tag-link" href="/feed-info/">here</a>
+							
+							<a class="topic-tag-link" href="/feed-information/<?php echo get_post_meta( get_the_ID(), 'wpo_feedid', true); ?>">Feed information for: <?php echo get_post_meta( get_the_ID(), 'wpo_feedname', true); ?></a>
 						</span>
 					<?php } else {
 						the_content();

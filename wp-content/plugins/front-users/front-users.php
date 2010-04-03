@@ -22,61 +22,109 @@ define('FU_ADMIN_DIR', FU_PLUGIN_DIR_PATH . 'admin/');
 define('FU_INCLUDES_DIR', FU_PLUGIN_DIR_PATH . 'includes/');
 require_once(FU_INCLUDES_DIR.'fu_functions.include.php');
 include(FU_PLUGIN_DIR_PATH . 'front-users-class.php');
+include(FU_PLUGIN_DIR_PATH . 'includes/badges.class.php');
+include(FU_PLUGIN_DIR_PATH . 'includes/front-users-template-class.php');
 // Enqueue scripts and stylesheets.
 
-// I don't like having two of these.  It's fraking dumb.
-$anotherfu = new FrontUsers;
-register_activation_hook(__FILE__, array(&$anotherfu, 'activate') );
+$fu = new FrontUsers;
+register_activation_hook(__FILE__, array(&$fu, 'activate') );
 
 // DAN LOOK HERE
 // fu_post pulls the post request, there's fu_get and fu_request as well
 // just add something to the below if statement and add the function to the class.
 // The table names are listed at the top of the class.
-// The original test seemed to work, but didn't seem constrained enough.
+
+
 // Added the if wrapper to make doubly sure we're coming from a fu form.
-$myfu = fu_post('fu');
-$myact = fu_post('fuaction');
+$myfu = $fu->get_post('fu');
+$mygetfu = $fu->get_get('fu');
+$sharing = $fu->get_post('sharing');
+$myact = $fu->get_post('fuaction');
 //echo '<pre>'; print_r($myfu); print_r($myact); echo '</pre>';
+
 if ( 'fu-fu' == $myact) {
 	if ('' != $myfu['post_title'] ) {
-		$anotherfu->process_article_submit($myfu);
-		echo "process...ha!";
+		$fu->process_article_submit($myfu);
 	} elseif ( '' != $myfu['title'] ) {
-		$anotherfu->process_feed_submit($myfu);
+		$fu->process_feed_submit($myfu);
+	} elseif ( '' != $myfu['email'] ) {
+	
+		fu_add_new_user($myfu);
 	}
 } elseif ( 'dontdoit' == $myact) {
 	//$anotherfu->dontdoit();
 } elseif ( 'dontdothiseither' == $myact ) {
-	//$anotherfu->dontdoiteither();
+	$fu->dontdoiteither();
 } elseif ( 'dontdothisone' == $myact ) {
-	$anotherfu->dontdothisone();
-} elseif ( isset($myfu['data']) ) {
+	//$fu->dontdothisone();
+} elseif ( 'comment_vote' == $mygetfu ) {
 	// if some parameter is set do some function for intense debate's comment_vote
-	
-	$anotherfu->comment_vote($myfu['data']);  // vals retrieved from js.
+	$fu->comment_vote();  // vals retrieved from js.
+} elseif ( 'caring' == $sharing ) {
+
+	$fu->sharing(fu_post('who'), fu_post('type'), fu_post('what'));
 }
 
+
+function fu_add_new_user($fu = false) {
+	//echo "wtf?";
+	require_once('../../../wp-includes/registration.php');
+	global $blog_id;
+	$email = sanitize_email( $fu['email'] );
+	//$current_site = get_current_site();
+	$password = 'N/A';
+	$user_id = email_exists($email);
+	//echo "hi";
+	if( !$user_id ) {
+		$password = generate_random_password();
+		$user_id = wpmu_create_user( $fu['username'], $password, $email );
+		if (false == $user_id) {
+			//echo "uh oh";
+			wp_die( __('There was an error creating the user') );
+			
+		} else {
+			//echo "sending mail";
+			wp_new_user_notification($user_id, $password);
+		}
+        if( get_user_option( 'primary_blog', $user_id ) == $blog_id )
+			update_user_option( $user_id, 'primary_blog', $blog_id, true );
+		
+	}
+	wp_redirect( $_SERVER['HTTP_REFERER'] );
+
+}
+
+//add_filter('init', array(&$fu, 'flush_rules'));
+
 function fu_loaded() {
-	$fu = new FrontUsers;
+	global $fu;
 	if (is_admin()) {
 		add_action( 'admin_menu', 			array(&$fu, 'admin_page') );
 		add_action( 'admin_head', 			array(&$fu, 'admin_head') );
 	}
-	add_action( 'the_content', 			array(&$fu, 'front_article_form') );
+	add_action( 'the_content', 			array(&$fu, 'front_user_pages') );
 
-	add_action( 'wp_insert_comment',	array(&$fu, 'cache_activity_comment') );
-	add_action( 'wp_insert_post',		array(&$fu, 'cache_activity_post') );
+	add_action( 'wp_insert_comment',	array(&$fu, 'cache_activity_comment'), 10, 2 );
+	//add_action( 'wp_insert_post',		array(&$fu, 'cache_activity_post'), 10, 2 );
 	// add delete comment and post
-	add_filter( 'rewrite_rules_array', 	array(&$fu, 'rewrite_rules') );
-	add_filter( 'query_vars', 			array(&$fu, 'rewrite_vars') );
+	add_filter( 'rewrite_rules_array', 	array(&$fu, 'rewrite_rules_profile') );
+	add_filter( 'rewrite_rules_array', 	array(&$fu, 'rewrite_rules_feed_info') );
 
+	add_filter( 'query_vars', 			array(&$fu, 'rewrite_vars_profile') );
+	add_filter( 'query_vars', 			array(&$fu, 'rewrite_vars_feed_info') );
+
+	add_filter( 'fu_test',				'fu_comm_test');
 
 	add_action( 'fu_caught_vote', 		array(&$fu, 'caught_post_vote') );
-	wp_enqueue_script( 'fu-comments', FU_PLUGIN_DIR_URL . 'layout/javascript/fu-javascript.js', '', '', true);
+	//wp_enqueue_script( 'fu-comments', FU_PLUGIN_DIR_URL . 'layout/javascript/fu-javascript.js', '', '', true);
 
 }
 add_action('plugins_loaded', 'fu_loaded');
 
+function fu_comm_test($stuff) {
+	echo 'Comments?<pre>';print_r($stuff);echo '</pre>';
+	return $stuff;
+}
 
 function fu_parse() {
 	if(is_page('submit-an-article') ) {

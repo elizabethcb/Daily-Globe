@@ -132,9 +132,13 @@ class ThumbsUp {
 		return $content;	
 	}
 	
-	public function append_comment($comment) {
-		$comment .= "<div class='hi right'>Someday I'll be the thumb up thingy.</div>";
-		return $comment;
+	public function append_comment($comment_text) {
+		//$comment .= "<div class='thumbsup_container right'><a href=' ' class='vote_comment_up'>Vote Up</a> | <span class='vote_amount'>0</span> | <a href=' ' class='vote_comment_down'>Vote Down</a></div>";
+		global $comment;
+//		echo '<pre>'.print_r($comment);echo '</pre>';
+//		echo '<strong>'.$comment->comment_ID.'</strong>';
+		$comment_text .= $this->setup($comment->comment_ID, 'mini-thumbs')->render(true);
+		return $comment_text;
 	}
 
 	/**
@@ -187,11 +191,11 @@ class ThumbsUp {
 	 */
 	protected function catch_vote() {
 		// Immediately get out of here if no vote was cast
-		if ( ! isset($_POST['thumbsup_id']) OR ! isset($_POST['thumbsup_rating'])) {
-			$this->error .= " No thumbsup_id or thumbsup_rating ";
+		if ( ! isset($_POST['thumbsup_id']) OR ! isset($_POST['thumbsup_rating']) OR ! isset($_POST['thumbsup_type']) ) {
+			$this->error .= " No thumbsup_id or thumbsup_rating or thumbsup_type";
 			return FALSE;
 		}
-
+		$this->itemtype = $_POST['thumbsup_type'];
 		// Ignore votes for invalid item ids
 		if ( ! ctype_digit((string) $_POST['thumbsup_id']) OR ! $this->load_item((int) $_POST['thumbsup_id'])) {
 			$this->error .= "thumbsup_id isn't in the correct format or I couldn't load the item: " . $_POST['thumbsup_id'];
@@ -202,9 +206,11 @@ class ThumbsUp {
 			//$this->error .= "I got the calling";
 
 		// A new vote is cast
-		$this->new_vote['post_id'] = $this->item['ID'];
+		$this->new_vote['item_id'] = $this->item['item_id'];
 		
-		$closed = get_post_meta($this->new_vote['post_id'], 'vote_closed');
+		$closed = ('comment' == $this->itemtype ) ? 
+			get_post_meta($this->item['comment_post_ID'], 'vote_closed') :
+			get_post_meta($this->item['item_id'], 'vote_closed');
 		// Check if one is still allowed to vote on this item
 		if ('0' == $closed) {
 			$this->new_vote['error'] = 'Voting is closed for this item.';
@@ -212,7 +218,8 @@ class ThumbsUp {
 		}
 
 		// Already voted for this item? Check cookie first.
-		if (isset($this->cookie[$this->item['ID']])) {
+		// item_id is post_id or comment_id put in type as well?
+		if (isset($this->cookie[$this->item['item_id']])) {
 			$this->new_vote['error'] = 'You have already voted for this item.';
 			return FALSE;
 		}
@@ -239,26 +246,31 @@ class ThumbsUp {
 		);
 
 		// Finally, it is time to cast the vote
-		
+		//error_log('errg: ' . print_r($this, 1) );
 		global $wpdb, $current_user, $blog_id;
 		$wpdb->insert($this->tblname, array( 
-			'post_id' => $this->new_vote['post_id'],
+			'item_id' => $this->new_vote['item_id'],
 			'rating'  => $this->new_vote['rating'],
 			'user_id' => $current_user->ID,
+			'item_type' => $this->itemtype,
 			'blog_id' => $blog_id
-			), array( '%d', '%d', '%d', '%d' )
+			), array( '%d', '%d', '%d', '%s','%d' )
 		);
-		
-		do_action('fu_caught_vote', 
-			array( 	
-				'pid' 		=> $this->new_vote['post_id'],
-				'rating'	=> $this->new_vote['rating'],
-				'object_id'	=> $wpdb->insert_id,
-				'user_id'	=> $current_user->ID
-			) );
+		$key = ($this->itemtype == 'comment') ? 'cid' : 'pid';
+		$args = array(
+			$key		=> $this->new_vote['item_id'],
+			'rating'	=> $this->new_vote['rating'],
+			'object_id'	=> $wpdb->insert_id,
+			'user_id'	=> $current_user->ID
+		);
+		if ($this->itemtype == 'comment') {
+			do_action('fu_caught_comment_vote', $args );
+		} else {
+			do_action('fu_caught_vote', $args );
+		}
 		
 		// Add the current item id to the cookie list
-		$this->update_cookie($this->item['ID']);
+		$this->update_cookie($this->item['item_id']);
 
 		// Vote successfully registered
 		return TRUE;
@@ -277,7 +289,10 @@ class ThumbsUp {
 		// Load results and vote feedback
 		$this->load_results();
 		$this->load_vote();
-		foreach(array('post_excerpt', 'post_content', 'post_author', 'guid', 'post_type', 'post_date_gmt') as $p ) {
+		foreach(array(
+			'post_excerpt', 'post_content', 'post_author', 'guid', 'post_type', 'post_date_gmt',
+			'comment_author', 'comment_author_email', 'comment_author_url', 'comment_author_IP',
+			'comment_date', 'comment_date_gmt', 'comment_content') as $p ) {
 			unset($this->item[$p]);
 		}
 		// Send the item back in JSON format
@@ -292,28 +307,37 @@ class ThumbsUp {
 	 * @return  boolean  TRUE on success, FALSE on failure
 	 */
 	protected function load_item($name) {
+		global $wpdb;
+
 		// An item name has been provided
-		if (is_string($name)) {
+//		if (is_string($name)) {
 			// No need to reload the same item
-			if (isset($this->item['post_title']) AND $this->item['post_title'] === $name)
-				return TRUE;
+//			if (isset($this->item['post_title']) AND $this->item['post_title'] === $name)
+//				return TRUE;
 			// TODO hmmm... do we need to get by name?
 			// I suppose I could query directly........
 			// Query condition
-			$where = "post_title = %s";
-			$clean = $name;
-		} else {
+//			$where = "post_title = %s";
+//			$clean = $name;
+//		} else {
 			// An item id has been provided
 			// Quick id cleanup
 			$id = (int) $name;
-
 			// No need to reload the same item
-			if (isset($this->item['ID']) AND (int) $this->item['ID'] === $id)
+			if (isset($this->item['item_id']) AND (int) $this->item['item_id'] === $id)
 				return TRUE;
-			//if(!function_exists('get_post')
+			if ( 'comment' == $this->itemtype) {
+				//error_log('load_item: '.$id.' comment');
+				$sql = "SELECT comment_ID AS item_id, user_id, comment_post_ID AS post_id
+					FROM $wpdb->comments WHERE comment_ID=%d";
+			} else {
+				//error_log('load_item: '.$id.' post');
+				$sql = "SELECT ID AS item_id, post_author AS user_id 
+					FROM $wpdb->posts WHERE ID=%d";
+			}
 				
-			$item = get_post($id, ARRAY_A);
-		}
+			$item = $wpdb->get_row( $wpdb->prepare($sql, $id), ARRAY_A );
+//		}
 
 
 		// The item does not exist
@@ -370,13 +394,13 @@ class ThumbsUp {
 	 */
 	protected function load_vote() {
 		// No item loaded yet
-		if (empty($this->item['ID']))
+		if (empty($this->item['item_id']))
 			return FALSE;
 		
 		global $current_user;
 
 		// A new vote was cast for the current item
-		if (isset($this->new_vote['post_id']) AND $this->new_vote['post_id'] == $this->item['ID']) {
+		if (isset($this->new_vote['item_id']) AND $this->new_vote['item_id'] == $this->item['item_id']) {
 			// Transfer new vote data to the item property
 			$this->item['vote'] = $this->new_vote;
 
@@ -384,7 +408,7 @@ class ThumbsUp {
 			$this->item['vote']['new'] = empty($this->new_vote['error']);
 
 			// The item id is stored in item[id] already
-			unset($this->item['vote']['post_id']);
+			unset($this->item['vote']['item_id']);
 			
 			
 			
@@ -413,7 +437,7 @@ class ThumbsUp {
 			$select = $wpdb->prepare(
 				"SELECT rating, user_id, date
 				FROM $this->tblname
-				WHERE post_id=%d AND user_id=%d AND blog_id=%d", $this->item['ID'], $current_user->ID, $blog_id);
+				WHERE item_id=%d AND user_id=%d AND blog_id=%d", $this->item['item_id'], $current_user->ID, $blog_id);
 			
 			$vote = $wpdb->get_row($select);
 		}
@@ -431,7 +455,7 @@ class ThumbsUp {
 		// If no previous vote was found via IP or user, we can still look at the cookie just to
 		// determine whether the user already voted on this item. We won't we able to look up
 		// the rating, though, so we set item[vote] to a boolean.
-		return $this->item['vote'] = isset($this->cookie[$this->item['ID']]);
+		return $this->item['vote'] = isset($this->cookie[$this->item['item_id']]);
 		
 	}
 
@@ -442,11 +466,11 @@ class ThumbsUp {
 	 */
 	protected function load_results() {
 		// No item loaded yet
-		if (empty($this->item['ID']))
+		if (empty($this->item['item_id']))
 			return FALSE;
 		
 		// Quick clean up.
-		$id = (int) $this->item['ID'];
+		$id = (int) $this->item['item_id'];
 
 		// Join-query to retrieve vote results
 
@@ -454,12 +478,18 @@ class ThumbsUp {
 		$select = $wpdb-> prepare("
 			SELECT 
 				COUNT(*) 		AS total_votes,
-				SUM(v.rating)	AS positive_votes,
-				MAX(v.date)		AS last_vote_date
-			FROM " . $wpdb->prefix . "posts i 
-			JOIN $this->tblname v ON i.ID = v.post_id
-			WHERE i.ID = %d AND v.blog_id=%d
-			GROUP BY i.ID", $id, $blog_id);
+				SUM(rating)		AS positive_votes,
+				MAX(date)		AS last_vote_date 
+			FROM $this->tblname 
+			WHERE item_id = %d AND blog_id=%d
+			GROUP BY item_id", $id, $blog_id);
+
+
+
+        $uuuuh = "			FROM " . $wpdb->prefix . "posts i 
+			JOIN $this->tblname v ON i.ID = v.item_id
+			WHERE i.ID = %d AND v.blog_id=%d AND
+			GROUP BY i.ID";//, $id, $blog_id);
 		
 		$results = $wpdb->get_row($select, ARRAY_A);
 
