@@ -154,7 +154,7 @@ $(document).ready(function() {
 			if (!$current_user->user_login) { ?>
 				<a href="/register/" id="register">Register</a> 
 			<?php } else { ?>
-				<a href="/profile/"><?php echo $current_user->display_name; ?></a>
+				<a href="/profile/">My Account</a>
 			<?php } ?> | <?php if ($current_user->user_login) {
 						echo '<a href="' . wp_logout_url( $_SERVER['REQUEST_URI'] ) . '" title="Logout">Logout</a>';
 					   } else {

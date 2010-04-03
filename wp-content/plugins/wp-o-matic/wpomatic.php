@@ -24,5 +24,6 @@ register_activation_hook(__FILE__, array(&$wpomatic, 'activate') );
 //add_action('deactivate_wp-o-matic/wpomatic.php', array(&$wpomatic, 'deactivate'));	# Plugin deactivated
 register_deactivation_hook(__FILE__, array(&$wpomatic, 'deactivate') );
 
+# The filters
 add_filter( 'the_author', array(&$wpomatic, 'the_author') );
 add_action( 'the_post', array(&$wpomatic, 'the_post') );

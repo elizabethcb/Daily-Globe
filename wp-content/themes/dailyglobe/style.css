@@ -74,6 +74,8 @@ img.right {
 	float: right;
 	margin-top: 20px;
 	border-top:5px solid #333;
+	width: 0px;
+	
 }
 	/* container */
 #container {
@@ -152,7 +154,7 @@ img.right {
 }
 #login-register > span {
 	height: 18px;
-	width: 112px;
+	width: 115px;
 	display: block;
 	text-align: center !important;
 	margin: 3px auto;
