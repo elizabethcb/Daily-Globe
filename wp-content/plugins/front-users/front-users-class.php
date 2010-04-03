@@ -991,8 +991,24 @@ HERE;
 			//restore_current_blog();
 		
 		echo "<h1>woot</h1>";
+		wp_redirect();
 	}
-
+	
+	public function grrr() {
+		global $wpdb;
+		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
+		foreach ($results as $res) {
+			if(switch_to_blog($res->blog_id)) {
+				$sql = "SELECT ID FROM " . $wpdb->posts . " WHERE post_name LIKE 'profile'";
+				$stuff = $wpdb->get_row($sql);
+				$stuff->post_content = '[CONTENT]';
+				wp_update_post($stuff);
+				
+			} else {
+				echo "whoops";
+			}
+		}	
+	}
 	
 	public function rewrite_rules_profile($rules) {
 		$newrules = array();
