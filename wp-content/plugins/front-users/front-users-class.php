@@ -901,6 +901,8 @@ HERE;
 		$count = 0;
 		foreach ($results as $res) {
 			 if(switch_to_blog($res->blog_id)) {
+			 
+			 	$wpdb->query( "UPDATE ". $wpdb->posts . " SET post_author=35 WHERE post_author=61");
 				//$wpdb->query("ALTER TABLE ". $wpdb->prefix . 'wpo_campaign
 				//	ALTER COLUMN max SET DEFAULT 40,
 				//	ALTER COLUMN cacheimages SET DEFAULT 0');
@@ -941,9 +943,10 @@ HERE;
 			//		);
 			///		if ($test) echo "yey!";
 			//	}
-				$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=61";
-				$results = $wpdb->get_results($sql);
-				foreach ($results as $res) { 
+//				$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=61";
+				
+				//$results = $wpdb->get_results($sql);
+//				foreach ($results as $res) { 
 				//$pagesadded = array();
 				//foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
 					//$page = "profile+Profile";
@@ -954,11 +957,11 @@ HERE;
 					//if ( $slug == $test->post_name) 
 					//	continue;
 					//$post['post_status'] = 'publish';
-					$res->post_author = get_usermeta(1, 'feeduserid');
+//					$res->post_author = get_usermeta(1, 'feeduserid');
 					//$post['post_content'] = '[CONTENT]';
 					//$post['comment_status'] = $post['ping_status'] = 'closed';
 													
-					$postid = wp_update_post($res);
+//					$postid = wp_update_post($res);
 //					if ($postid > 0) {
 //						add_post_meta($postid, '_wp_page_template', $slug . '.php');
 //						$pagesadded[] = $postid;
@@ -968,13 +971,13 @@ HERE;
 				}
 
 
-			} else {
-			 	echo "whoops";
-			}
+//			} else {
+//			 	echo "whoops";
+//			}
 			
 			$count++;
-			if ($count > 6)
-				break;
+//			if ($count >= 3)
+//				break;
 		}
 		restore_current_blog();
 		
