@@ -10,7 +10,7 @@ Tags: two-column, widget-ready
 */
 @import url("css/reset.css");
 @import url("css/typography.css");
-@import url("slideshow.css");
+@import url("css/slideshow.css");
 /*@import url("css/events.css");
 @import url("css/tweets.css");*/
 
@@ -580,8 +580,9 @@ div#alphabet {
 	margin: 0 auto;
 	display: block;
 	height: 20px;
-	width: 650px;
+	width: 685px;
 }
+
 a.alphabet {
 	padding: 5px;
 	display: block;
@@ -589,6 +590,12 @@ a.alphabet {
 	float: left;
 	text-align: center;
 }
+
+a.alph-all {
+	width: 20px;
+	margin-right: 5px;
+}
+
 a.alphabet:hover, a.alphabet-selected {
 	-moz-border-radius: 50px;
 	-khtml-border-radius: 50px;

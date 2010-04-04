@@ -16,7 +16,7 @@ $(document).ready(function() {
 		<?#php echo get_option('topic'); ?>
 		<?php $topics = (isset($_REQUEST['letter']) && $_REQUEST['letter'] != '') ?
 				get_site_list($type, $_REQUEST['letter']) : get_site_list($type); ?>
-					
+					<!--<pre><?php print_r($topics); ?></pre>-->
 			<?php foreach($topics as $topic) { ?>
 					<a class="topic-link" href="<?php echo $topic['siteurl'] ?>">
 					<?php echo $topic['name'] ?>

@@ -101,7 +101,7 @@ $(document).ready(function() {
 </script>
 
 <!--[if IE 7]>
-<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/style_IE7.css">
+<link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/css/style_IE7.css">
 <![endif]-->
 
 <?php wp_head(); ?>
@@ -265,6 +265,7 @@ $(document).ready(function() {
 		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search")){ echo 'style="height: 100px;"'; } ?>>
 			<?php if (is_page("Topics") || is_page("international") || is_page('Cities') ) { ?>
 				<div id="alphabet">
+					<a href="/cities/" class="alphabet alph-all">All</a>
 					<?php
 					$alphabet = explode(' ', "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
 						foreach ( $alphabet as $letter ) { ?>
