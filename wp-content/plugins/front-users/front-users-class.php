@@ -1010,11 +1010,11 @@ HERE;
 		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
 		foreach ($results as $res) {
 			if(switch_to_blog($res->blog_id)) {
-				$sql = "SELECT ID FROM " . $wpdb->posts . " WHERE post_name LIKE 'profile'";
+				$sql = "SELECT ID FROM " . $wpdb->posts . " WHERE post_name LIKE 'feed-information'";
 				$stuff = $wpdb->get_row($sql);
 				$stuff->post_content = '[CONTENT]';
-				update_post_meta($stuff->ID, '_wp_page_template', 'topics.php');
-				//wp_update_post($stuff);
+				//update_post_meta($stuff->ID, '_wp_page_template', 'topics.php');
+				wp_update_post($stuff);
 				
 			} else {
 				echo "whoops";
