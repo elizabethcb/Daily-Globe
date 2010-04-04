@@ -247,7 +247,8 @@ function get_topic_list($letter=false) {
 function get_site_list($type = 'city', $letter=false) {
 		global $wpdb;
 	$names = array();
-	$query = "SELECT blog_name, domain, blog_type FROM wp_blogs WHERE blog_type='$type' ORDER BY blog_name";
+	$query = "SELECT blog_name, domain, blog_type FROM wp_blogs 
+	WHERE blog_type='$type'";
 	$results = array();
 	// may seem wierd to check letter twice, but I love the ternery operator.
 	// It's fun.
@@ -255,10 +256,11 @@ function get_site_list($type = 'city', $letter=false) {
 		$query .=" AND blog_name LIKE %s";
 		$letter .= '%';
 	}
+	$query .=" ORDER BY blog_name";
 	$results = ($letter) ? 
 		$wpdb->get_results($wpdb->prepare($query, $letter)) : 
 		$wpdb->get_results($query);
-
+	//echo '<pre>';print_r($wpdb->last_query);echo '</pre>';
 	foreach( $results as $result) {
 		$domain = 'http://' . $result->domain .'/';
 		array_push($names, array('name' => $result->blog_name, 'siteurl' => $domain));
