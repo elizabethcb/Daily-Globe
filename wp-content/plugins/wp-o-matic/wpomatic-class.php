@@ -414,8 +414,11 @@ class WPOMatic {
     // Processes post stack
     foreach($items as $item) {
        $test = $this->processItem($campaign, $feed, $item);
-      if ($test == true) 
+      if ($test == true) {
       	$lasthash = $this->getItemHash($item);
+      } else {
+      	break;
+      }
     }
     
     // If we have added items, let's update the hash
@@ -453,6 +456,7 @@ class WPOMatic {
 // echo $words;
   } 
   
+  // TODO Make this an actual call to the feedmeta table.
   function get_feedmeta($fid, $key = 'reputation') {
   	$keys = array(
   		'reputation' => 10,
@@ -487,7 +491,16 @@ class WPOMatic {
       $date = $item->get_date('U');
     else
       $date = null;
-      
+   	$hash = $this->getItemHash($item);
+   	
+   	$test = $wpdb->get_var("SELECT post_id FROM ".$this->db['campaign_post']. "
+   		WHERE hash ='" . $hash . "'");
+   	
+   	// This post is already in here.
+   	if ($test)
+   		return false;
+   	
+    
     // Categories
     $categories = $this->getCampaignData($campaign->id, 'categories');
     $author_id = $this->processAuthor($item);  
@@ -497,29 +510,33 @@ class WPOMatic {
       'wpo_feedid' => $feed->id,
       'wpo_sourcepermalink' => $item->get_permalink(),
       'wpo_author' => $author_id
-    );  
-    
-    
-    
-    // Save post to wpo table
-    // if it fails abort.  This will help with preventing duplicate entries.
-    $test = $wpdb->query(WPOTools::insertQuery($this->db['campaign_post'], array(
-      'campaign_id' => $campaign->id,
-      'feed_id' => $feed->id,
-      'post_id' => $postid,
-      'hash' => $this->getItemHash($item)
-    )));
-    
-    if ($test == false) 
-     return false;
-    
+    );      
         // Create post
-    $postid = $this->insertPost(
+    $post_id = $this->insertPost(
     	$wpdb->escape($item->get_title()), 
     	$wpdb->escape($content), 
     	$date, $categories, $campaign->posttype, 
     	$this->feeduser, $campaign->allowpings, 
     	$campaign->comment_status, $meta);
+
+    // Save post to wpo table
+    // if it fails delete post.  This will help with preventing duplicate entries.
+
+    $test = $wpdb->query(WPOTools::insertQuery($this->db['campaign_post'], array(
+      'campaign_id' => $campaign->id,
+      'feed_id' => $feed->id,
+      'post_id' => $post_id,
+      'hash' => $hash
+    )));
+    
+    if (null == $wpdb->insert_id || !$wpdb->insert_id || 0 == $wpdb->insert_id || !$test) {
+    	// for testing only
+    	//error_log(
+    	wp_delete_post($post_id, true);
+     	return false;
+     
+    }
+    
     
     // If pingback/trackbacks
     if ($campaign->dopingbacks) {
@@ -542,7 +559,8 @@ class WPOMatic {
 	function processAuthor($item) {
 		global $wpdb;
 		$aid = 0;
-		if ( $author = $item->get_author() ) {
+		$author = $item->get_author();
+		if ( '' != $author ) {
 			$res = $wpdb->get_row(
 				$wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "wpo_authors WHERE name LIKE '%%%s%%" ),
 				$author->get_name());
@@ -551,7 +569,7 @@ class WPOMatic {
 			} else {
 				$name = $author->get_name();
 				if ($name == 'admin')
-					return 0;
+					return $aid;
 				$test = $wpdb->insert( $wpdb->prefix . "wpo_authors", 
 					array(
 						'name' 	=> $author->get_name(),
@@ -562,10 +580,9 @@ class WPOMatic {
 				);
 				$aid = $wpdb->insert_id;
 			}
-		
-		
 		}
-	
+		
+		// If there is no name, we can't really save it, so don't.
 		return $aid;	
 	} 
   /**
