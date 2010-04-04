@@ -898,6 +898,7 @@ HERE;
 		echo "<h2>Hi</h2>";
 		$sqlfirst = "SELECT option_value AS cron_code FROM ";
 		$sqllast = " WHERE option_name='wpo_croncode'";
+		$count = 0;
 		foreach ($results as $res) {
 			 if(switch_to_blog($res->blog_id)) {
 				//$wpdb->query("ALTER TABLE ". $wpdb->prefix . 'wpo_campaign
@@ -940,9 +941,9 @@ HERE;
 			//		);
 			///		if ($test) echo "yey!";
 			//	}
-				$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=%d";
-				$results = $wpdb->get_results($sql, 61);
-				foreach ($result as $res) { 
+				$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=61";
+				$results = $wpdb->get_results($sql);
+				foreach ($results as $res) { 
 				//$pagesadded = array();
 				//foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
 					//$page = "profile+Profile";
@@ -953,11 +954,11 @@ HERE;
 					//if ( $slug == $test->post_name) 
 					//	continue;
 					//$post['post_status'] = 'publish';
-					$post['post_author'] = get_usermeta(1, 'feeduserid');
+					$res->post_author = get_usermeta(1, 'feeduserid');
 					//$post['post_content'] = '[CONTENT]';
 					//$post['comment_status'] = $post['ping_status'] = 'closed';
 													
-					$postid = wp_update_post($res->ID, $post);
+					$postid = wp_update_post($res);
 //					if ($postid > 0) {
 //						add_post_meta($postid, '_wp_page_template', $slug . '.php');
 //						$pagesadded[] = $postid;
@@ -965,23 +966,15 @@ HERE;
 //						echo 'Oops';
 //					}
 				}
-				$othertble = "CREATE TABLE " . $this->tables['feeds']['badges'] . " (
-					badge_id mediumint(9) NOT NULL,
-					feed_id mediumint(9) NOT NULL,
-					date timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-					count smallint(4),
-					PRIMARY KEY (badge_id, feed_id) )";				
-	
-				if ( $wpdb->get_var("SHOW TABLES LIKE '" . $this->tables['feeds']['badges'] . "'") 
-					!= $this->tables['feeds']['badges'] ) {
-						dbDelta($othertble);
-				}
+
 
 			} else {
 			 	echo "whoops";
 			}
 			
-	
+			$count++;
+			if ($count > 6)
+				break;
 		}
 		restore_current_blog();
 		
