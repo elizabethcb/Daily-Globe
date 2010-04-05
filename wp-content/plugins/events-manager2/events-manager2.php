@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 /*************************************************/ 
 
+// I am testing the branching thing
 // Setting constants
 // In Events Class
 define('EVENTS_TBNAME','dbem2_events'); //TABLE NAME
