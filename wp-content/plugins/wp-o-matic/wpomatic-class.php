@@ -2095,19 +2095,19 @@ function wpo_get_post_image($id = false){
    *
    */ 
   function activate($force_install = false) {
-    global $wpdb;
+    global $wpdb, $blog_id;
     //error_log("OMFG!");
     if(file_exists(ABSPATH . '/wp-admin/upgrade-functions.php'))
       require_once(ABSPATH . '/wp-admin/upgrade-functions.php');
     else
       require_once(ABSPATH . '/wp-admin/includes/upgrade.php');
-                                                  
+     $croncode =  array(substr(md5(time()), 0, 8), 'Cron job password.');                                     
     # Options   
     WPOTools::addMissingOptions(array(
      'wpo_log'          => array(1, 'Log WP-o-Matic actions'),
      'wpo_log_stdout'   => array(0, 'Output logs to browser while a campaign is being processed'),
      'wpo_unixcron'     => array(WPOTools::isUnix(), 'Use unix-style cron'),
-     'wpo_croncode'     => array(substr(md5(time()), 0, 8), 'Cron job password.'),
+     'wpo_croncode'     => $croncode,
      'wpo_cacheimages'  => array(0, 'Cache all images. Overrides campaign options'),
      'wpo_cachepath'    => array('cache', 'Cache path relative to wpomatic directory')
     ));
@@ -2129,7 +2129,7 @@ function wpo_get_post_image($id = false){
 							    comment_status enum('open','closed','registered_only') NOT NULL default 'open',
 							    allowpings tinyint(1) default '1',
 							    dopingbacks tinyint(1) default '1',
-							    max smallint(3) default '10',
+							    max smallint(3) default '20',
 							    linktosource tinyint(1) default '0',
 							    count int(11) default '0',
 							    lastactive datetime NOT NULL default '0000-00-00 00:00:00',	
@@ -2210,7 +2210,6 @@ function wpo_get_post_image($id = false){
    	  
    	  $this->installed = true;
     }
-	global $wpdb;
 
     if (!get_option('wpo-fu-campaign-id')) {
     	$wpdb->insert($this->db['campaign'], $main, array( '%s', '%s', '%d', '%s', '%s', '%s'));    
@@ -2220,6 +2219,8 @@ function wpo_get_post_image($id = false){
 	$id = ('campdx.com' == $current_site->domain) ? 61 : 35;
 	 
 	 update_usermeta(1, 'feeduserid', $id);
+	 $wpdb->insert('wp_croncodes', array( 'blog_id' => $blog_id, 'cron_code' => $croncode),
+	 	array( '%d', '%s' ) );
                                                                                      
   }
   /**
