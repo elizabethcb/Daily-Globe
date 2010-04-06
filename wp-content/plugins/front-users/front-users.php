@@ -66,7 +66,7 @@ if ( 'fu-fu' == $myact) {
 	$fu->sharing(fu_post('who'), fu_post('type'), fu_post('what'));
 }
 
-add_filter('init', array(&$fu, 'flush_rules'));
+//add_filter('init', array(&$fu, 'flush_rules'));
 function fu_add_new_user($fu = false) {
 	//echo "wtf?";
 	require_once('../../../wp-includes/registration.php');
