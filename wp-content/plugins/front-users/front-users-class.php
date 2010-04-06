@@ -320,6 +320,7 @@ HERE;
 		$vars['feed'] = $wpdb->get_row( $wpdb->prepare(
 			"SELECT * FROM ".$this->tables['feeds']['data'] . " WHERE id=%d", $feedid));
 		
+		// Highest rated posts... which they aren't.
 		$vars['posts'] = $this->get_posts_for_feed($feedid);
 		
 		// Activity
@@ -331,7 +332,9 @@ HERE;
 				un.user_id, 
 				un.value, 
 				un.post_id, 
-				un.`date`  
+				un.`date`,
+				p.post_title,
+				p.guid
 			FROM $wpdb->postmeta pm
 			JOIN (
 				SELECT 
@@ -362,12 +365,13 @@ HERE;
 				)
 			) AS un 
 			ON un.post_id = pm.post_id
-			WHERE pm.meta_key='wpo_feedid' AND pm.meta_value=8
+			JOIN $wpdb->posts p ON p.ID = un.post_id
+			WHERE pm.meta_key='wpo_feedid' AND pm.meta_value=%d
 			ORDER BY `date` DESC
 			LIMIT 20
 		";
 		
-		$vars['activity'] = $wpdb->get_results( $wpdb->prepare($sqlact, $blog_id) );
+		$vars['activity'] = $wpdb->get_results( $wpdb->prepare($sqlact, $blog_id, $feedid) );
 		$filename = FU_PLUGIN_DIR_PATH . $file;
 		if ( is_file($filename) ) {
 			ob_start();
@@ -389,13 +393,13 @@ HERE;
 				p.post_date AS date,
 				p.comment_count AS comments,
 				COUNT(v.id) AS total_votes,
-				SUM(v.rating) AS positive_votes
+				SUM(v.rating) AS positive_votes,
 			FROM $wpdb->posts p
 			LEFT JOIN $this->tutable v  ON p.id = v.item_id
 			JOIN " . $wpdb->postmeta . " AS pm ON p.id = pm.post_id
 			WHERE pm.meta_key='wpo_feedid' AND pm.meta_value=%d
 			GROUP BY p.id
-			LIMIT 10
+			LIMIT 20
 			", $fid)
 		);
 		return $posts;
@@ -436,6 +440,15 @@ HERE;
 		
 		return $results;
 	}
+	
+	// TODO the fu_submit article is getting saved to options repeatedly.
+	// The best is to put the articles in an approve table
+	// with the nonces, and other appropriate fields.
+	// Once approved, insert into posts.
+	// Two things with the author.  We can do the same with the feed user id, and 
+	// have the users with only subscribe status have their posts with that author
+	// and have an author filter.  And users with contributor status ++ can just
+	// have their articles inserted without the fake user.
 	
 	public function process_article_submit($fu = '') {
 		if ('' == $fu)
@@ -1007,14 +1020,12 @@ HERE;
 	
 	public function grrr() {
 		global $wpdb;
-		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
+		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs WHERE blog_id IN(3,5,7)");
+		echo "<h1>Hi</h1>";
 		foreach ($results as $res) {
 			if(switch_to_blog($res->blog_id)) {
-				$sql = "SELECT ID FROM " . $wpdb->posts . " WHERE post_name LIKE 'feed-information'";
-				$stuff = $wpdb->get_row($sql);
-				$stuff->post_content = '[CONTENT]';
-				//update_post_meta($stuff->ID, '_wp_page_template', 'topics.php');
-				wp_update_post($stuff);
+				
+				
 				
 			} else {
 				echo "whoops";
@@ -1117,7 +1128,7 @@ HERE;
 			$count++;
 		}
 		// Only first activation.
-		//add_filter('init', array(&$this, 'flush_rules'));
+		
 	}
 		
 

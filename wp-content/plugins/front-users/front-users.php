@@ -66,7 +66,16 @@ if ( 'fu-fu' == $myact) {
 	$fu->sharing(fu_post('who'), fu_post('type'), fu_post('what'));
 }
 
+<<<<<<< HEAD:wp-content/plugins/front-users/front-users.php
 //add_filter('init', array(&$fu, 'flush_rules'));
+=======
+// Flush rules needs to be flushed per subdomain
+if (!get_option('fu_flushed_rules')) {
+	add_filter('init', array(&$fu, 'flush_rules'));
+	update_option('fu_flushed_rules', 1);
+}
+
+>>>>>>> f2f4cfec6e6e73eaddc9f9378649c7cc6961b0c2:wp-content/plugins/front-users/front-users.php
 function fu_add_new_user($fu = false) {
 	//echo "wtf?";
 	require_once('../../../wp-includes/registration.php');
