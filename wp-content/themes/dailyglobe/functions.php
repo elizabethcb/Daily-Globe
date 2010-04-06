@@ -9,13 +9,26 @@ if ( function_exists('register_sidebars') ) {
    	}
 
 // limit characters by whole words only
-function string_limit_words($string, $word_limit){
-    $words = explode(' ', $string, $word_limit + 1);
-    array_pop($words);
-    return implode(' ', $words);
+//function string_limit_words($string, $word_limit){
+//	$words = explode(' ', $string, $word_limit + 1);
+//	array_pop($words);
+//	return implode(' ', $words);
+//}
 
-// echo $words;
+function string_limit_words($string, $limit, $break=" ", $pad="...")
+{
+  // return with no change if string is shorter than $limit
+  if(strlen($string) <= $limit) return $string;
+
+  // is $break present between $limit and the end of the string?
+  if(false !== ($breakpoint = strpos($string, $break, $limit))) {
+    if($breakpoint < strlen($string) - 1) {
+      $string = substr($string, 0, $breakpoint) . $pad;
+    }
   }
+    
+  return $string;
+}
 
 // TODO : Really don't need these anymore
 // Functions for event page with Event Manager plugin
@@ -594,15 +607,14 @@ array( "name" => $themename." Options",
 array( "name" => "General",
 	"type" => "section"),
 array( "type" => "open"),
- 
 
-	
-array( "name" => "Logo URL",
-	"desc" => "Enter the link to your logo image",
-	"id" => $shortname."_logo",
-	"type" => "text",
-	"std" => ""),
-	
+array("name" => "Should we have the top ad on the Article Page?",
+     "id" => $shortname."_ad_placement",
+     "type" => "select",
+     "desc" => "Please Select 'yes' or 'no'.",
+     "options" => array("no" => "no", "yes" => "yes"),
+     "std" => "no",
+    ),	
 	
 array("name" => "Ad Placement on Article Pages",
      "id" => $shortname."_ad_placement",
@@ -613,56 +625,56 @@ array("name" => "Ad Placement on Article Pages",
     ),	
 
 array( "name" => "subnav category1",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sub_cat1",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 	
 array( "name" => "subnav category2",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sub_cat2",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 	
 array( "name" => "subnav category3",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sub_cat3",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "subnav category4",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sub_cat4",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "subnav category5",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sub_cat5",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "subnav category6",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sub_cat6",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "subnav category7",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sub_cat7",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "subnav category8",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sub_cat8",
 	"type" => "select",
 	"options" => $wp_cats,
@@ -673,150 +685,113 @@ array( "name" => "Homepage",
 	"type" => "section"),
 array( "type" => "open"),
 
-array( "name" => "Homepage header image",
-	"desc" => "Enter the link to an image used for the homepage header.",
-	"id" => $shortname."_header_img",
-	"type" => "text",
-	"std" => ""),
-	
-
-
 array( "name" => "Homepage section category1",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat1",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 	
 array( "name" => "Homepage section category2",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat2",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category3",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat3",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 	
 array( "name" => "Homepage section category4",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat4",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category5",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat5",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category6",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat6",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category7",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat7",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category8",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat8",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category9",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat9",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category10",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat10",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category11",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat11",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category12",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat12",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category13",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat13",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
 array( "name" => "Homepage section category14",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat14",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 	
 array( "name" => "Homepage section category15",
-	"desc" => "Choose a category from which featured posts are drawn",
+	"desc" => "Choose a Category",
 	"id" => $shortname."_sect_cat15",
 	"type" => "select",
 	"options" => $wp_cats,
 	"std" => "Choose a category"),
 
-array( "type" => "close"),
-array( "name" => "Footer",
-	"type" => "section"),
-array( "type" => "open"),
-	
-array( "name" => "Footer copyright text",
-	"desc" => "Enter text used in the right side of the footer. It can be HTML",
-	"id" => $shortname."_footer_text",
-	"type" => "text",
-	"std" => ""),
-	
-array( "name" => "Google Analytics Code",
-	"desc" => "You can paste your Google Analytics or other tracking code in this box. This will be automatically added to the footer.",
-	"id" => $shortname."_ga_code",
-	"type" => "textarea",
-	"std" => ""),	
-	
-array( "name" => "Custom Favicon",
-	"desc" => "A favicon is a 16x16 pixel icon that represents your site; paste the URL to a .ico image that you want to use as the image",
-	"id" => $shortname."_favicon",
-	"type" => "text",
-	"std" => get_bloginfo('url') ."/favicon.ico"),	
-	
-array( "name" => "Feedburner URL",
-	"desc" => "Feedburner is a Google service that takes care of your RSS feed. Paste your Feedburner URL here to let readers see it in your website",
-	"id" => $shortname."_feedburner",
-	"type" => "text",
-	"std" => get_bloginfo('rss2_url')),
-
- 
 array( "type" => "close")
+
  
 );
 

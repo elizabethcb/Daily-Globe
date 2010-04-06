@@ -65,6 +65,7 @@
 	
 	<div id="profile_all">
 		<div class="activity_full">
+			if value=null it's a comment, if value = a number it's a vote, if value = facebook, twitter it's sharing
 			Activity (print_r): <pre><?php print_r($activity); ?></pre>
 			<table>
 				<tr>

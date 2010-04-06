@@ -79,9 +79,8 @@ Template Name: Home
 								echo '<img src="' . $post_image . '" />';
 								echo $post_content;
 							} else {
-								//for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 300; $i++) {}
-								$i =20;
-								echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) . "..."; 
+								$i = 300;
+								echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i); 
 							}?>
 						</p>
 						<div class="home_post_meta">
@@ -117,14 +116,12 @@ Template Name: Home
 							<?php 
 							$post_content = strip_tags($pop->post->post_content);
 							$post_image = catch_that_image($pop->post->post_content);
-							if (strlen($post_content) <= 300) {
+							if (strlen($post_content) <= 200) {
 								echo '<img src="' . $post_image . '" />';
 								echo $post_content;
 							} else {
-									//for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 300; $i++) {}
-									//$i --;
-									$i = 20;
-									echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) . "..."; 
+									$i = 200;
+									echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i); 
 							}?>
 						</p>
 						<div class="home_post_meta">
@@ -192,9 +189,9 @@ Template Name: Home
 							echo '<img src="' . $post_image . '" />';
 							echo $post_content;}
 						else {
-							for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-							$i --;
-							echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) . "..."; }?>
+							
+							$i = 340;
+							echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $count = $pop1->post->comment_count; ?> 
@@ -230,9 +227,8 @@ Template Name: Home
 							echo '<img src="' . $post_image . '" />';
 							echo $post_content;}
 						else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 250; $i++) {}
-								$i --;
-								echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) . "..."; }?>
+								$i = 250;
+								echo '<img src="' . $post_image . '" />' . string_limit_words($post_content, $i) ; }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $count = $pop1->post->comment_count; ?> 
@@ -285,9 +281,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
@@ -315,9 +310,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
@@ -345,9 +339,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
@@ -375,9 +368,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
@@ -405,9 +397,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
@@ -437,9 +428,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
@@ -467,9 +457,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
@@ -497,9 +486,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
@@ -527,9 +515,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
@@ -557,9 +544,8 @@ Template Name: Home
 						if (strlen($post_content) <= 350) {
 							echo $post_content;}
 							else {
-								for ($i = 2; strlen(string_limit_words($post_content, $i)) <= 350; $i++) {}
-								$i --;
-								echo string_limit_words($post_content, $i) . "..."; }?>
+								$i = 350;
+								echo string_limit_words($post_content, $i); }?>
 					</p>
 					<div class="home_post_meta">
 						<?php $theTime = strtotime($pop->post->post_date); echo date("M j Y", $theTime); ?>
