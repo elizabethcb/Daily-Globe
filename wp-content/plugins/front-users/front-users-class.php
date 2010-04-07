@@ -385,7 +385,7 @@ HERE;
 	}
 	
 	private function get_posts_for_feed($fid) {
-		global $wpdb;
+		global $wpdb, $blog_id;
 		$posts = $wpdb->get_results($wpdb->prepare( 
 			"SELECT 
 				p.id AS id,
@@ -393,14 +393,14 @@ HERE;
 				p.post_date AS date,
 				p.comment_count AS comments,
 				COUNT(v.id) AS total_votes,
-				SUM(v.rating) AS positive_votes,
+				SUM(v.rating) AS positive_votes
 			FROM $wpdb->posts p
 			LEFT JOIN $this->tutable v  ON p.id = v.item_id
 			JOIN " . $wpdb->postmeta . " AS pm ON p.id = pm.post_id
-			WHERE pm.meta_key='wpo_feedid' AND pm.meta_value=%d
+			WHERE pm.meta_key='wpo_feedid' AND pm.meta_value=%d AND v.blog_id=%d
 			GROUP BY p.id
 			LIMIT 20
-			", $fid)
+			", $fid, $blog_id)
 		);
 		return $posts;
 	}
