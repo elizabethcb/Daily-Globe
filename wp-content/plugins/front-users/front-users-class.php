@@ -1020,12 +1020,36 @@ HERE;
 	
 	public function grrr() {
 		global $wpdb;
-		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs WHERE blog_id IN(3,5,7)");
+		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs WHERE blog_id IN(24,58,20)");
 		echo "<h1>Hi</h1>";
 		foreach ($results as $res) {
 			if(switch_to_blog($res->blog_id)) {
+				$bid = $res->blog_id;
+				$autbl = "wp_$bid"."_wpo_authors";
+				$wpdb->query("CREATE TABLE wpo_authors LIKE $autbl");
+				$wpdb->query("INSERT INTO wpo_authors
+					SELECT NULL, name, email, url FROM $autbl
+					WHERE name NOT LIKE '' GROUP BY name ORDER BY id");
+				$wpdb->query("DELETE FROM wpo_join");
+				$wpdb->query("INSERT INTO wpo_join
+					SELECT b.id,a.id,name
+					FROM wpo_authors a
+					JOIN $autbl b ON a.name = b.name");
+				$results = $wpdb->get_results(
+					"SELECT a.new_id, p.post_id, p.meta_value AS oldid
+					FROM wpo_join a JOIN $autbl p
+					ON p.meta_value = a.old_id WHERE p.meta_key='wpo_author'");
+				foreach ($results as $res) {
+					if ($res->new_id == $res->oldid) 
+						next;
+					update_postmeta($res->post_id, 'wpo_authors', $res->new_id);
+				}
 				
-				
+				$wpdb->query("CREATE TABLE wpo_".$bid."_backup SELECT * FROM $autbl");
+				$wpdb->query("DROP TABLE $autbl");
+				$wpdb->query("CREATE TABLE $autbl SELECT * FROM wpo_authors");
+				$wpdb->query("DROP TABLE wpo_authors");
+				$wpdb->query("DELETE FROM wpo_join");
 				
 			} else {
 				echo "whoops";
