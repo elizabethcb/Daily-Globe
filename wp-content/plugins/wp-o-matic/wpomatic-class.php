@@ -410,32 +410,35 @@ class WPOMatic {
     }
     
 
-    
+    $itemcount = 0;
     // Processes post stack
     foreach($items as $item) {
        $test = $this->processItem($campaign, $feed, $item);
       if ($test == true) {
       	$lasthash = $this->getItemHash($item);
+      	$itemcount++;
       } else {
       	break;
       }
     }
-    
+    $diff = $count - $itemcount;
     // If we have added items, let's update the hash
-    if ($count) {
+    if ($diff > 0)
+    	$this->log( $count . ' items recieved from feed and '. $diff. ' items entered');
+    if ($itemcount) {
       $wpdb->query(WPOTools::updateQuery($this->db['campaign_feed'], array(
-        'count' => $count,
+        'count' => $itemcount,
         'lastactive' => current_time('mysql', true),
         'hash' => $lasthash
       ), "id = {$feed->id}"));    
     
-      $this->log( $count . ' posts added' );
+      $this->log( $itemcount . ' posts added' );
     }
     if(isset($this->campaign_data['feeds']['new']) )
     	$wpdb->insert(	$wpdb->prefix . 'feedmeta', 
     		array('feed_id' => $feed->id), array('%d') );
     
-    return $count;
+    return $itemcount;
   }              
   
   /**
