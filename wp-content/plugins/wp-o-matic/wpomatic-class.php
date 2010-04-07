@@ -146,6 +146,12 @@ class WPOMatic {
     # Is installed ?
     $this->installed = get_option('wpo_version');
     $this->setup = get_option('wpo_setup');
+    // Don't need to do this if it's activated, but the current blogs need it.
+    global $current_site;
+	$id = ('campdx.com' == $current_site->domain) ? 61 : 35;
+	 
+	update_usermeta(1, 'feeduserid', $id);
+	
 	$this->feeduser = get_usermeta(1, 'feeduserid');
 	# Wordpress init      
     add_action('init', 	array(&$this, 'init'));         
@@ -314,8 +320,9 @@ class WPOMatic {
     	  if ( $campaign->linktosource )
     	    return get_post_meta($id, 'wpo_sourcepermalink', true);
     	}  	  
-    	return $url;      
+    	      
     }
+    return $url;
   }
   
   /**
