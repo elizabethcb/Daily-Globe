@@ -444,8 +444,8 @@ class WPOMatic {
    		WHERE hash ='" . $hash . "'");
    	
    	// This post is already in here.
-   	if ($test) {
-   		$this->log('Another item already here test.  Feed ID: ' . $feed->id);
+   	if ($test > 0) {
+   		$this->log('Duplicate. fid:' . $feed->id . " hash: $hash");
    		return 0;
    	}
     
