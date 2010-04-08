@@ -631,7 +631,7 @@ function wpo_get_post_image($id = false){
 	$text = $this->string_limit_words($item->get_content(), 300);
     
     if ( sizeof($images[2]) > 0  ) {
-    	echo "tools";
+    	//echo "tools";
     	$content = '';
     	$count = 0;
     	foreach ($images[2] as $img) {
@@ -670,7 +670,7 @@ function wpo_get_post_image($id = false){
     
     } elseif ($thing->thumbnails > 0 && isset($thing->thumbnails[0]) ) {
     	//print_r($thing);
-    	echo " thing thumb ";
+    	//echo " thing thumb ";
     	$content = '';
  //   	foreach ( $thing as $link ) {
     		
@@ -792,9 +792,12 @@ function wpo_get_post_image($id = false){
    **/
   function fetchFeed($url, $stupidly_fast = false, $max = 0) {
     # SimplePie
-    if(! class_exists('SimplePie'))
-      require_once( WPOINC . 'simplepie/simplepie.class.php' );
-    
+    if(! class_exists('SimplePie')) {
+     	require_once(ABSPATH . '/wp-includes/class-simplepie.php');
+     }
+     if (! class_exists('SimplePie')) {
+     	//require_once( WPOINC . 'simplepie/simplepie.class.php' );  
+    }
     $feed = new SimplePie();
     $feed->enable_order_by_date(false); // thanks Julian Popov
     $feed->set_feed_url($url);
