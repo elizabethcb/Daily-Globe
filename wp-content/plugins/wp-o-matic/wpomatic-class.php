@@ -17,67 +17,7 @@
  - Plugins support
  
  Changelog:                         
- - 0.1beta
-   WP-o-Matic released.
-   
- - 0.2beta:           
-   Fixed use of MagpieRSS legacy functions. 
-   Updated cron code to check every twenty minutes. 
-   Wordpress pseudocron disabled.
-   
- - 1.0RC1:                         
-   Renamed everything to WPOMatic, instead of the previous WPRSS.
-   Renamed "lib" to "inc"       
-   SimplePie updated to 1.0.1 (Razzleberry), relocated and server compatibility tests included.            
-   Static reusable functions moved to WPOTools class.
-   Improved Unix detection for cron.
-   Removed MooTools dependency for optimization reasons. 
-   Redesigned admin panel, now divided into sections. 
-   Logging now database-based.                
-   Posts are now saved in a WP-o-Matic table. They're later parsed and created as posts.
-   Added a dashboard with quick stats and log display. 
-   Added campaign support to centralize options for multiple feeds.
-   Added import/export support through OPML files   
-   Added image caching capabilities.
-   Added word/phrase rewriting and relinking capabilities.   
-   Added nonce support         
-   Added i18n support with translation domain 'wpomatic'             
-   Added help throughout the system.
-                    
- - 1.0RC2
-   Added compatibility with Wordpress 2.3 and 2.4
-   Added setup screen
-   Stopped using simplepie get_id in favor of our own simpler hash generation
-   Fixed setup screen bug
-   
- - 1.0RC3   
-   Now compatible with Wordpress 2.5
-   Categories shown with indentation (parent > children now separated)
-   SimplePie updated to 1.1.1
-   Fixed broken cron command
-   Fixed broken export on some systems
-   Fixed broken redirect when resetting a campaign
-   Everything now stored in GMT to avoid time issues. Gotten rid of NOW() functions in favor of WP time functions
-   Fixed bug with validation upon deletion of feeds in existing campaigns 
-   Fixed bug with allow comments setting.
-   Fixed bug with logs dates
-   Fixed bug with double quote escaping (fixes campaign templates / rewrite html bugs)
-   Username in options tab changed to a more handy select box.
-   Interface now looks better on IE (d'oh)
-   Added many help files
-   Fixed annoying duplicates bug
-   Fixed small bug in import with labels
-   Fixed bug with categories in edit mode
-   Fixed Tools post changes.
-   Fixed issue with empty rewrite replacements
-   Non-regex rewrite replacements now case insensitive.
-   Fixed bugs with 'use feed date' option.
-   Fixed footer copyright
-   Fixed bad dates in 'view all' logs
-   Log message field made text
-   Fields changed to datetime format
-   Clean logs function fixed
-   
+
    r6:
    str_ireplace now works with arrays
    queries adjusted to work on all server configurations
