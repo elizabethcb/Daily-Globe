@@ -146,12 +146,7 @@ class WPOMatic {
     # Is installed ?
     $this->installed = get_option('wpo_version');
     $this->setup = get_option('wpo_setup');
-    // Don't need to do this if it's activated, but the current blogs need it.
-    global $current_site;
-	$id = ('campdx.com' == $current_site->domain) ? 61 : 35;
-	 
-	update_usermeta(1, 'feeduserid', $id);
-	
+    
 	$this->feeduser = get_usermeta(1, 'feeduserid');
 	# Wordpress init      
     add_action('init', 	array(&$this, 'init'));         
@@ -431,7 +426,7 @@ class WPOMatic {
     $diff = $count - $itemcount;
     // If we have added items, let's update the hash
     if ($diff > 0)
-    	$this->log( $count . ' items recieved from feed and '. $diff. ' items entered');
+    	$this->log( $count . ' items recieved from feed and '. $itemcount . ' items entered');
     if ($itemcount) {
       $wpdb->query(WPOTools::updateQuery($this->db['campaign_feed'], array(
         'count' => $itemcount,
@@ -497,7 +492,9 @@ class WPOMatic {
     $content = $this->string_limit_words( $content, $this->get_feedmeta($feed->id, 'string_limit') );
     
     // Item date
-    if($campaign->feeddate && ($item->get_date('U') > (current_time('timestamp', 1) - $campaign->frequency) && $item->get_date('U') < current_time('timestamp', 1)))
+    if($campaign->feeddate && 
+    ($item->get_date('U') > (current_time('timestamp', 1) - $campaign->frequency) && 
+    $item->get_date('U') < current_time('timestamp', 1)))
       $date = $item->get_date('U');
     else
       $date = null;
@@ -507,9 +504,10 @@ class WPOMatic {
    		WHERE hash ='" . $hash . "'");
    	
    	// This post is already in here.
-   	if ($test)
-   		return false;
-   	
+   	if ($test) {
+   		$this->log('Another item already here test.  Feed ID: ' . $feed->id);
+   		return 0;
+   	}
     
     // Categories
     $categories = $this->getCampaignData($campaign->id, 'categories');
@@ -531,7 +529,10 @@ class WPOMatic {
 
     // Save post to wpo table
     // if it fails delete post.  This will help with preventing duplicate entries.
-
+	if ( 0 == $post_id ) {
+		$this->log("Post wasn't inserted successfully.  Feed ID: " . $feed->id);
+		return 0;
+	}
     $test = $wpdb->query(WPOTools::insertQuery($this->db['campaign_post'], array(
       'campaign_id' => $campaign->id,
       'feed_id' => $feed->id,
@@ -541,9 +542,8 @@ class WPOMatic {
     
     if (null == $wpdb->insert_id || !$wpdb->insert_id || 0 == $wpdb->insert_id || !$test) {
     	// for testing only
-    	//error_log(
     	wp_delete_post($post_id, true);
-     	return false;
+     	return 0;
      
     }
     
@@ -572,7 +572,7 @@ class WPOMatic {
 		$author = $item->get_author();
 		if ( '' != $author ) {
 			$res = $wpdb->get_row(
-				$wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "wpo_authors WHERE name LIKE '%%%s%%" ),
+				$wpdb->prepare("SELECT * FROM " . $wpdb->prefix . "wpo_authors WHERE name = %s" ),
 				$author->get_name());
 			if ($res && $res->name) {
 				$aid = $res->id;
@@ -607,7 +607,8 @@ class WPOMatic {
 		$hash = $this->getItemHash($item);
 		$row = $wpdb->get_row("SELECT * FROM {$this->db['campaign_post']} "
 						  . "WHERE campaign_id = {$campaign->id} AND feed_id = {$feed->id} AND hash = '$hash' ");    
-		return !! $row;
+		
+		return ($row->id > 0) ? true : false;
   }
   
   /**
