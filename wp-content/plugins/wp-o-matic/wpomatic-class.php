@@ -323,7 +323,7 @@ class WPOMatic {
     $this->log('Processing feed ' . $feed->title . ' (ID: ' . $feed->id . ')');
     
     // Access the feed
-    $simplepie = $this->fetchFeed($feed->url, false, $campaign->max);
+    $simplepie = $this->fetchFeed(html_entity_decode($feed->url), false, $campaign->max);
     
     // Get posts (last is first)
     $items = array();
