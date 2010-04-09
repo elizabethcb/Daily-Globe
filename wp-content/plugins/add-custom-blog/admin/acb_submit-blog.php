@@ -95,6 +95,7 @@ if(acb_post('blog')) {
 	
 	echo '<pre>';
 	$pagesadded = array();
+	// Think this was to exclude from menu, but are not using it anymore
 	$toexclude = array('Home', 'Just In', 'About', 'Advertise');
 	foreach($blpgs as $page) {
 		$post = array();
@@ -113,11 +114,13 @@ if(acb_post('blog')) {
 		} elseif ($slug == 'submit-an-article') {
 			$post['post_content'] = '[fu-submit-form]';
 		} elseif ($slug == 'cities') {
-			$slug == 'topics';
+			$slug = 'topics';
 		} elseif ($slug == 'feed-information') {
 			$post['post_content'] = '[CONTENT]';
 		} elseif ($slug == 'profile') {
 			$post['post_content'] = '[CONTENT]';
+		} elseif ($slug == 'newsletter-signup') {
+			$post['post_content'] = '[newsletter]';
 		}
 		preg_replace('/-/', '', $slug);
 		/*$postid = wp_insert_post($post);
