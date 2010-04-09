@@ -18,8 +18,8 @@ if(acb_post('blog')) {
 	<li>Add new blog the standard way</li>
 <pre><?php print_r($_REQUEST); ?></pre>
 <h2><?php echo ACB_TCC; ?></h2>
-<?php die('testing'); ?>
-<?php	
+
+<?php	/*
 // Add new Blog
 		// start with New York, Chicago, Washington DC, Miami, Dallas, Los Angeles
 	$domain = sanitize_user( str_replace( '/', '', $blog[ 'domain' ] ) );
@@ -76,7 +76,7 @@ if(acb_post('blog')) {
 	</ol>
 	
 <?php // Feedwordpress, SM Excludes, 
-
+*/
 ?>
 	<li>Add pages</li>
 	<ol>
@@ -91,7 +91,9 @@ if(acb_post('blog')) {
 	</ol>
 <?php
  // Insert Pages
- if(switch_to_blog($id)) {
+// if(switch_to_blog($id)) {
+	
+	echo '<pre>';
 	$pagesadded = array();
 	$toexclude = array('Home', 'Just In', 'About', 'Advertise');
 	foreach($blpgs as $page) {
@@ -118,16 +120,18 @@ if(acb_post('blog')) {
 			$post['post_content'] = '[CONTENT]';
 		}
 		preg_replace('/-/', '', $slug);
-		$postid = wp_insert_post($post);
+		/*$postid = wp_insert_post($post);
 		if ($postid > 0) {
 			add_post_meta($postid, '_wp_page_template', $slug . '.php');
 			if(in_array($post['post_title'], $toexclude))
 				$pagesadded[] = $postid;
 		} else {
 			echo 'Oops';
-		}
+		}*/
+		echo "Slug: $slug<br />";
+		print_r($post);
+		
 	}
-	echo '<pre>';
 	print_r($pagesadded);
 	echo '</pre>';
 	if(count($pagesadded) > 0) {
@@ -135,9 +139,10 @@ if(acb_post('blog')) {
 		update_option('acb_pgexclude', implode(',', $pagesadded));
 		
 	}
-} else {
-	echo "Didn't switch. but I'll do something like manually add pages.";
-}
+	die('testing');
+//} else {
+//	echo "Didn't switch. but I'll do something like manually add pages.";
+//}
 
 ?>
 	<li>Add categories</li>

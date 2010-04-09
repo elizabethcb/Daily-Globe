@@ -126,8 +126,8 @@ function acb_get_pages() {
 	global $wpdb;
 	
 	$query = "SELECT meta.post_id, po.post_title, po.post_name "
-		." FROM wp_6_postmeta AS meta "
-		." JOIN wp_6_posts AS po ON po.ID = meta.post_id "
+		." FROM wp_3_postmeta AS meta "
+		." JOIN wp_3_posts AS po ON po.ID = meta.post_id "
 		." WHERE meta.meta_key = '_wp_page_template'";
 	$results = $wpdb->get_results($query);
 
@@ -159,11 +159,13 @@ function acb_get_categories() {
 
 function acb_new_blog($blog_id, $user_id = 1) {
 	global $wpdb;
-	if(defined('ACB_LAT') && defined('ACB_LNG')) {
+	if ( defined('ACB_LAT') && defined('ACB_LNG') && ( defined('ACB_TCC') && 'city' == ACB_TCC ) ) {
 		$blog_type = 'city';
 		$wpdb->insert('cities', array('blog_id' => $blog_id, 'latitude' => ACB_LAT, 'longitude' => ACB_LNG), array( '%d', '%f', '%f'));
-	} else {
+	} elseif ( defined('ACB_TCC') && 'topic' == ACB_TCC ) {
 		$blog_type = 'topic';
+	} else {
+		$blog_type = 'country';
 	}
 	//usually I'd be worried about sql injection, but this? pretty sure that any sql in blog_id
 	// would generate an error.
