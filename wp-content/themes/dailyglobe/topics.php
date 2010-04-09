@@ -5,10 +5,24 @@ Template Name: Topics
 ?>
 <?php  get_header(); ?>
 <script type="text/javascript">
-$(document).ready(function() {
-	$('#topics_link').addClass('current_page_item');
-});
+// $(document).ready(function() {
+//	$('#topics_link').addClass('current_page_item');
+// });
 </script>
+<?php if (is_page(topics)) { ?>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#topics_link').addClass('current_page_item');
+		});
+	</script>
+<?php } elseif	(is_page(cities)) { ?>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#cities_link').addClass('current_page_item');
+		});
+	</script>
+<?php } ?>
+
 <div id="sub-container">	
 <div id="content" class="left">
 	<?php if (is_page('Topics')) { $type = 'topic';} else { $type = 'city';} ?>	

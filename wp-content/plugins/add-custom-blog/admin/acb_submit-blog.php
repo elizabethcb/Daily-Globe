@@ -1,5 +1,5 @@
 <h2>Yey!  It was setup!</h2>
-<p>Next step, go to your *new* blog's plugins menu, click checkall, uncheck intense debate (as of 3/19/2010),
+<p>Next step, go to your *new* blog's plugins menu, click checkall,
 select activate from the drop down menu.  Once you've done that, go to Add a Custom Blog > Setup</p>
 
 <?php
@@ -10,10 +10,15 @@ if(acb_post('blog')) {
 		define('ACB_LAT', $blog['lat']);
 		define('ACB_LNG', $blog['lng']);
 	}
+	if($blog['topic-city-country']) {
+		define('ACB_TCC', $blog['topic-city-country']);
+	}
 ?>
 <ol>
 	<li>Add new blog the standard way</li>
-
+<pre><?php print_r($_REQUEST); ?></pre>
+<h2><?php echo ACB_TCC; ?></h2>
+<?php die('testing'); ?>
 <?php	
 // Add new Blog
 		// start with New York, Chicago, Washington DC, Miami, Dallas, Los Angeles
@@ -105,6 +110,12 @@ if(acb_post('blog')) {
 			$post['post_content'] = '[fu-submit-feed-form]';
 		} elseif ($slug == 'submit-an-article') {
 			$post['post_content'] = '[fu-submit-form]';
+		} elseif ($slug == 'cities') {
+			$slug == 'topics';
+		} elseif ($slug == 'feed-information') {
+			$post['post_content'] = '[CONTENT]';
+		} elseif ($slug == 'profile') {
+			$post['post_content'] = '[CONTENT]';
 		}
 		preg_replace('/-/', '', $slug);
 		$postid = wp_insert_post($post);

@@ -64,9 +64,15 @@ echo <<<HERE
 			if (\$j(this).text() == "Add City") {
 				\$j(this).text("Add Topic");
 				\$j('#acb-city-sh').css('display', 'none');
+				\$j('#tcc-change').html('<input type="hidden" id="topic-city-country" name="blog[topic-city-country]" value="topic" />');
+			} else if ( \$j(this).text() == "Add Topic" ) {
+				\$j(this).text("Add Country");
+				\$j('#acb-city-sh').css('display', 'none');
+				\$j('#tcc-change').html('<input type="hidden" id="topic-city-country" name="blog[topic-city-country]" value="country" />');
 			} else {
 				\$j(this).text("Add City");
 				\$j('#acb-city-sh').css('display', 'block');
+				\$j('#tcc-change').html('<input type="hidden" id="topic-city-country" name="blog[topic-city-country]" value="city" />');
 			}
 		}
 	);
@@ -159,7 +165,8 @@ function acb_new_blog($blog_id, $user_id = 1) {
 	} else {
 		$blog_type = 'topic';
 	}
-	//usually I'd be worried about sql injection, but this? hm....
+	//usually I'd be worried about sql injection, but this? pretty sure that any sql in blog_id
+	// would generate an error.
 	$query = 'SELECT option_value FROM wp_' . $blog_id . "_options WHERE option_name ='blogname'"; 
 	$res = $wpdb->get_row($query);
 	$wpdb->update(

@@ -137,28 +137,40 @@ img.right {
 	margin-left: 6px;
 	display: block;
 }
-/**** Login ****/
-
-#login-register {
-	background:url("images/register_bg.png") no-repeat center;
+/**** Login - Customize Color ****/
+#customize_color, #login-register {
+	background:url("images/customizer_bg.png") no-repeat center;
 	color:#000000;
 	height:28px;
 	position:absolute;
 	top:0px;
-	right:3%;
+	right: 160px;
+	width:115px;
+}
+
+#login-register {
+	background:url("images/register_bg.png") no-repeat center;
+	right:15px;
 	width:139px;
 }
-#login-register a {
-	color: #fff;
-	font-weight: bold;
-}
-#login-register > span {
+
+#login-register > span, #customize_color > span  {
 	height: 18px;
 	width: 115px;
 	display: block;
 	text-align: center !important;
 	margin: 3px auto;
 	color: #FFF;
+}
+#login-register a, #customize_color a {
+	color: #fff;
+	font-weight: bold;
+	line-height: 130%
+}
+#login-register a:hover, #customize_color a:hover {
+	opacity: .5;
+	text-decoration: none;
+	line-height: 160%;
 }
 /****** Register ******/
 .mu_register { margin: 28px auto; width: 60%; }
@@ -342,6 +354,12 @@ img.right {
 	margin-left: -24px;
 	z-index: 4;
 }
+#locationtab a:hover {
+	text-decoration: none;
+	opacity: .5;
+	text-decoration: none;
+	line-height: 130%;
+}
 #locationtab > ul {
 	margin-top: 35px;
 }
@@ -349,14 +367,18 @@ img.right {
 	text-align:center;
 	font-size:12px;
 	padding:1px 0;
+
 }
 li.top-location {
 	margin-top: -20px;
+	font-size: 10px !important;
+	font-weight: bold;
 }
 #locationtab li.location {
 	color:#fff;
 	font-size:16px;
-	font-weight:bold;
+	font-weight:bolder;
+	text-shadow: #282828 1px 1px 2px;
 }
 
 #location-results, #search-location-results {
@@ -451,6 +473,11 @@ li.top-location {
 	padding-top: 33px;
 	z-index: 4;
 }
+
+#blogname a {
+	text-decoration: none;
+}
+
 #todaysdate {
 	color:#666;
 	font-size:26px;
@@ -566,7 +593,7 @@ li.top-location {
 	padding-right: 30px;
 	border-right: 9px solid #efefef;
 }
-#subnav > ul > li > a {font-weight: bold;}
+#subnav > ul > li > a {font-weight: bold; text-decoration:none;}
 #subnav > ul > li.active, #subnav > ul > li > a:hover {
 	color: #c7c7c7;
 }
@@ -1047,12 +1074,13 @@ h2.pagetitle, div.event-header {
 #article_profit_wrangler2 {
 	width: 468px;
 	height: 25px;
-	margin: 0px 0px 10px 27px;
+	margin: 10px 27px;
 }
 #article_profit_wrangler3 {
+	float: right;
 	width: 468px;
 	height: 25px;
-	margin: 0px 0px 10px 27px;
+	margin: 10px 27px;
 }
 
 .single_post {
@@ -1203,6 +1231,7 @@ h2.pagetitle, div.event-header {
 .comment p {
 	display: block;
 	padding: 0px 10px;
+	line-height: 135%;
 }
 .comment-author {
 	height: 100%;
@@ -1283,14 +1312,15 @@ h2.pagetitle, div.event-header {
 	margin:0;
 	padding:0;
 }
-#commentform input, #commentform textarea {
-	border-radius: 5px;
-}
-#author, #email, #url, #comment-text, #submit {
+#author, #email, #url, #comment-text {
 	margin:8px 5px 0px 0;
 	padding:0;
 	border: 2px solid #DDD;
 	position: relative;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-khtml-border-radius: 5px;
 }
 input#author {
 	width: 180px;
@@ -1307,10 +1337,21 @@ input#url {
 	left: 0px;
 	width: 465px;
 	height: 100px;
+	padding: 3px;
 }
 #submit	{
-	margin:5px 5px 0 0;
-	border: none;
+	float: right;
+	margin:5px 30px 0 0;
+	padding: 3px;
+	background: #F8F8F8;
+	border: 2px solid #D7D7D7;
+	color: #000;
+	font-weight: bold;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	-khtml-border-radius: 8px;
+	text-shadow: #282828 1px 1px 2px;
 }
 
 ol.commentlist {
@@ -2488,7 +2529,7 @@ img.alignleft {
 	background: #fff;
 	padding: 20px;
 	margin-top: 10px;
-	min-height: 125px;
+	height: 135px;
 }
 #footerlinks {
 	float: left;
@@ -2501,7 +2542,6 @@ img.alignleft {
 	width: 380px;
 	margin-left: 11px;
 	background:url("images/signup.png") top left no-repeat #fff;
-	min-height: 120px;
 }
 
 
@@ -2518,8 +2558,6 @@ a#signupbtn	{
 	-khtml-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	
-	
 }
 
 a#signupbtn:hover	{
@@ -2528,12 +2566,16 @@ a#signupbtn:hover	{
 	border:1px solid #efefef;
 }
 
-#signup span.delivery {
+#signup p.delivery {
 	font-weight: light;
 	font-size: 24px;
 	text-align: center;
 	margin: 40px auto 0 auto;
 	display: block;
+}
+#signup span {
+	font-size: 10px;
+	color: #AEAEAE;
 }
 #partners {
 	float: right;

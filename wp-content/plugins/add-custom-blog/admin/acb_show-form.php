@@ -186,7 +186,10 @@ table td.empty	{
 			//Name ?>
 			<div id="acb-topic-city">
 			<span id="toggle-ct" class="acb-fake-link">Add City</span>
-			Click to toggle between topic and city.
+			<div id="tcc-change">
+			<input type="hidden" id="topic-city-country" name="blog[topic-city-country]" value="city" />
+			</div>
+			Click to toggle between topic, city, and country.
 			</div>
 			<br />
 			
@@ -195,7 +198,7 @@ table td.empty	{
 			</div>
 		</div>
 	
-	<div style="clear:both;"/>
+	<br style="clear:both;"/>
 	</div> <!---.newblog-->
 
 	<div class="all_add_div">
@@ -254,7 +257,6 @@ table td.empty	{
 	   	<a href="#" id="add-lnk2">&lt;&lt;Remove </a>  
 	</div>  
 	<br style="clear:both" />
-	<br style="clear:both;" />
 	<input class="button" type="submit" name="go" value="<?php _e('Add Blog') ?>" />
 	
 </form>
@@ -268,8 +270,7 @@ table td.empty	{
 	<tbody class="cloneto">
 		<?php $i=0;
 			for( $i = 0; $i < 6; $i++ ) { ?>
-		<div class="cloneme">
-			<tr>
+			<tr class="clonme">
 				<td align="center" class="addnewfeed"><span>Add Feed</span></td>
 				<td><input name="blog[rss][<?php echo $i; ?>]" type="text" title="<?php _e('RSS Feeds') ?>" id="blog-rss1" value="RSS Feed URL"/> </td>
 				<td align="center">
@@ -285,8 +286,6 @@ table td.empty	{
 					</select>
 				</td>
 			</tr>
-
-		</div>
 		<?php } ?>
 	</tbody>
 	
