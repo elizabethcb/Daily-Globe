@@ -65,7 +65,7 @@ function setup_popular_posts() {
 	if(!get_option('sm_settings'))
 		return;
 
-	$pages = my_sm_get_pages('hits', 'DESC', 40);
+	$pages = my_sm_get_pages('hits', 'DESC', 50);
 	// Session Manager doesn't store post_id, so I have to retrieve that before retrieving the category.
 	global $wpdb, $blog_id;
 	
@@ -80,9 +80,12 @@ function setup_popular_posts() {
 	JOIN wp_tu_votes v ON i.ID = v.item_id
 	WHERE i.ID=%d  AND v.blog_id=%d AND v.item_type='post'
 	GROUP BY i.ID";
-
+	$found = array();
 	if ($results_num = count($pages)) {
 		foreach($pages as $obj) {
+			if ( in_array($obj->post_id, $found) )
+				continue;
+			$found[] = $obj->post_id;	
 			$obj->post_id = url_to_postid($obj->url);
 			$categories = get_the_category($obj->post_id);
 			$obj->votes = $wpdb->get_row( $wpdb->prepare( $sql, array($obj->post_id, $blog_id) ), 'ARRAY_A' );
@@ -508,8 +511,11 @@ function catch_that_image($content = false) {
   
 	$first_img = $matches[1];
   
-	$patt = '/doubleclick/';
-	if(preg_match($patt, $first_img)) {
+	if(preg_match('/doubleclick/', $first_img)) {
+		$first_img = '';
+	} elseif (preg_match('/tracker/', $first_img)) {
+		$first_img = '';
+	} elseif (preg_match('/ads.pheedo.com/', $first_img)) {
 		$first_img = '';
 	}
 	//echo '<pre>';

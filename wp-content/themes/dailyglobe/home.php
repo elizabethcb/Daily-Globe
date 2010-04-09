@@ -104,7 +104,9 @@ Template Name: Home
 		<div id="content_wrangler_2" class="left">
 			<?php if (get_option('dg_sect_cat2') != "Choose a category") { ?>
 			<div id="home_cat2" class="left">
-				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat2'); ?></h2></div>
+				<?php $catNum = get_cat_id(get_option('dg_sect_cat2')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat2'); ?>"><?php echo get_option('dg_sect_cat2'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat2')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 4);
 
@@ -174,7 +176,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat4') != "Choose a category") { ?>
 		<div id="home_cat4" class="left">
-			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat4'); ?></h2></div>
+			<?php $catNum = get_cat_id(get_option('dg_sect_cat4')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat4'); ?>"><?php echo get_option('dg_sect_cat4'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat4')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 4);
 			foreach($pops1 as $pop) { ?>
@@ -212,7 +216,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat5') != "Choose a category") { ?>
 		<div id="home_cat5" class="left">
-			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat5'); ?></h2></div>
+			<?php $catNum = get_cat_id(get_option('dg_sect_cat5')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat5'); ?>"><?php echo get_option('dg_sect_cat5'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat5')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 2);
 			foreach($pops1 as $pop) { ?>
@@ -266,7 +272,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat6') != "Choose a category") { ?>
 		<div id="home_cat6" class="home_other_cats left">
-			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat6'); ?></h2></div>
+			<?php $catNum = get_cat_id(get_option('dg_sect_cat6')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat6'); ?>"><?php echo get_option('dg_sect_cat6'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat6')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
@@ -295,7 +303,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat7') != "Choose a category") { ?>
 		<div id="home_cat7" class="home_other_cats left">
-			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat7'); ?></h2></div>
+			<?php $catNum = get_cat_id(get_option('dg_sect_cat7')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat7'); ?>"><?php echo get_option('dg_sect_cat7'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat7')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
@@ -324,7 +334,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat8') != "Choose a category") { ?>
 		<div id="home_cat8" class="home_other_cats left">
-			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat8'); ?></h2></div>
+			<?php $catNum = get_cat_id(get_option('dg_sect_cat8')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat8'); ?>"><?php echo get_option('dg_sect_cat8'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat8')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
@@ -353,7 +365,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat9') != "Choose a category") { ?>
 		<div id="home_cat9" class="home_other_cats left">
-			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat9'); ?></h2></div>
+			<?php $catNum = get_cat_id(get_option('dg_sect_cat9')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat9'); ?>"><?php echo get_option('dg_sect_cat9'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat9')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
@@ -382,7 +396,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat10') != "Choose a category") { ?>
 		<div id="home_cat10" class="home_other_cats left">
-			<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat10'); ?></h2></div>
+			<?php $catNum = get_cat_id(get_option('dg_sect_cat10')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat10'); ?>"><?php echo get_option('dg_sect_cat10'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat10')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
@@ -413,7 +429,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat11') != "Choose a category") { ?>
 		<div id="home_cat11" class="home_other_cats left">
-				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat11'); ?></h2></div>
+				<?php $catNum = get_cat_id(get_option('dg_sect_cat11')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat11'); ?>"><?php echo get_option('dg_sect_cat11'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat11')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
@@ -442,7 +460,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat12') != "Choose a category") { ?>
 		<div id="home_cat12" class="home_other_cats left">
-				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat12'); ?></h2></div>
+				<?php $catNum = get_cat_id(get_option('dg_sect_cat12')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat12'); ?>"><?php echo get_option('dg_sect_cat12'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat12')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
@@ -471,7 +491,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat13') != "Choose a category") { ?>
 		<div id="home_cat13" class="home_other_cats left">
-				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat13'); ?></h2></div>
+				<?php $catNum = get_cat_id(get_option('dg_sect_cat13')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat13'); ?>"><?php echo get_option('dg_sect_cat13'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat13')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
@@ -500,7 +522,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat14') != "Choose a category") { ?>
 		<div id="home_cat14" class="home_other_cats left">
-				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat14'); ?></h2></div>
+				<?php $catNum = get_cat_id(get_option('dg_sect_cat14')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat14'); ?>"><?php echo get_option('dg_sect_cat14'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat14')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
@@ -529,7 +553,9 @@ Template Name: Home
 		
 		<?php if (get_option('dg_sect_cat15') != "Choose a category") { ?>
 		<div id="home_cat15" class="home_other_cats left">
-				<div class="home_cat_title"><h2><?php echo get_option('dg_sect_cat15'); ?></h2></div>
+				<?php $catNum = get_cat_id(get_option('dg_sect_cat15')); 
+			$category_link = get_category_link( $catNum ); ?> 
+				<div class="home_cat_title"><h2><a href="<?php echo $category_link; ?>" title="<?php echo get_option('dg_sect_cat15'); ?>"><?php echo get_option('dg_sect_cat15'); ?></a></h2></div>
 				<?php $catNum = get_cat_id(get_option('dg_sect_cat15')); ?> 
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>

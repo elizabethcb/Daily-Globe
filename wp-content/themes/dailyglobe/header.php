@@ -14,6 +14,7 @@
 
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/functions.js"></script>
+<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/customize_box.js"></script>
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/color-changer.js"></script>
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/location-changer.js"></script>
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/fancybox/jquery.fancybox-1.2.6.pack.js"></script>
@@ -60,7 +61,7 @@
 <?php } ?>
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-ui-1.7.2.custom.min.js"></script>
 
-
+<?php if(is_page('Home') ) { ?>
 <script type="text/javascript">
 var slideshowFlag = true;
 function onBefore(curr, next, opts) {
@@ -97,9 +98,24 @@ $(document).ready(function() {
     timeout: 0
     
    });
+   
+   // Array of day names
+	var dayNames = new Array("Sunday","Monday","Tuesday","Wednesday",
+					"Thursday","Friday","Saturday");
+
+	// Array of month Names
+	var monthNames = new Array(
+	"January","February","March","April","May","June","July",
+	"August","September","October","November","December");
+
+	var now = new Date();
+   $("#thedate").text(dayNames[now.getDay()] + ", " + 
+	monthNames[now.getMonth()] + " " + 
+	now.getDate() + ", " + now.getFullYear());
+   
 });
 </script>
-
+<?php } ?>
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/css/style_IE7.css">
 <![endif]-->
@@ -146,7 +162,16 @@ $(document).ready(function() {
 			</li>
 		</ul>
 	</div>
-	
+	<div id="customize_color"><span><a id="customize_box" href="#colorchart">Customize</a></span>
+		<div id="#colorchart" style="display:none">
+			<ul id="color-changer">
+				<?php foreach(array("lightblue","orange", "salmon", "teal", "yellow", "lightgreen", "lavender", "pink", "grey",
+				 "darkblue", "red", "darkpink", "darkteal", "darkyellow", "darkgreen", "purple", "maroon", "black") as $color) { ?>
+							<li class="<?php echo $color ?>"></li>
+				<?php } ?>
+			  </ul>
+		</div>
+	</div>
 	<div id="login-register">
 		<span>
 		<?php global $current_user;
@@ -199,22 +224,7 @@ $(document).ready(function() {
 		</div>
 		
 		
-		<div id="customize">
-			<div id="chartbtn">
-				<span id="chartbtn-on"><img src="<?php bloginfo('template_directory'); ?>/images/customize_off.png" /></span>
-				<span id="chartbtn-off"><img src="<?php bloginfo('template_directory'); ?>/images/customize_on.png" /></span>
-			</div>
 		
-			<div id="colorchart">
-		
-			  <ul id="color-changer">
-            	<?php foreach(array("lightblue","orange", "salmon", "teal", "yellow", "lightgreen", "lavender", "pink", "grey",
-                 "darkblue", "red", "darkpink", "darkteal", "darkyellow", "darkgreen", "purple", "maroon", "black") as $color) { ?>
-					<li class="<?php echo $color ?>"></li>
-            	<?php } ?>
-			  </ul>
-			</div>
-		</div>
 		 <!--
 		 <h2 id="locationname">
 		<?php // if (is_category('uncategorized'))	{
@@ -258,7 +268,7 @@ $(document).ready(function() {
 			} else {
 				//$my_t=getdate(date("U"));
 				//print("$my_t[month] $my_t[mday], $my_t[year]");
-				echo date('F jS, Y');
+				echo '<div id="thedate"></div>';
 			}?> 
 		</h3>
 		

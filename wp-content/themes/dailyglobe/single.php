@@ -76,7 +76,7 @@
 	
 		<?php endwhile; ?>
 	
-			<div id="article_profit_wrangler3" class="left">
+			<div id="article_profit_wrangler3">
 				<script type="text/javascript"><!--
 				google_ad_client = "pub-5222051702127265";
 				/* DailyGlobe Single Article (before/after comments) */

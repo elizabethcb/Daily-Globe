@@ -17,8 +17,9 @@
 		<a href="<?php bloginfo('siteurl'); ?>/newsletter-signup/" id="signupbtn">
 			Sign Up</a>
 		<br style="clear:both"/>
-		<span class="delivery">Get the Daily Globe Delivered <br/>Free Daily
-		</span>
+		<p class="delivery">Get TheDailyGlobe Delivered <br/>Free Daily
+		</p>
+		<span>&copy; 2010 TheDailyGlobe</span>
 	</div>
 	
 	<div id="partners">
