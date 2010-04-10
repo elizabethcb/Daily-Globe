@@ -428,8 +428,6 @@ class WPOMatic {
     // feeds that don't mind.
     
     $content = $this->parseItemContent($campaign, $feed, $item);
-    $content = strip_tags($content, '<img>');
-    $content = $this->string_limit_words( $content, $this->get_feedmeta($feed->id, 'string_limit') );
     
     // Item date
     if($campaign->feeddate && 
@@ -622,83 +620,69 @@ function wpo_get_post_image($id = false){
   	$cat_id = $this->getCampaignData($campaign->id, 'categories');
   	//$content_img = $this->wpo_get_post_image($cat_id[0]);  
     //$content = '<img src="'.$content_img.'" alt="post_img" width="80" />'.$item->get_content();
-    
-    $images = WPOTools::parseImages($content);
+    $stuff = $item->get_content();
+    $images = WPOTools::parseImages($stuff);
     //echo '<pre>';
     $thing = $item->get_enclosures(0);
    //print_r($thing); print_r($images);
+	$limit = false;
+	if ($limit) {
+		$text = $this->string_limit_words( strip_tags($stuff), $this->get_feedmeta($feed-id, 'string_limit') );
+	} else {
+		$text = strip_tags($stuff);
+	}
 	
-	$text = $this->string_limit_words($item->get_content(), 300);
-    
+    $content = '';
+//    echo $item->get_title() . '<br /><pre>Images:<br />';print_r($images);
     if ( sizeof($images[2]) > 0  ) {
-    	//echo "tools";
-    	$content = '';
-    	$count = 0;
     	foreach ($images[2] as $img) {
     		$tmp = getimagesize($img);
-    		if ($tmp[0] < 100 || $tmp[1] < 100) {
-    			$img = $this->wpo_get_post_image($cat_id[0]);
-    			if ($img) {
-	    			$content .= '<img src="'. $img
-    					. '" alt="post_img" width="80" />';
-    			}
+    		if ($tmp[0] > 100 || $tmp[1] > 100) {
+    			//echo '<h1>'.$img.'</h1>';
+    			$content .= '<img src="'.$img.'" alt="post_img" width="80" class="wpo" />';
+    			$yes = true;
     			break;
-    		} else {
-    			if ($count > 4) {
-    				$content .= '<img src"'.$img.'" alt="post_img" width="80" />';
-    				break;
-    			}
     		}
-    		$count++;
     	}
-    	$content .=  $text;
-    } elseif (preg_match( '/(jpg|png|gif)$/', $thing->link) ) {
+    }
+//    echo '<br />Thing: <br />';
+    print_r($thing);
+    if (preg_match( '/(jpg|png|gif)$/', $thing->link) && !$yes ) {
     	//print_r($thing);
-    	//echo " thing link ";
-     	$content = '';	
+ //   	echo " thing link ";
 		$tmp = getimagesize($thing->link);
-		if ($tmp[0] < 75 || $tmp[1] < 75 ) {
-			$img = $this->wpo_get_post_image($cat_id[0]);
-			if ($img) {
-				$content .= '<img src="'.  $img
-				. '" alt="post_img" width="80" />';
-			}
-		} else {
-			$content .= '<img src="' . $link . '" alt="post_img" width="80" />';
+		if ($tmp[0] > 75 || $tmp[1] > 75 ) {
+			$content .= '<img src="' . $thing->link . '" alt="post_img" width="80" class="link" />';
+			$yes = true;
 		}
-    	$content .= $text;    	
-    
-    } elseif ($thing->thumbnails > 0 && isset($thing->thumbnails[0]) ) {
+    } 
+    if ($thing->thumbnails > 0  && !$yes ) {
     	//print_r($thing);
-    	//echo " thing thumb ";
-    	$content = '';
- //   	foreach ( $thing as $link ) {
-    		
-				$tmp = getimagesize($thing->thumbnails[0]);
-				if ($tmp[0] < 75 || $tmp[1] < 75 ) {
-					$img = $this->wpo_get_post_image($cat_id[0]);
-					if ($img) {
-						$content .= '<img src="'.  $img
-						. '" alt="post_img" width="80" />';
-					}
-				} else {
-					$content .= '<img src="' . $link . '" alt="post_img" width="80" />';
-				}
-			//}
-   // 	}
-    	$content .= $text; 
-    
-    }  else {
+//    	echo " thing thumb ";
+    	foreach ( $thing->thumbnails as $link ) {
+			$tmp = getimagesize($link);
+			if ($tmp[0] > 75 || $tmp[1] > 75 ) {
+				$content .= '<img src="' . $link . '" alt="post_img" width="80" class="thumb" />';
+				$yes = true;
+				break;
+			}
+  	 	}
+    }  
+    if (!$yes) {
     	//echo "default";
     	$img = $this->wpo_get_post_image($cat_id[0]);
     	if($img) {
 			$content = '<img src="'. $img
 				. '" alt="post_img" width="80" />';
 		}
-		$content .= $text;
 	}
-	//echo " content "; print_r($content);
-	  //  echo '<pre>'; //die('bitch');
+
+	
+	$content .= $text;
+//	echo " content "; print_r($content);
+
+//  echo '<pre>'; 
+//	die('bitch');
     // Caching
     if ( get_option('wpo_cacheimages') || $campaign->cacheimages ) {
       $urls = $images[2];
