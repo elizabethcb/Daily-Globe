@@ -65,12 +65,10 @@ function setup_popular_posts() {
 	if(!get_option('sm_settings'))
 		return;
 
-	$pages = my_sm_get_pages('hits', 'DESC', 50);
+	$pages = my_sm_get_pages('hits', 'DESC', 20);
 	// Session Manager doesn't store post_id, so I have to retrieve that before retrieving the category.
 	global $wpdb, $blog_id;
-	
-	// limit this to the last 14 days
-	// http://dev.mysql.com/doc/refman/5.0/en/date-and-time-functions.html#function_date-add
+
 	$sql = "
 	SELECT 
 		COUNT(*) 		AS total_votes,
@@ -81,12 +79,14 @@ function setup_popular_posts() {
 	WHERE i.ID=%d  AND v.blog_id=%d AND v.item_type='post'
 	GROUP BY i.ID";
 	$found = array();
-	if ($results_num = count($pages)) {
+//	echo '<pre>';
+	if (count($pages) > 0 ) {
 		foreach($pages as $obj) {
+			$obj->post_id = url_to_postid($obj->url);
 			if ( in_array($obj->post_id, $found) )
 				continue;
 			$found[] = $obj->post_id;	
-			$obj->post_id = url_to_postid($obj->url);
+			//echo $obj->post_id . '<br />';
 			$categories = get_the_category($obj->post_id);
 			$obj->votes = $wpdb->get_row( $wpdb->prepare( $sql, array($obj->post_id, $blog_id) ), 'ARRAY_A' );
 			$obj->cat_ids = array();
@@ -102,7 +102,8 @@ function setup_popular_posts() {
 	}
 	
 	usort($pages, "pop_sort");
-	//echo '<pre>'; print_r($pages); echo '</pre>';
+	//print_r($pages); 
+//	echo '</pre>';
 
 	return $pages;
 }
@@ -166,6 +167,11 @@ function get_popular_posts_by_category(&$pops = false, $cat = 1, $maxcount = 5) 
 
 }
 
+
+function get_default_location() {
+	return get_bloginfo('name');
+
+}
 function sort_by_hits( $a, $b ){
   if(  $a->hits ==  $b->hits ) return 0 ; 
   return ($a->hits > $b->hits) ? -1 : 1;

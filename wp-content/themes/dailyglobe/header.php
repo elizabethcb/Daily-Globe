@@ -22,7 +22,8 @@
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/ajaxlogin.js"></script>
 
 <script type="text/javascript" src="http://pyunitedcoders.appspot.com/geo_data.js?key=#google_key#"></script>
-<?php if ( $wpdb->blogid == 1 ) { ?>
+<?php global $wpdb;
+if ( $wpdb->blogid == 1 ) { ?>
 <script type="text/javascript">
 	//var lat= com.unitedCoders.geo.getLat();
 	//var lng = com.unitedCoders.geo.getLong();
@@ -45,7 +46,9 @@
 	//}
 </script>
 <?php } ?>
-
+<script>
+ document.bloginfo = "<?php bloginfo('stylesheet_directory'); ?>";
+</script>
 <!-- include Cycle plugin -->
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.cycle/jquery.cycle.all.min.js"></script>
 
@@ -125,7 +128,13 @@ $(document).ready(function() {
 </head>
 
 <body>
+<!--<h3>Frak: <?php global $sm_session_id; echo $sm_session_id; ?></h3>-->
 <div id="header">
+	
+	<div id="appstore_button">
+		<a href="#"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/appstore.png"></a>
+	</div>
+	
 	<a class="logo" href="<?php bloginfo('siteurl'); ?>"></a>
 	
 	
@@ -203,7 +212,7 @@ $(document).ready(function() {
 
 			<ul>
 			<li class="top-location">Your Default Location</li>
-			<li class="location"><?php bloginfo('name'); ?></li>
+			<li class="location"><?php get_default_location(); ?></li>
 			<li><a href="#change-location" id="change-your-location">Change Your Default</a></li>
 			</ul>
 		</div>

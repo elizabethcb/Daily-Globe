@@ -7,7 +7,7 @@ Template Name: Home
 
 
 <?php get_header(); ?>
-<!--<h3>Frak: <?php global $sm_session_id; echo $sm_session_id; ?></h3>-->
+
 
 <div id="home_sub-container" class="left">
 	<div id="home_content">
