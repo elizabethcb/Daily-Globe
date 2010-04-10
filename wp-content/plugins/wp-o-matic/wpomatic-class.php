@@ -636,6 +636,8 @@ function wpo_get_post_image($id = false){
 //    echo $item->get_title() . '<br /><pre>Images:<br />';print_r($images);
     if ( sizeof($images[2]) > 0  ) {
     	foreach ($images[2] as $img) {
+    		if (preg_match( '/pheedo|dblclick/', $img) )
+    			continue;
     		$tmp = getimagesize($img);
     		if ($tmp[0] > 100 || $tmp[1] > 100) {
     			//echo '<h1>'.$img.'</h1>';
