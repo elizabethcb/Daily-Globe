@@ -74,7 +74,10 @@ $(document).ready(function() {
 
 <?php 
 $locationArray = explode(", ", get_bloginfo('name'));
-$location = $locationArray[0]; 
+$city = $locationArray[0]; 
+$state = $locationArray[1];
+if ($state == "OR") { $state = "Oregon"; }
+$location = $city . ", " . $state;
 ?>	
 
 
