@@ -1,8 +1,3 @@
-<!--html>
-<head>
-<title>Pick Me</title>
-</head>
-<body-->
 <?php
 $city = $_REQUEST['city'];
 $admin = $_REQUEST['a'];
@@ -132,5 +127,3 @@ Lat: 45.5234515 Long: -122.6762071
 Portland, OR
 */
 ?>
-<!--/body>
-</html-->
