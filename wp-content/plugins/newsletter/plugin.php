@@ -3,7 +3,7 @@
 Plugin Name: Newsletter
 Plugin URI: http://www.satollo.net/plugins/newsletter
 Description: Newsletter is a cool plugin to create your own subscriber list, to send newsletters, to build your business. <strong>Before update give a look to <a href="http://www.satollo.net/plugins/newsletter#update">this page</a> to know what's changed.</strong>
-Version: 1.5.0
+Version: 1.5.9
 Author: Satollo
 Author URI: http://www.satollo.net
 Disclaimer: Use at your own risk. No warranty expressed or implied is provided.
@@ -26,35 +26,37 @@ Disclaimer: Use at your own risk. No warranty expressed or implied is provided.
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-define('NEWSLETTER', '1.5.0');
+define('NEWSLETTER', '1.5.9');
 
+$newsletter_options_main = get_option('newsletter_main', array());
+
+// Labels loading, after that $newsletter_labels is filled
+$newsletter_labels = null;
+@include_once(dirname(__FILE__) . '/languages/en_US.php');
+if (WPLANG != '') @include_once(dirname(__FILE__) . '/languages/' . WPLANG . '.php');
+@include_once(ABSPATH . 'wp-content/plugins/newsletter-custom/languages/en_US.php');
+if (WPLANG != '') @include_once(ABSPATH . 'wp-content/plugins/newsletter-custom/languages/' . WPLANG . '.php');
+
+// Don't try to hack that, Newsletter will badly fail
 @include(ABSPATH . 'wp-content/plugins/newsletter-extras/newsletter-extras.php');
 
 require_once(dirname(__FILE__) . '/widget.php');
 
-global $newsletter_labels;
 $newsletter_step = 'subscription';
-global $newsletter_subscriber;
+$newsletter_subscriber;
 
 function newsletter_init_labels() {
-    global $newsletter_labels;
-
-    @include_once(dirname(__FILE__) . '/languages/en_US.php');
-    if (WPLANG != '') @include_once(dirname(__FILE__) . '/languages/' . WPLANG . '.php');
-    @include_once(ABSPATH . 'wp-content/plugins/newsletter-custom/languages/en_US.php');
-    if (WPLANG != '') @include_once(ABSPATH . 'wp-content/plugins/newsletter-custom/languages/' . WPLANG . '.php');
 }
 
-function newsletter_label($name) {
+function newsletter_label($name, $default='') {
     global $newsletter_labels;
 
-    if ($newsletter_labels) return $newsletter_labels[$name];
-    newsletter_init_labels();
-    return $newsletter_labels[$name];
+    if (isset($newsletter_labels[$name])) return $newsletter_labels[$name];
+    return $default;
 }
 
-function newsletter_echo($name) {
-    echo newsletter_label($name);
+function newsletter_echo($name, $default) {
+    echo newsletter_label($name, $default);
 }
 
 function newsletter_request($name, $default=null ) {
@@ -130,8 +132,8 @@ function newsletter_call($attrs, $content=null) {
             else {
                 $buffer .= newsletter_label('subscription_form');
             }
-            if (!defined('NEWSLETTER_EXTRAS'))
-                $buffer .=  '<div style="text-align:right;padding:0 10px;margin:0;"><a style="font-size:9px;color:#bbb;text-decoration:none" href="http://www.satollo.net">by satollo.net</a></div>';
+            //if (!defined('NEWSLETTER_EXTRAS'))
+            //    $buffer .=  '<div style="text-align:right;padding:0 10px;margin:0;"><a style="font-size:9px;color:#bbb;text-decoration:none" href="http://www.satollo.net">by satollo.net</a></div>';
         }
 
     }
@@ -172,29 +174,12 @@ function newsletter_call($attrs, $content=null) {
         $buffer .= $text;
     }
 
-    //    if ($newsletter_step == 'unsubscription_mm' || $newsletter_step == 'unsubscription_mm_error')
-    //    {
-    //        if ($newsletter_step == 'unsubscription_mm_error')
-    //        {
-    //            $buffer .= '<p>' . $options['unsubscription_mm_error'] . '</p>';
-    //        }
-    //        $buffer .= $options['unsubscription_mm_text'];
-    //        $buffer .= '<form method="post" action="?">';
-    //        $buffer .= '<input type="hidden" name="na" value="ue"/>';
-    //        $buffer .= '<table cellspacing="3" cellpadding="3" border="0">';
-    //        $buffer .= '<tr><td>' . $options['unsubscription_mm_email_label'] . '</td><td><input type="text" name="ne" size="20"/></td></tr>';
-    //        $buffer .= '<tr><td colspan="2" style="text-align: center"><input type="submit" value="' . $options['unsubscription_mm_label'] . '"/></td></tr></table>';
-    //        $buffer .= '</form>';
-    //    }
-
-    //    if ($newsletter_step == 'unsubscription_mm_end')
-    //    {
-    //        $text = $options['unsubscription_mm_end'];
-    //        $text = str_replace('{name}', $newsletter_subscriber->name, $text);
-    //        $buffer .= $text;
-    //    }
-
     return '<div class="newsletter">' . $buffer . '</div>';
+}
+
+function newsletter_phpmailer_init($phpmailer) {
+    $options_email = get_option('newsletter_email');
+    $phpmailer->Sender = $options_email['return_path'];
 }
 
 /**
@@ -257,8 +242,20 @@ function newsletter_send_batch() {
     $simulate = (bool)$batch['simulate'];
     $scheduled = (bool)$batch['scheduled']; // Used to avoid echo
 
+    if ($scheduled) {
+        $max = $options_email['scheduler_max'];
+        if (!is_numeric($max)) $max = 10;
+    }
+    else {
+        $max = $options_email['max'];
+        if (!is_numeric($max)) $max = 0;
+    }
+
     $query = "select * from " . $wpdb->prefix . "newsletter where status='C' and list=" . $list .
         " and id>" . $id . " order by id";
+    if ($max > 0) {
+        $query .= " limit " . $max;
+    }
 
     $recipients = $wpdb->get_results($query);
 
@@ -266,7 +263,7 @@ function newsletter_send_batch() {
     if ($id == 0) {
         newsletter_delete_batch_file();
         wp_clear_scheduled_hook('newsletter_cron_hook');
-        $batch['total'] = count($recipients);
+        $batch['total'] = $wpdb->get_var("select count(*) from " . $wpdb->prefix . "newsletter where status='C' and list=" . $list);
         $batch['sent'] = 0;
         $batch['completed'] = false;
         $batch['message'] = '';
@@ -279,14 +276,7 @@ function newsletter_send_batch() {
     $max_time = (int)(ini_get('max_execution_time') * 0.8);
     $db_time = time();
 
-    if ($scheduled) {
-        $max = $options_email['scheduler_max'];
-        if (!is_numeric($max)) $max = 10;
-    }
-    else {
-        $max = $options_email['max'];
-        if (!is_numeric($max)) $max = 0;
-    }
+
 
     if (!$scheduled) {
         echo 'Sending to: <br />';
@@ -303,6 +293,8 @@ function newsletter_send_batch() {
 
     $idx = 0;
 
+    add_action('phpmailer_init','newsletter_phpmailer_init');
+    if (newsletter_has_extras('1.0.4')) newsletter_init_mail();
     foreach ($recipients as $r) {
 
         $url = newsletter_add_qs($options['url'],
@@ -349,9 +341,11 @@ function newsletter_send_batch() {
             $batch['message'] = 'Temporary saved batch to avoid database timeout';
             if (!update_option('newsletter_batch', $batch)) {
                 newsletter_error(__FUNCTION__, 'Unable to save to database, saving on file system');
-                newsletter_error(__FUNCTION__, "Batch:\n" . print_r($last, true));
+                newsletter_error(__FUNCTION__, "Batch:\n" . print_r($batch, true));
 
                 newsletter_save_batch_file($batch);
+                remove_action('phpmailer_init','newsletter_phpmailer_init');
+                if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
                 return false;
             }
         }
@@ -362,11 +356,18 @@ function newsletter_send_batch() {
             $batch['message'] = 'Batch max emails limit reached (it is ok)';
             if (!update_option('newsletter_batch', $batch)) {
                 newsletter_error(__FUNCTION__, 'Unable to save to database, saving on file system');
-                newsletter_error(__FUNCTION__, "Batch:\n" . print_r($last, true));
+                newsletter_error(__FUNCTION__, "Batch:\n" . print_r($batch, true));
 
                 newsletter_save_batch_file($batch);
+                remove_action('phpmailer_init','newsletter_phpmailer_init');
+                if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
+
                 return false;
             }
+
+            remove_action('phpmailer_init','newsletter_phpmailer_init');
+            if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
+
             return true;
         }
 
@@ -379,8 +380,14 @@ function newsletter_send_batch() {
                 newsletter_error(__FUNCTION__, "Batch:\n" . print_r($last, true));
 
                 newsletter_save_batch_file($batch);
+                remove_action('phpmailer_init','newsletter_phpmailer_init');
+                if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
+
                 return false;
             }
+
+            remove_action('phpmailer_init','newsletter_phpmailer_init');
+            if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
             return true;
         }
     }
@@ -388,14 +395,20 @@ function newsletter_send_batch() {
     // All right (incredible!)
     newsletter_info(__FUNCTION__, 'Sending completed!');
     $batch['completed'] = true;
+    $batch['message'] = '';
     if (!update_option('newsletter_batch', $batch)) {
         newsletter_error(__FUNCTION__, 'Unable to save to database, saving on file system');
         newsletter_error(__FUNCTION__, "Batch:\n" . print_r($last, true));
 
         newsletter_save_batch_file($batch);
+        remove_action('phpmailer_init','newsletter_phpmailer_init');
+        if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
+
         return false;
     }
 
+    remove_action('phpmailer_init','newsletter_phpmailer_init');
+    if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
     return true;
 }
 
@@ -423,6 +436,7 @@ function newsletter_send_test($recipients) {
             '</style></head><body>' . $options_email['message'] . '</body></html>';
     }
 
+    if (newsletter_has_extras('1.0.4')) newsletter_init_mail();
     foreach ($recipients as $r) {
 
         $url = newsletter_add_qs($options['url'],
@@ -444,13 +458,14 @@ function newsletter_send_test($recipients) {
 
         if ($x) {
             echo '[OK] -- ';
-            newsletter_debug(__FUNCTION__, 'Sent to ' . $r->id . ' failed');
+            newsletter_debug(__FUNCTION__, 'Sent to ' . $r->id . ' success');
         } else {
             echo '[KO] -- ';
-            newsletter_debug(__FUNCTION__, 'Sent to ' . $r->id . ' success');
+            newsletter_debug(__FUNCTION__, 'Sent to ' . $r->id . ' failed');
         }
-
     }
+    if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
+
 }
 
 
@@ -554,7 +569,7 @@ function newsletter_send_confirmation($subscriber) {
     if ($html == null) $html = '{message}';
 
     $message = str_replace('{message}', $message, $html);
-    
+
     // The full URL to the confirmation page
     $url = newsletter_add_qs($options['url'], 'na=c&amp;ni=' . $subscriber->id .
         '&amp;nt=' . $subscriber->token);
@@ -569,7 +584,10 @@ function newsletter_send_confirmation($subscriber) {
 
     $subject = newsletter_replace($options['confirmation_subject'], $subscriber);
 
+    if (newsletter_has_extras('1.0.4')) newsletter_init_mail();
     newsletter_mail($subscriber->email, $subject, $message);
+    if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
+
 }
 
 /**
@@ -709,7 +727,7 @@ function newsletter_init() {
     if ($action == 'c') {
         $id = $_REQUEST['ni'];
         newsletter_confirm($id, $_REQUEST['nt']);
-        header('Location: ' . newsletter_add_qs($options['url'], 'na=cs&ni=' . $id, false));
+        header('Location: ' . newsletter_add_qs($options['url'], 'na=cs&ni=' . $id . '&nt=' . $_REQUEST['nt'], false));
         die();
     }
 
@@ -717,6 +735,7 @@ function newsletter_init() {
     // Redirect is sent by action "c".
     if ($action == 'cs') {
         $newsletter_subscriber = newsletter_get_subscriber($_REQUEST['ni']);
+        if ($newsletter_subscriber->token != $_REQUEST['nt']) die('Ivalid token');
         $newsletter_step = 'confirmed';
     }
 
@@ -726,79 +745,6 @@ function newsletter_init() {
     if ($action == 'u') {
         $newsletter_step = 'unsubscription';
     }
-
-/*
-    // Export for Zanzara
-    if ($action == 'z') {
-        if (!$_GET['nk'] || $_GET['nk'] != $options['key']) return;
-
-        $options_email = get_option('newsletter_email');
-        header('Content-Type: text/xml;charset=UTF-8');
-
-        echo '<' . '?xml version="1.0" encoding="UTF-8"?' . '>' . "\n";
-        echo '<java version="1.6.0_12" class="java.beans.XMLDecoder">' . "\n";
-        echo '<object class="zanzara.Newsletter">' . "\n";
-
-        echo '<void property="message">' . "\n";
-        echo '<string><![CDATA['. $options_email['message'] . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-        echo '<void property="newsletterUrl">' . "\n";
-        echo '<string><![CDATA['. $options['url'] . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-        echo '<void property="fromEmail">' . "\n";
-        echo '<string><![CDATA['. $options['from_email'] . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-        echo '<void property="fromName">' . "\n";
-        echo '<string><![CDATA['. $options['from_name'] . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-        echo '<void property="homeUrl">' . "\n";
-        echo '<string><![CDATA['. get_option('home') . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-        echo '<void property="blogTitle">' . "\n";
-        echo '<string><![CDATA['. get_option('blogname') . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-
-        echo '<void property="subject">' . "\n";
-        echo '<string><![CDATA[' . $options_email['subject'] . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-
-        echo '<void property="smtpHost">' . "\n";
-        echo '<string><![CDATA[' . $options['smtp_host'] . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-        echo '<void property="smtpUser">' . "\n";
-        echo '<string><![CDATA[' . $options['smtp_user'] . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-        echo '<void property="smtpPassword">' . "\n";
-        echo '<string><![CDATA[' . $options['smtp_password'] . ']]></string>' . "\n";
-        echo '</void>' . "\n";
-
-        echo '<void property="recipients">' . "\n";
-        echo '<string><![CDATA[';
-
-        $query = "select * from " . $wpdb->prefix . "newsletter where status='C'";
-        $recipients = $wpdb->get_results($query . " order by email");
-        for ($i=0; $i<count($recipients); $i++) {
-            echo $recipients[$i]->email . ';' . $recipients[$i]->name .
-                ';' . $recipients[$i]->token . ';' . $recipients[$i]->id . ';' . $recipients[$i]->group . "\n";
-        }
-        echo ']]></string>' . "\n";
-        echo '</void>' . "\n";
-
-        echo '<void property="testRecipients">' . "\n";
-        echo '<string><![CDATA[';
-        for ($i=1; $i<=10; $i++) {
-            if (!$options_email['test_email_' . $i]) continue;
-            echo $options_email['test_email_' . $i] . ';' . $options_email['test_name_' . $i] .
-                ';FAKETOKEN;0;0' . "\n";
-        }
-        echo ']]></string>' . "\n";
-        echo '</void>' . "\n";
-
-        echo '</object>' . "\n";
-        echo '</java>' . "\n";
-        die();
-    }
-*/
 
     // User confirmed he want to unsubscribe clicking the link on unsubscription
     // page
@@ -822,6 +768,8 @@ function newsletter_unsubscribe($id, $token) {
     $wpdb->query($wpdb->prepare("delete from " . $wpdb->prefix . "newsletter where id=%d" .
         " and token=%s", $id, $token));
 
+    $options = get_option('newsletter');
+    
     $html = newsletter_get_theme_html($options['theme']);
     if ($html == null) $html = '{message}';
     $message = str_replace('{message}', $options['unsubscribed_message'], $html);
@@ -835,7 +783,10 @@ function newsletter_unsubscribe($id, $token) {
 
     $subject = newsletter_replace($options['unsubscribed_subject'], $newsletter_subscriber);
 
+    if (newsletter_has_extras('1.0.4')) newsletter_init_mail();
     newsletter_mail($newsletter_subscriber->email, $subject, $message);
+    if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
+
 
 
     // Admin notification
@@ -918,8 +869,9 @@ function newsletter_send_welcome($subscriber) {
     $message = newsletter_replace_url($message, 'UNSUBSCRIPTION_URL', $url);
 
     $subject = newsletter_replace($options['confirmed_subject'], $subscriber);
-
+    if (newsletter_has_extras('1.0.4')) newsletter_init_mail();
     newsletter_mail($subscriber->email, $subject, $message);
+    if (newsletter_has_extras('1.0.4')) newsletter_close_mail();
 }
 
 /*
@@ -947,15 +899,19 @@ function newsletter_notify_admin(&$subject, &$message) {
  * The function uses wp_mail() to really send the message.
  */
 function newsletter_mail($to, &$subject, &$message, $html=true) {
-    global $wpdb;
+    global $newsletter_mailer, $newsletter_options_main;
 
     if ($subject == '') {
         newsletter_debug(__FUNCTION__, 'Subject empty, skipped');
         return true;
     }
 
-    $options = get_option('newsletter');
+    if (newsletter_has_extras('1.0.4')) {
+        return newsletter_extra_mail($to, &$subject, &$message, $html);
+    }
 
+    $options = get_option('newsletter');
+    
     $headers  = "MIME-Version: 1.0\n";
     if ($html) $headers .= "Content-type: text/html; charset=UTF-8\n";
     else $headers .= "Content-type: text/plain; charset=UTF-8\n";
@@ -973,17 +929,23 @@ function newsletter_mail($to, &$subject, &$message, $html=true) {
 
 add_action('activate_newsletter/plugin.php', 'newsletter_activate');
 function newsletter_activate() {
-    global $wpdb;
+    global $wpdb, $newsletter_options_main;
 
-    $options = get_option('newsletter');
+    $options = get_option('newsletter', array());
+
+    if (NEWSLETTER >= '1.5.2') {
+        if (isset($options['logs'])) $newsletter_options_main['logs'] = $options['logs'];
+        if (isset($options['editor'])) $newsletter_options_main['editor'] = $options['editor'];
+        if (isset($options['version'])) $newsletter_options_main['version'] = $options['version'];
+        if (isset($options['no_translation'])) $newsletter_options_main['no_translation'] = $options['no_translation'];
+    }
 
     // Load the default options
     @include_once(dirname(__FILE__) . '/languages/en_US_options.php');
     if (WPLANG != '') @include_once(dirname(__FILE__) . '/languages/' . WPLANG . '_options.php');
     //@include_once(ABSPATH . 'wp-content/newsletter/languages/custom_options.php');
 
-    if (is_array($options)) $options = array_merge($newsletter_default_options, $options);
-    else $options = $newsletter_default_options;
+    $options = array_merge($newsletter_default_options, $options);
 
     // SQL to create the table
     $sql = 'create table if not exists ' . $wpdb->prefix . 'newsletter (
@@ -998,7 +960,7 @@ function newsletter_activate() {
 
     @$wpdb->query($sql);
 
-    if (!isset($options['version']) || $options['version'] < '1.4.0') {
+    if (!isset($newsletter_options_main['version']) || $newsletter_options_main['version'] < '1.4.0') {
 
         $sql = "alter table " . $wpdb->prefix . "newsletter drop primary key";
         @$wpdb->query($sql);
@@ -1019,7 +981,7 @@ function newsletter_activate() {
         @$wpdb->query($sql);
     }
 
-    if (!isset($options['version']) || $options['version'] < '1.4.1') {
+    if (!isset($newsletter_options_main['version']) || $newsletter_options_main['version'] < '1.4.1') {
         $sql = "alter table " . $wpdb->prefix . "newsletter add column created timestamp not null default current_timestamp";
         @$wpdb->query($sql);
     }
@@ -1035,7 +997,8 @@ function newsletter_activate() {
 
     newsletter_info(__FUNCTION__, 'Activated');
 
-    $options['version'] = NEWSLETTER;
+    $newsletter_options_main['version'] = NEWSLETTER;
+    update_option('newsletter_main', $newsletter_options_main);
     update_option('newsletter', $options);
 
     if (defined('NEWSLETTER_EXTRAS')) newsletter_extra_activate();
@@ -1044,22 +1007,33 @@ function newsletter_activate() {
 if (is_admin()) {
     add_action('admin_menu', 'newsletter_admin_menu');
     function newsletter_admin_menu() {
+        global $newsletter_options_main;
         $options = get_option('newsletter');
-        $level = $options['editor']?7:10;
+        $level = ($newsletter_options_main['editor']==1)?7:10;
 
         if (function_exists('add_menu_page')) {
-            add_menu_page('Newsletter', 'Newsletter', $level, 'newsletter/options.php', '', '');
+            add_menu_page('Newsletter', 'Newsletter', $level, 'newsletter/main.php', '', '');
         }
 
         if (function_exists('add_submenu_page')) {
-            add_submenu_page('newsletter/options.php', 'Configuration', 'Configuration', $level, 'newsletter/options.php');
-            add_submenu_page('newsletter/options.php', 'Composer', 'Composer', $level, 'newsletter/newsletter.php');
-            add_submenu_page('newsletter/options.php', 'Import', 'Import', $level, 'newsletter/import.php');
-            add_submenu_page('newsletter/options.php', 'Export', 'Export', $level, 'newsletter/export.php');
-            add_submenu_page('newsletter/options.php', 'Manage', 'Manage', $level, 'newsletter/manage.php');
-            add_submenu_page('newsletter/options.php', 'Statistics', 'Statistics', $level, 'newsletter/statistics.php');
-            add_submenu_page('newsletter/options.php', 'Forms', 'Forms', $level, 'newsletter/forms.php');
-            add_submenu_page('newsletter/options.php', 'Update', 'Update', $level, 'newsletter/convert.php');
+            add_submenu_page('newsletter/main.php', 'Configuration', 'Configuration', $level, 'newsletter/main.php');
+            add_submenu_page('newsletter/main.php', 'Subscription', 'Subscription', $level, 'newsletter/options.php');
+            add_submenu_page('newsletter/main.php', 'Composer', 'Composer', $level, 'newsletter/newsletter.php');
+            add_submenu_page('newsletter/main.php', 'Statistics', 'Statistics', $level, 'newsletter/statistics.php');
+            add_submenu_page('newsletter/main.php', 'Subscribers', 'Subscribers', $level, 'newsletter/manage.php');
+            add_submenu_page('newsletter/main.php', 'Import', 'Import', $level, 'newsletter/import.php');
+            add_submenu_page('newsletter/main.php', 'Export', 'Export', $level, 'newsletter/export.php');
+            add_submenu_page('newsletter/main.php', 'Forms', 'Forms', $level, 'newsletter/forms.php');
+            add_submenu_page('newsletter/main.php', 'SMTP', 'SMTP', $level, 'newsletter/smtp.php');
+            add_submenu_page('newsletter/main.php', 'Update', 'Update', $level, 'newsletter/convert.php');
+        }
+    }
+
+    add_action('admin_head', 'newsletter_admin_head');
+    function newsletter_admin_head() {
+        if (strpos($_GET['page'], 'newsletter/') === 0) {
+            echo '<link type="text/css" rel="stylesheet" href="' .
+                get_option('siteurl') . '/wp-content/plugins/newsletter/style.css"/>';
         }
     }
 }
@@ -1074,6 +1048,9 @@ function newsletter_replace($text, $subscriber) {
     $text = str_replace('{id}', $subscriber->id, $text);
     $text = str_replace('{name}', $subscriber->name, $text);
     $text = str_replace('{token}', $subscriber->token, $text);
+    $text = str_replace('%7Btoken%7D', $subscriber->token, $text);
+    $text = str_replace('%7Bid%7D', $subscriber->id, $text);
+
     return $text;
 }
 
@@ -1136,20 +1113,18 @@ function newsletter_log($text) {
 }
 
 function newsletter_debug($fn, $text) {
-    $options = get_option('newsletter');
-    if ($options['logs'] < 2) return;
+    global $newsletter_options_main;
+    if ($newsletter_options_main['logs'] < 2) return;
     newsletter_log('- DEBUG - ' . $fn . ' - ' . $text);
 }
 
 function newsletter_info($fn, $text) {
-    $options = get_option('newsletter');
-    if ($options['logs'] < 1) return;
+    if ($newsletter_options_main['logs'] < 1) return;
     newsletter_log('- INFO  - ' . $fn . ' - ' . $text);
 }
 
 function newsletter_error($fn, $text) {
-    $options = get_option('newsletter');
-    if ($options['logs'] < 1) return;
+    if ($newsletter_options_main['logs'] < 1) return;
     newsletter_log('- ERROR - ' . $fn . ' - ' . $text);
 }
 
@@ -1195,7 +1170,7 @@ function newsletter_reset_batch() {
 function newsletter_has_extras($version=null) {
     if (!defined('NEWSLETTER_EXTRAS')) return false;
     if ($version == null) return true;
-    if ($version >= NEWSLETTER_EXTRAS) return true;
+    if ($version <= NEWSLETTER_EXTRAS) return true;
     return false;
 }
 
@@ -1213,13 +1188,16 @@ function nt_post_image($post_id, $size='thumbnail', $alternative=null) {
 
     foreach ($attachments as $id=>$attachment) {
         $image = wp_get_attachment_image_src($id, $size);
-        //$image = $image[0];
         return $image[0];
     }
     return null;
 }
 
 function nt_option($name, $def = null) {
+//    if ($newsletter_is_feed && $name == 'posts') {
+//        $options = get_option('newsletter_feed');
+//        return $options['posts'];
+//    }
     $options = get_option('newsletter_email');
     $option = $options['theme_' . $name];
     if (!isset($option)) return $def;
@@ -1264,8 +1242,7 @@ function newsletter_get_theme_css($theme) {
     return @file_get_contents(newsletter_get_theme_dir($theme) . '/style.css');
 }
 
-function newsletter_get_theme_html($theme)
-{
+function newsletter_get_theme_html($theme) {
     if ($theme == 'blank') return '';
     $file = newsletter_get_theme_dir($theme) . '/theme.php';
 
@@ -1276,4 +1253,5 @@ function newsletter_get_theme_html($theme)
     ob_end_clean();
     return $html;
 }
+
 ?>

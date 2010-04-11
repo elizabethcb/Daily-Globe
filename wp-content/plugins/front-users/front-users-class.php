@@ -997,7 +997,7 @@ HERE;
 		echo "<h1>woot</h1>";
 	}
 	
-	public function dontdothisone()
+	public function dontdothisone() {
 		global $wpdb;
 		
 		$cities = array(
@@ -1007,7 +1007,6 @@ HERE;
 //			10 => 'ak',
 //			11 => 'ga',
 //			12 => 'al',
-			13 => 'id'
 		);
 		
 		foreach ( $cities as $bid => $st ) {

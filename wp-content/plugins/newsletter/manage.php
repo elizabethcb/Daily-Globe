@@ -1,10 +1,8 @@
 <?php
-$options = get_option('newsletter');
 
-if (!isset($options['no_translation'])) {
-    $plugin_dir = basename(dirname(__FILE__));
-    load_plugin_textdomain('newsletter', 'wp-content/plugins/' . $plugin_dir . '/languages/');
-}
+@include_once 'commons.php';
+
+$options = get_option('newsletter');
 
 if ($_POST['a'] == 'resend' && check_admin_referer()) {
     newsletter_send_confirmation(newsletter_get_subscriber(newsletter_request('id')));
@@ -44,6 +42,9 @@ if ($_POST['a'] == 'search' && check_admin_referer()) {
     $list = newsletter_search(newsletter_request('text'), $status, $order);
 }
 
+$options = null;
+$nc = new NewsletterControls($options, 'manage');
+
 ?>
 <script type="text/javascript">
     function newsletter_detail(id)
@@ -78,29 +79,16 @@ if ($_POST['a'] == 'search' && check_admin_referer()) {
     }
     function newsletter_resend(id)
     {
-        if (!confirm("Resend the subscription confirmation email?")) return;
+        if (!confirm("<?php _e('Resend the subscription confirmation email?', 'newsletter'); ?>")) return;
         document.getElementById("action").value = "resend";
         document.getElementById("id").value = id;
         document.getElementById("channel").submit();
     }
 
 </script>
-<style type="text/css">
-    .newsletter-results {
-        border-collapse: collapse;
-    }
-    .newsletter-results td, .newsletter-results th {
-        border: 1px solid #999;
-        padding: 5px;
-    }
-    #newsletter .form-table {
-        border: 1px solid #999;
-        background-color: #fff;
-    }
-</style>
 
-<div class="wrap" id="newsletter">
-    <h2><?php _e('Subscribers Management', 'newsletter'); ?></h2>
+<div class="wrap">
+    <h2><?php _e('Newsletter Subscribers', 'newsletter'); ?></h2>
 
     <?php require_once 'header.php'; ?>
 
@@ -113,12 +101,12 @@ if ($_POST['a'] == 'search' && check_admin_referer()) {
         <div style="display: <?php if ($_POST['a'] == 'edit') echo 'none'; else echo 'block'; ?>">
             <table class="form-table">
                 <tr valign="top">
-                    <th scope="row"><label><?php _e('Search', 'newsletter'); ?></label></th>
+                    <th><?php _e('Search', 'newsletter'); ?></th>
                     <td>
                         <input name="text" type="text" size="50" value="<?php echo htmlspecialchars(newsletter_request('text'))?>"/>
-                        <input type="submit" value="<?php _e('Search', 'newsletter'); ?>" /> (press without filter to show all)
+                        <input type="submit" value="<?php _e('Search', 'newsletter'); ?>" />
                         <br />
-                        Max 100 results will be shown
+                        <?php _e('Press without filter to show all. Max 100 results will be shown. Use export panel to get all subscribers.', 'newsletter'); ?>
                     </td>
                 </tr>
                 <tr valign="top">
@@ -129,7 +117,7 @@ if ($_POST['a'] == 'search' && check_admin_referer()) {
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php _e('Order', 'newsletter'); ?></th>
+                    <th><?php _e('Order', 'newsletter'); ?></th>
                     <td>
                         <select name="order">
                             <option value="id">id</option>
@@ -144,7 +132,7 @@ if ($_POST['a'] == 'search' && check_admin_referer()) {
         if ($_POST['a'] == 'edit' && check_admin_referer()) {
             $subscriber = newsletter_get_subscriber($_POST['id']);
             ?>
-        <input type="hidden" name="subscriber[id]" value="<?php echo $subscriber->id; ?>"/></td>
+        <input type="hidden" name="subscriber[id]" value="<?php echo $subscriber->id; ?>"/>
         <table class="form-table">
             <tr valign="top">
                 <th>Name</th>
@@ -155,7 +143,7 @@ if ($_POST['a'] == 'search' && check_admin_referer()) {
                 <td><input type="text" name="subscriber[email]" size="40" value="<?php echo htmlspecialchars($subscriber->email); ?>"/></td>
             </tr>
         </table>
-        <p class="submit"><input type="button" value="Save" onclick="newsletter_save()"/></a>
+        <p class="submit"><input type="button" value="Save" onclick="newsletter_save()"/></p>
 
             <?php } ?>
 
@@ -186,35 +174,31 @@ if ($_POST['a'] == 'search' && check_admin_referer()) {
 
 <?php
 if ($list) {
-    echo '<table class="newsletter-results" border="1" cellspacing="5">';
-    echo '<tr><th>Id</th><th>' . __('Email', 'newsletter') . '</th><th>' . __('Name', 'newsletter') . '</th><th>' . __('Status', 'newsletter') . '</th><th>' . __('Profile', 'newsletter') . '</th><th>' . __('Token', 'newsletter') . '</th><th>' . __('Actions', 'newsletter') . '</th></tr>';
+    echo '<table class="bordered-table" border="1" cellspacing="5">';
+    echo '<tr><th>Id</th><th>' . __('Email', 'newsletter') . '</th><th>' . __('Name', 'newsletter') . '</th><th>' . __('Status', 'newsletter') . '</th><th>' . __('Actions', 'newsletter') . '</th><th>' . __('Profile', 'newsletter') . '</th></tr>';
     foreach($list as $s) {
         echo '<tr>';
         echo '<td>' . $s->id . '</td>';
         echo '<td>' . $s->email . '</td>';
         echo '<td>' . $s->name . '</td>';
-        echo '<td>' . ($s->status=='S'?'Not confirmed':'Confirmed') . '</td>';
+        echo '<td><small>' . ($s->status=='S'?'Not confirmed':'Confirmed') . '</small></td>';
+        echo '<td><small>';
+        echo '<a href="javascript:void(newsletter_edit(' . $s->id . '))">' . __('edit', 'newsletter') . '</a>';
+        echo ' | <a href="javascript:void(newsletter_remove(' . $s->id . '))">' . __('remove', 'newsletter') . '</a>';
+        echo ' | <a href="javascript:void(newsletter_set_status(' . $s->id . ', \'C\'))">' . __('confirm', 'newsletter') . '</a>';
+        echo ' | <a href="javascript:void(newsletter_set_status(' . $s->id . ', \'S\'))">' . __('unconfirm', 'newsletter') . '</a>';
+        echo ' | <a href="javascript:void(newsletter_resend(' . $s->id . '))">' . __('resend confirmation', 'newsletter') . '</a>';
+        echo '</small></td>';
         echo '<td><small>';
         $query = $wpdb->prepare("select name,value from " . $wpdb->prefix . "newsletter_profiles where newsletter_id=%d", $s->id);
         $profile = $wpdb->get_results($query);
         foreach ($profile as $field) {
             echo htmlspecialchars($field->name) . ': ' . htmlspecialchars($field->value) . '<br />';
         }
-//        $profile = unserialize($s->profile);
-//        if (is_array($profile)) {
-//            foreach ($profile as $key=>$value) {
-//                echo htmlspecialchars($key) . ': ' . htmlspecialchars($value) . '<br />';
-//            }
-//        }
+        echo 'Token: ' . $s->token;
+
         echo '</small></td>';
-        echo '<td><small>' . $s->token . '</small></td>';
-        echo '<td>';
-        echo '<a href="javascript:void(newsletter_edit(' . $s->id . '))">' . __('edit', 'newsletter') . '</a>';
-        echo ' | <a href="javascript:void(newsletter_remove(' . $s->id . '))">' . __('remove', 'newsletter') . '</a>';
-        echo ' | <a href="javascript:void(newsletter_set_status(' . $s->id . ', \'C\'))">' . __('confirm', 'newsletter') . '</a>';
-        echo ' | <a href="javascript:void(newsletter_set_status(' . $s->id . ', \'S\'))">' . __('unconfirm', 'newsletter') . '</a>';
-        echo ' | <a href="javascript:void(newsletter_resend(' . $s->id . '))">' . __('resend confirmation', 'newsletter') . '</a>';
-        echo '</td>';
+
         echo '</tr>';
     }
     echo '</table>';

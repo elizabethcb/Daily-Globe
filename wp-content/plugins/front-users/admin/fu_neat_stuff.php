@@ -19,3 +19,4 @@
 	<input type="submit" value="Don't Do This One!" />
 </form>
 
+<?php echo phpinfo(); ?>
