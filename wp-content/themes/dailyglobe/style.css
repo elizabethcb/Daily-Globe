@@ -159,7 +159,7 @@ img.right {
 
 #login-register > span, #customize_color > span  {
 	height: 18px;
-	width: 115px;
+	width: 120px;
 	display: block;
 	text-align: center !important;
 	margin: 3px auto;
@@ -518,22 +518,18 @@ li.top-location {
 
 #chartbtn img	{}
 
-#colorchart {
+#fancy_div #color-changer {
 	width:200px;
 	padding:10px;
-	background:#333;
+	background:#fff;
 	-moz-border-radius: 8px;
 	-khtml-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 	z-index: 9000;
 	height:46px;
-	margin-left:130px;
 }
-#colorchart ul {
-	background:#fff;
-}
-#colorchart ul li {	
+#fancy_div #color-changer li {	
 	margin:2px;
 	float:left;
 }
@@ -556,7 +552,7 @@ li.top-location {
 .maroon		{background: #68242e;}
 .black		{background: #000;}
 
-#colorchart ul li {
+#fancy_div #color-changer li {
 	width: 10px;
 	height: 10px;
 	border: 1px solid #ccc;
@@ -607,11 +603,12 @@ li.top-location {
 div#alphabet {
 	font-size: 1em;
 	font-weight: bolder;
-	padding: 9px;
-	margin: 0 auto;
+	padding: 5px;
+	margin: 5px 20px 10px 50px;
 	display: block;
 	height: 20px;
-	width: 685px;
+	width: 800px;
+	float: left;
 }
 
 a.alphabet {
@@ -625,6 +622,18 @@ a.alphabet {
 a.alph-all {
 	width: 20px;
 	margin-right: 5px;
+}
+
+a.alpha-home {
+	width: 35px;
+	margin: 0 11px;
+	padding-right: 20px;
+	border-right: 9px solid #efefef;
+	display: block;
+	font-weight: bolder;
+	font-size: 1em;
+	line-height: 44px;
+	float: left;
 }
 
 a.alphabet:hover, a.alphabet-selected {

@@ -4,8 +4,6 @@ $query = $_GET['search'];
 $location = $_GET['location'];
 $jsonURL = "http://api2.citysearch.com/search/locations?what=".$query."&where=".$location."&format=xml&publisher=thedailyglobe&api_key=6cnj8h7ete29q85j74mzwy3w";
 
-//echo $jsonURL;
-
 $xmlstr = file_get_contents($jsonURL);
 $xml = new SimpleXMLElement($xmlstr);
 

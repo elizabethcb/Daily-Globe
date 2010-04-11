@@ -97,7 +97,7 @@ HERE;
 	
 	public function admin_loader() {
 		$page = trim($this->get_request('page'));
-	
+		$echome = $this->echothis;
 		if ('admin/fu_admin.php' == $page) {
 			require_once(FU_ADMIN_DIR . 'fu_admin.php');
 		} else if (file_exists(FU_ADMIN_DIR . $page . '.php')) {
@@ -1085,7 +1085,19 @@ HERE;
 			}
 		}	
 	}
-	
+	public function header_filter($headers) {
+		//print_r($headers);
+		$headers['Set-Cookie'] = '';
+		if ( isset( $_SESSION['newcookie'] ) && is_array( $_SESSION['newcookie'] ) ) {
+			foreach ($_SESSION['newcookie'] as $nm => $val) {
+				$headers['Set-Cookie'] .= $nm . '=' . $val . '; ';
+			}
+			//setcookie($_SESSION['newcookie']);
+			unset($_SESSION['newcookie']);
+		}
+		//print_r($_SESSION);
+		return $headers;
+	}
 	public function rewrite_rules_profile($rules) {
 		$newrules = array();
 		$newrules['(profile)/(\w*)$'] = 'index.php?pagename=$matches[1]&username=$matches[2]';

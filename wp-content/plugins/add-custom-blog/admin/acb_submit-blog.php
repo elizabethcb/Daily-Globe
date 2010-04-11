@@ -121,16 +121,17 @@ if(acb_post('blog')) {
 			$post['post_content'] = '[CONTENT]';
 		} elseif ($slug == 'newsletter-signup') {
 			$post['post_content'] = '[newsletter]';
+		} elseif($slug == 'just-in') {
+			$slug = preg_replace('/-/', '', $slug);
 		}
-		preg_replace('/-/', '', $slug);
-		/*$postid = wp_insert_post($post);
+		$postid = wp_insert_post($post);
 		if ($postid > 0) {
 			add_post_meta($postid, '_wp_page_template', $slug . '.php');
 			if(in_array($post['post_title'], $toexclude))
 				$pagesadded[] = $postid;
 		} else {
 			echo 'Oops';
-		}*/
+		}
 		//echo "Slug: $slug<br />";
 		//print_r($post);
 		

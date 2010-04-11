@@ -17,10 +17,10 @@
 
 $sm_dir = str_replace('\\', '/', dirname(__FILE__));
 $sm_file = str_replace('\\', '/', __FILE__);
-
-define('SM_PLUGIN_DIR_PATH', trailingslashit($sm_dir));
-define('SM_PLUGIN_DIR_URL', trailingslashit(str_replace(str_replace('\\', '/', ABSPATH), get_bloginfo('wpurl').'/', $sm_dir)));
-define('SM_PLUGIN_DIRNAME', str_replace('/plugins/','',strstr(SM_PLUGIN_DIR_URL, '/plugins/')));
+define('SM_FILENAME', $sm_file); // full filename with file
+define('SM_PLUGIN_DIR_PATH', trailingslashit($sm_dir)); // the path to filname
+define('SM_PLUGIN_DIR_URL', trailingslashit(str_replace(str_replace('\\', '/', ABSPATH), get_bloginfo('wpurl').'/', $sm_dir))); //url to plugin dir
+define('SM_PLUGIN_DIRNAME', str_replace('/plugins/','',strstr(SM_PLUGIN_DIR_URL, '/plugins/'))); // name of plugin directory
 define('SM_ADMIN_DIR', SM_PLUGIN_DIR_PATH . 'admin/');
 define('SM_INCLUDES_DIR', SM_PLUGIN_DIR_PATH . 'includes/');
 define('SM_SQL_IMPORT_FILE', SM_INCLUDES_DIR . 'sm_tables.sql');
@@ -31,7 +31,19 @@ require_once(SM_INCLUDES_DIR . 'sm_functions.include.php');
 $validity_period = false;
 $table_name = $user_excludes_table = $excludes_table = false;
 $bg = '#FFFFFF';
-
+function this_plugin_first() {
+	// ensure path to this file is via main wp plugin path
+	//$wp_path_to_this_file = preg_replace('/(.*)plugins\/(.*)$/', WP_PLUGIN_DIR."/$2", __FILE__);
+	$this_plugin = plugin_basename(SM_FILENAME);
+	$active_plugins = get_option('active_plugins');
+	$this_plugin_key = array_search($this_plugin, $active_plugins);
+	if ($this_plugin_key) { // if it's 0 it's the first plugin already, no need to continue
+		array_splice($active_plugins, $this_plugin_key, 1);
+		array_unshift($active_plugins, $this_plugin);
+		update_option('active_plugins', $active_plugins);
+	}
+}
+add_action("activated_plugin", "this_plugin_first");
 register_activation_hook(__FILE__, 'sm_activate');
 //register_deactivation_hook(str_replace('\\', '/', $sm_file), 'sm_deactivate');
 

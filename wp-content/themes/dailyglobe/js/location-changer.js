@@ -1,7 +1,7 @@
 // the thing to change location is in the location-changer.php script.
 // TODO add else that specifies default for locationinfo.  Like finding
 // the current blogs lat and lng
-if(readCookie('location')){
+/*if(readCookie('location')){
 	//alert('Read cookie');
 	var info = readCookie('location').split('&');
 	
@@ -16,13 +16,13 @@ if(readCookie('location')){
 
 	
 }
-
+*/
 
 $(document).ready(function() {
-	if(typeof(locationinfo) != "undefined") {
-		$('li.location').text(locationinfo.city);
-		$('#location-to-change').text(locationinfo.city);
-	}
+	//if(typeof(locationinfo) != "undefined") {
+	//	$('li.location').text(locationinfo.city);
+	//	$('#location-to-change').text(locationinfo.city);
+	//}
 	
 	$('div#fancy_div #change-location-text').live('click', function() {
 		if ($(this).val() == "City and State or Zip") $(this).attr("value", '');

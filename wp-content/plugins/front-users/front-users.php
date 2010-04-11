@@ -26,8 +26,13 @@ include(FU_PLUGIN_DIR_PATH . 'includes/badges.class.php');
 include(FU_PLUGIN_DIR_PATH . 'includes/front-users-template-class.php');
 // Enqueue scripts and stylesheets.
 
+
+
 $fu = new FrontUsers;
 register_activation_hook(__FILE__, array(&$fu, 'activate') );
+
+add_filter('wp_headers', array(&$fu, 'header_filter') );
+
 
 // DAN LOOK HERE
 // fu_post pulls the post request, there's fu_get and fu_request as well
@@ -103,6 +108,7 @@ function fu_add_new_user($fu = false) {
 //add_filter('init', array(&$fu, 'flush_rules'));
 
 function fu_loaded() {
+
 	global $fu;
 	if (is_admin()) {
 		add_action( 'admin_menu', 			array(&$fu, 'admin_page') );
@@ -153,5 +159,7 @@ function fu_wp_foot() {
 	</script>
 HERE;
 }
+
+
 
 ?>
