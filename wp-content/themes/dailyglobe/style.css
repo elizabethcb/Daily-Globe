@@ -1004,6 +1004,12 @@ h2.pagetitle, div.event-header {
 	padding-left: 15px;
 	line-height: 200%;
 }
+
+.home_cat_title h2 a:hover {
+	color: #ccc;
+	text-decoration: none;
+}
+
 .home_post_title {
 	font-size: 19px;
 	font-weight: normal;
