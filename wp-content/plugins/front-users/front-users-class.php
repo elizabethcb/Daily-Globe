@@ -1021,19 +1021,22 @@ HERE;
 	public function grrr() {
 		global $wpdb;
 		# did 20,24,58 but postmeta didn't get updated.
-		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs WHERE blog_id IN(2,3,4)");
+		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs WHERE blog_id IN(3,4, 5)");
 		echo "<h1>Hi</h1>";
 		foreach ($results as $res) {
 			if(switch_to_blog($res->blog_id)) {
 				$bid = $res->blog_id;
 				$autbl = "wp_$bid"."_wpo_authors";
+				// Use these if it's screwed up
+				//$wpdb->query("DROP TABLE $autbl");
+				//$wpdb->query("CREATE TABLE $autbl SELECT * FROM wp_" . $bid . "_backup");
+
 				$wpdb->query("CREATE TABLE wpo_authors LIKE $autbl");
 				$wpdb->query("INSERT INTO wpo_authors
 					SELECT NULL, name, email, url FROM $autbl
 					WHERE name NOT LIKE '' GROUP BY name ORDER BY id");
-				$wpdb->query("DELETE FROM wpo_join");
 				$wpdb->query("INSERT INTO wpo_join
-					SELECT b.id,a.id,a.name
+					SELECT b.id,a.id,a.name, NULL
 					FROM wpo_authors a
 					JOIN $autbl b ON a.name = b.name");
 				$results = $wpdb->get_results(
@@ -1043,14 +1046,13 @@ HERE;
 				foreach ($results as $res) {
 					if ($res->new_id == $res->oldid) 
 						next;
-					update_postmeta($res->post_id, 'wpo_authors', $res->new_id);
+					update_post_meta($res->post_id, 'wpo_authors', $res->new_id);
 				}
 				
 				$wpdb->query("CREATE TABLE wpo_".$bid."_backup SELECT * FROM $autbl");
 				$wpdb->query("DROP TABLE $autbl");
 				$wpdb->query("CREATE TABLE $autbl SELECT * FROM wpo_authors");
 				$wpdb->query("DROP TABLE wpo_authors");
-				$wpdb->query("DELETE FROM wpo_join");
 				
 			} else {
 				echo "whoops";
