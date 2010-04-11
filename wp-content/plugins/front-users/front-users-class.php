@@ -996,7 +996,34 @@ HERE;
 		
 		echo "<h1>woot</h1>";
 	}
-	public function dontdothisone() {
+	
+	public function dontdothisone()
+		global $wpdb;
+		
+		$cities = array(
+//			3 => 'or',
+//			5 => 'wa',
+			9 => 'nm',
+//			10 => 'ak',
+//			11 => 'ga',
+//			12 => 'al',
+			13 => 'id'
+		);
+		
+		foreach ( $cities as $bid => $st ) {
+			if(switch_to_blog($bid)) {
+				$results = $wpdb->get_results("SELECT ID, guid FROM $wpdb->posts");
+				foreach ($results as $post) {
+					$post->guid = preg_replace( '/(.*)(\.thedailyglobe)(.*)/', '$1' . $st . '${2}${3}', $post->guid);
+					wp_update_post($post);
+				
+				}
+			} else {
+				echo "whoops";
+			}		
+		}
+	}
+	public function dontdothisonenopenope() {
 		global $wpdb;
 		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
 		echo "<h2>Hi</h2>";

@@ -54,10 +54,10 @@ if ( 'fu-fu' == $myact) {
 } elseif ( 'dontdoit' == $myact) {
 	//$anotherfu->dontdoit();
 } elseif ( 'dontdothiseither' == $myact ) {
-	$fu->grrr();
+	//$fu->grrr();
 	//$fu->dontdoiteither();
 } elseif ( 'dontdothisone' == $myact ) {
-	//$fu->dontdothisone();
+	$fu->dontdothisone();
 } elseif ( 'comment_vote' == $mygetfu ) {
 	// if some parameter is set do some function for intense debate's comment_vote
 	$fu->comment_vote();  // vals retrieved from js.
