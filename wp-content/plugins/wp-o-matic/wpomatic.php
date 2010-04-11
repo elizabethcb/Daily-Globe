@@ -28,4 +28,9 @@ register_deactivation_hook(__FILE__, array(&$wpomatic, 'deactivate') );
 add_filter( 'the_author', array(&$wpomatic, 'the_author') );
 add_action( 'the_post', array(&$wpomatic, 'the_post') );
 
+function wpo_syndicated() {
+	global $wpomatic;
+	return $wpomatic->is_syndicated();
+}
+
 ?>

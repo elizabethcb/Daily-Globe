@@ -62,6 +62,7 @@ class WPOMatic {
 
   var $section = false;
   
+  var $issyndicated = false;
 	# var $feeduser = 35;
   //var $feeduser = 61; // This is cheating.
   # __construct()
@@ -118,7 +119,35 @@ class WPOMatic {
     $this->cron_command = attribute_escape('*/20 * * * * '. $this->getCommand() . ' ' . $this->cron_url);
 	
   }
-  
+	public function is_syndicated() {
+		global $wpdb;
+		if ($this->issyndicated && $this->actpost->feedid > 0) {
+			$result = $wpdb->get_row(
+				$wpdb->prepare("SELECT logo, title FROM " . $this->db['campaign_feed'] . " WHERE id=%d LIMIT 1", $this->actpost->feedid)
+			);
+			$feed['title'] = $result->title;
+			$feed['link'] = get_post_meta($this->actpost->ID, 'wpo_sourcepermalink', true);
+			$feed['id'] = $this->actpost->feedid;
+			$feed['avatar'] = $result->logo;
+			return $feed;
+		}
+		return false;
+	}
+
+	/**
+	 * This is the hook to set data for the other hooks like the_author and the_content
+	 */
+	 
+	function the_post($post) {
+		$this->actpost = $post;
+		$fid = get_post_meta($post->ID, 'wpo_feedid', true);
+		if ($fid > 0) {
+			$this->actpost->feedid = $fid;
+			$this->issyndicated = true;
+		}
+		return $post;
+	}
+	
 	/**
 	 * the_author is a hook that runs everytime the_author is run
 	 */
@@ -134,25 +163,16 @@ class WPOMatic {
 			//echo ' Result: <pre>'; print_r($result); echo '<pre>';
 			return $result->name; 
 		} elseif ( 0 == $aid ) {
-			$fid = get_post_meta($this->actpost->ID, 'wpo_feedid', true);
-			if ($fid > 0 ) {
-				$result = $wpdb->get_row(
-					$wpdb->prepare("SELECT * FROM " . $this->db['campaign_feed'] . " WHERE id=%d", $fid)
-				);
-				return $result->title;
-			} else {
-				return $stuff;
-			}
+			return false;
 		} else {
 			//echo ' Stuff: ' . $stuff;
 			return $stuff;
 		}
 	}
 	
-	function the_post($post) {
-		$this->actpost = $post;
-		return $post;
-	}
+
+	
+
   /**
    * Checks that WP-o-Matic tables exist
    * Fixed: 29.02.2010
@@ -356,7 +376,9 @@ class WPOMatic {
     // Processes post stack
     foreach($items as $item) {
        $test = $this->processItem($campaign, $feed, $item);
-      if ($test == true) {
+      if( 2 == $test) {
+      	continue;
+      } elseif ( 1 == $test) {
       	$lasthash = $this->getItemHash($item);
       	$itemcount++;
       } else {
@@ -428,7 +450,8 @@ class WPOMatic {
     // feeds that don't mind.
     
     $content = $this->parseItemContent($campaign, $feed, $item);
-    
+    if ( 2 == $content )
+    	return $content;
     // Item date
     if($campaign->feeddate && 
     ($item->get_date('U') > (current_time('timestamp', 1) - $campaign->frequency) && 
@@ -459,7 +482,7 @@ class WPOMatic {
     );      
         // Create post
     $post_id = $this->insertPost(
-    	$wpdb->escape($item->get_title()), 
+    	$wpdb->escape(strip_tags($item->get_title())), 
     	$wpdb->escape($content), 
     	$date, $categories, $campaign->posttype, 
     	$this->feeduser, $campaign->allowpings, 
@@ -494,7 +517,7 @@ class WPOMatic {
     	pingback($content, $postid);      
     }  
     
-    return true;
+    return 1;
   }
   
   /** Processes an author
@@ -631,30 +654,33 @@ function wpo_get_post_image($id = false){
 	} else {
 		$text = strip_tags($stuff);
 	}
-	
+	if ( '' == $text ) 
+		return 2;
+		
     $content = '';
 //    echo $item->get_title() . '<br /><pre>Images:<br />';print_r($images);
     if ( sizeof($images[2]) > 0  ) {
     	foreach ($images[2] as $img) {
-    		if (preg_match( '/pheedo|dblclick/', $img) )
+    		if (preg_match( '/pheedo|feedburner/', $img) )
     			continue;
     		$tmp = getimagesize($img);
     		if ($tmp[0] > 100 || $tmp[1] > 100) {
+
     			//echo '<h1>'.$img.'</h1>';
-    			$content .= '<img src="'.$img.'" alt="post_img" width="80" class="wpo" />';
+    			$content .= '<img src="'.$img.'" alt="post_img" width="80" class="wpo-image" />';
     			$yes = true;
     			break;
     		}
     	}
     }
 //    echo '<br />Thing: <br />';
-    print_r($thing);
+    // print_r($thing);
     if (preg_match( '/(jpg|png|gif)$/', $thing->link) && !$yes ) {
     	//print_r($thing);
  //   	echo " thing link ";
 		$tmp = getimagesize($thing->link);
-		if ($tmp[0] > 75 || $tmp[1] > 75 ) {
-			$content .= '<img src="' . $thing->link . '" alt="post_img" width="80" class="link" />';
+		if ($tmp[0] > 85 || $tmp[1] > 85 ) {
+			$content .= '<img src="' . $thing->link . '" alt="post_img" width="80" class="sp-image" />';
 			$yes = true;
 		}
     } 
@@ -664,7 +690,7 @@ function wpo_get_post_image($id = false){
     	foreach ( $thing->thumbnails as $link ) {
 			$tmp = getimagesize($link);
 			if ($tmp[0] > 75 || $tmp[1] > 75 ) {
-				$content .= '<img src="' . $link . '" alt="post_img" width="80" class="thumb" />';
+				$content .= '<img src="' . $link . '" alt="post_img" width="80" class="sp-thumb" />';
 				$yes = true;
 				break;
 			}
@@ -675,7 +701,7 @@ function wpo_get_post_image($id = false){
     	$img = $this->wpo_get_post_image($cat_id[0]);
     	if($img) {
 			$content = '<img src="'. $img
-				. '" alt="post_img" width="80" />';
+				. '" alt="post_img" width="80" class="flick-image" />';
 		}
 	}
 
@@ -2156,9 +2182,9 @@ function wpo_get_post_image($id = false){
 	 	update_option('wpo-fu-campaign-id', $wpdb->insert_id);
 	 }
 	global $current_site;
-	$id = ('campdx.com' == $current_site->domain) ? 61 : 35;
+	//$id = ('campdx.com' == $current_site->domain) ? 61 : 35;
 	 
-	 update_usermeta(1, 'feeduserid', $id);
+	 //update_usermeta(1, 'feeduserid', $id);
 	 $wpdb->insert('wp_croncodes', array( 'blog_id' => $blog_id, 'cron_code' => $croncode),
 	 	array( '%d', '%s' ) );
                                                                                      

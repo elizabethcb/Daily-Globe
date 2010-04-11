@@ -86,7 +86,12 @@ $(document).ready(function() {
     before:   onBefore
 
    });
-   
+});
+
+</script>
+<?php } ?>
+<script type="text/javascript">
+$(document).ready(function() {
     $('#customer_content').cycle({ 
     timeout: 0 
     
@@ -118,7 +123,6 @@ $(document).ready(function() {
    
 });
 </script>
-<?php } ?>
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/css/style_IE7.css">
 <![endif]-->
@@ -126,7 +130,7 @@ $(document).ready(function() {
 <?php wp_head(); ?>
 
 </head>
-
+<!--<img src="<?php bloginfo('stylesheet_directory') ?>/images/submenu.png" />-->
 <body>
 <!--<h3>Frak: <?php global $sm_session_id; echo $sm_session_id; ?></h3>-->
 <div id="header">
@@ -145,9 +149,13 @@ $(document).ready(function() {
 				<div class="submenu closed" style="display: none;">
 					<div class="carrottop"></div>
 						<ul>
-							<?php foreach(array("Local", "National", "International") as $item) { ?>
-								<li><a href="<?php bloginfo('siteurl'); ?>"><?php echo $item ?></a></li>
-							<? } ?>
+							<?php global $current_site; 
+								$link = get_local_link();
+								$url = ( '0' == $link ) ? get_bloginfo('siteurl') : 'http://' . $link;
+							?>
+							<li><a href="<?php echo $url;?>">Local</a></li>
+							<li><a href="http://usnews.<?php echo $current_site->domain; ?>">National</a></li>
+							<li><a href="http://international.<?php echo $current_site->domain; ?>">International</a></li>
 						</ul>
 					
 				</div>
@@ -155,7 +163,7 @@ $(document).ready(function() {
 			<li id="topics_link"><a href="/topics/">Topics</a></li>
 			<li id="tweets_link"><a href="/local-tweets/">News Tweets</a></li>
 			<li id="local_search_link"><a href="/local-search/">Local Search</a></li>
-			<li id="local_events_link"><a href="/events/">City Events</a></li>
+			<!--<li id="local_events_link"><a href="/events/">City Events</a></li>-->
 			<li id="register"><a href="/register/">Become a Globe Blogger</a></li>
 			<li id="cities_link"><a href="/cities/">Browse Cities</a></li>
 			
@@ -172,7 +180,7 @@ $(document).ready(function() {
 		</ul>
 	</div>
 	<div id="customize_color"><span><a id="customize_box" href="#colorchart">Customize</a></span>
-		<div id="#colorchart" style="display:none">
+		<div id="colorchart" style="display:none">
 			<ul id="color-changer">
 				<?php foreach(array("lightblue","orange", "salmon", "teal", "yellow", "lightgreen", "lavender", "pink", "grey",
 				 "darkblue", "red", "darkpink", "darkteal", "darkyellow", "darkgreen", "purple", "maroon", "black") as $color) { ?>
@@ -212,7 +220,7 @@ $(document).ready(function() {
 
 			<ul>
 			<li class="top-location">Your Default Location</li>
-			<li class="location"><?php get_default_location(); ?></li>
+			<li class="location"><?php echo get_default_location(); ?></li>
 			<li><a href="#change-location" id="change-your-location">Change Your Default</a></li>
 			</ul>
 		</div>
@@ -251,6 +259,8 @@ $(document).ready(function() {
 		<h1 id="blogname"><a href="<?php bloginfo('siteurl'); ?>">
 		<?php if (is_page('Topics')) {
 				echo "Topics";
+			} elseif(is_page('Cities')) {
+				echo "Browse Cities";
 			} elseif(is_page('Advertise')) {
 				echo "Advertise";
 			} elseif(is_page('Local Tweets')) {
@@ -283,6 +293,7 @@ $(document).ready(function() {
 		
 		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search")){ echo 'style="height: 100px;"'; } ?>>
 			<?php if (is_page("Topics") || is_page("international") || is_page('Cities') ) { ?>
+				<a href="<?php bloginfo('siteurl'); ?>" class="alpha-home">Home</a>
 				<div id="alphabet">
 					<a href="/cities/" class="alphabet alph-all">All</a>
 					<?php

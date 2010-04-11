@@ -81,6 +81,7 @@ Template Name: category
 		<a href="#"><img src="<?php bloginfo('template_directory'); ?>/images/iphone_app.png"></a>
 	</div>
 <?php get_sidebar (2); ?>
+<?php get_sidebar (3); ?>
 </div>
 
 </div><!--/subcontainer-->

@@ -6,6 +6,7 @@ Template Name: Just In
 
 
 <?php get_header(); ?>
+
 <div id="sub-container">
 <h2 class="pagetitle">Categories in <?php bloginfo('name'); ?></h2>
 

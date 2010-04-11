@@ -6,7 +6,7 @@ if ( function_exists('register_sidebars') ) {
    	'before_title'=>'<h3>',
    	'after_title'=>'</h3>'
    	));
-   	}
+}
 
 // limit characters by whole words only
 //function string_limit_words($string, $word_limit){
@@ -169,9 +169,85 @@ function get_popular_posts_by_category(&$pops = false, $cat = 1, $maxcount = 5) 
 
 
 function get_default_location() {
-	return get_bloginfo('name');
+	//var info = readCookie('location').split('&');
+	$doit = true;
+	if ( isset($_COOKIE['location']) ) {
+		$cookie = explode('&', $_COOKIE['location']);
+		
+		//this sucks, but whatever.
+		list(, $lat) = explode('=', $cookie[0]);
+		list(, $lng) = explode('=', $cookie[1]);
+		list(, $city) = explode('=', $cookie[2]);
+		$name = $city;
+		$doit = false;
+	} else {
+		include("geocache/geoipcity.inc.php");
+		include("geocache/geoipregionvars.inc.php");
+		 // uncomment for Shared Memory support
+		geoip_load_shared_mem(ABSPATH . "wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat");
+		$gi = geoip_open("wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat",GEOIP_SHARED_MEMORY);
+	
+		//$gi = geoip_open("GeoLiteCity.dat",GEOIP_STANDARD);
+		
+		$record = geoip_record_by_addr($gi,$_SERVER['REMOTE_ADDR']);
+		if ($record) {
+			//echo '<pre>';print_r($record);echo '</pre>';
+			//print 'Country: ' . $record->country_code . " " . $record->country_code3 . " " . $record->country_name . "<br />";
+			//print 'Region: ' . $record->region . " " . $GEOIP_REGION_NAME[$record->country_code][$record->region] . "<br />";
+			//print 'Postal: ' . $record->postal_code . "<br />";
+			//print 'Lat lng: ' . $record->latitude . " ";
+			//print $record->longitude . "<br />";
+			//print 'Metro Code: ' . $record->metro_code . "<br />\n";
+			//print 'Area Code: ' . $record->area_code . "<br />\n";
+			$lat = $record->latitude;
+			$lng = $record->longitude;
+			$name = $record->city . ', ' . $record->region;
+		} else {
+			$name = get_bloginfo('name');
+		}
+		
+		geoip_close($gi);
+	}
+	
+	$citysplit = explode(', ', $name);
+	global $wpdb;
+	$results = $wpdb->get_row("SELECT b.blog_id, b.blog_name, b.domain, c.latitude, c.longitude
+		FROM wp_blogs b 
+		JOIN cities c ON b.blog_id = c.blog_id
+		WHERE blog_name LIKE '%" . $citysplit[0] . "%' LIMIT 1");
+	$doi =  $results->blog_name ? 1 : 0;
 
+	$string = "lat=$lat" . "&lng=$lng" . "&city=$name" . "&doi=$doi";
+
+	if ($doit) {
+		global $current_site;
+		$_SESSION['newcookie'] = array(
+			'location'=> $string,
+			'expires' => time() + 60*60*24*60, 
+			'path' => '/', 
+			'domain' => "." . $current_site->domain
+		);
+	}
+	$dom = $results->domain ? $results->domain : get_bloginfo('siteurl');
+	$_SESSION['location'] = $string . "&domain=$dom";
+	
+	return $name;
 }
+
+function get_local_link() {
+	if ( !isset($_SESSION['location']) )
+		return 0;
+	$list = explode( '&', $_SESSION['location'] );
+	foreach ($list as $item) {
+		list($key, $val) = explode( '=', $item );
+		if ( 'doi' == $key && 0 == $val)
+			break;
+		if ( 'domain' == $key )
+			return $val;
+	}
+	return 0;
+}
+
 function sort_by_hits( $a, $b ){
   if(  $a->hits ==  $b->hits ) return 0 ; 
   return ($a->hits > $b->hits) ? -1 : 1;

@@ -14,9 +14,23 @@
 			<h2 class="pagetitle"><?php the_title(); ?></h2>
 			<div class="author_info"><?php //$author_email = get_the_author_meta('user_email'); echo get_avatar( $author_email, 32 ); ?>
 				<div class="single_post_meta">
-					<img src="/css/images/dgdefault.png" width="50" height="50"/>
-					<h3><a class="single-feed-title left" href="/feed-information/<?php echo get_post_meta( get_the_ID(), 'wpo_feedid', true); ?>">Feed Title Goes Here</a><br/></h3>
-					<p class="left">Posted by <?php the_author(); ?> on <?php  the_time('F jS, Y'); ?></p><br/>
+					
+					<?php $feed = wpo_syndicated(); ?>
+
+					<?php if ($feed) { ?>
+						<img src="<?php echo ( isset($feed['logo']) ) ? $feed['logo'] : '/css/images/dgdefault.png'; ?>" width="50" />
+						<h3><a class="single-feed-title left" href="/feed-information/<?php echo $feed['id']; ?>"><?php echo $feed['title']; ?></a><br/></h3>
+						<p class="left">Posted
+						<?php $author = get_the_author();
+						if ($author) { 
+							 echo 'by ' . $author; 
+						}
+						
+					} else { 
+						echo get_avatar( $author_email, 32 ); ?>
+						<p class="left">Posted by <?php the_author(); ?>
+					<? } ?>
+					on <?php  the_time('F jS, Y'); ?></p><br/>
 					<p class="left">Filed under <?php the_category(', '); ?>.</p>
 					<div class="clear"></div>
 				</div>
@@ -55,17 +69,17 @@
 				
 				
 				<div class="entry left">
-					<?php $perma = get_post_meta( get_the_ID(), 'wpo_sourcepermalink', 1);
-						if ($perma) { ?>
-						<span>Story originally posted <a class="topic-tag-link" href="<?php echo $perma; ?>">at this original source</a></span>
+					<?php 
+						if ($feed) { ?>
+						<span><a class="topic-tag-link" href="<?php echo $feed['link']; ?>" target="_blank">Original Story</a></span>
 						<div class="syndicated-content">
 						<?php the_content(); ?>
 						</div>
-						<span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $perma; ?>" target="_blank">Read More</a></span>
+						<span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $feed['link']; ?>" target="_blank">Read More</a></span>
 						<br/>
 						<span id="synd-feed-info" class="syndication-info">
 							
-							<a class="topic-tag-link" href="/feed-information/<?php echo get_post_meta( get_the_ID(), 'wpo_feedid', true); ?>">Feed information for: <?php echo get_post_meta( get_the_ID(), 'wpo_feedname', true); ?></a>
+							<a class="topic-tag-link" href="/feed-information/<?php echo $feed['id']; ?>">Feed information</a>
 						</span>
 					<?php } else {
 						the_content();
