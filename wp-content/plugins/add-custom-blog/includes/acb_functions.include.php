@@ -126,8 +126,8 @@ function acb_get_pages() {
 	global $wpdb;
 	
 	$query = "SELECT meta.post_id, po.post_title, po.post_name "
-		." FROM wp_3_postmeta AS meta "
-		." JOIN wp_3_posts AS po ON po.ID = meta.post_id "
+		." FROM wp_4_postmeta AS meta "
+		." JOIN wp_4_posts AS po ON po.ID = meta.post_id "
 		." WHERE meta.meta_key = '_wp_page_template'";
 	$results = $wpdb->get_results($query);
 
