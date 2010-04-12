@@ -341,7 +341,7 @@ class WPOMatic {
 
     // Log
     $this->log('Processing feed ' . $feed->title . ' (ID: ' . $feed->id . ')');
-    
+    $this->addCampaignFeed($campaign->id, html_entity_decode( $feed->url), true); 
     // Access the feed
     $simplepie = $this->fetchFeed(html_entity_decode($feed->url), false, $campaign->max);
     
@@ -998,25 +998,38 @@ function wpo_get_post_image($id = false){
    *
    *
    */
-  function addCampaignFeed($id, $feed) {
+  function addCampaignFeed($id, $feed, $isupdate = false) {
     global $wpdb;
     
     $simplepie = $this->fetchFeed($feed, true);
-    $url = $wpdb->escape($simplepie->subscribe_url());
+    $url = $simplepie->subscribe_url();
     // use the other way.  hash has a unique index.
     // If it already exists, ignore it
-    if(! $wpdb->get_var("SELECT id FROM {$this->db['campaign_feed']} WHERE campaign_id = $id AND url = '$url' ")) {
-      $wpdb->query(WPOTools::insertQuery($this->db['campaign_feed'], 
-        array('url' => $url, 
-              'title' => $wpdb->escape($simplepie->get_title()),
-              'description' => $wpdb->escape($simplepie->get_description()),
-              'logo' => $wpdb->escape($simplepie->get_image_url()),
-              'campaign_id' => $id)
-      ));  
+    $thatfeed = $wpdb->get_row("SELECT * FROM {$this->db['campaign_feed']} WHERE campaign_id = $id AND url = '$url' ");
+   $thisfeed = array(
+   		'url' 			=> $url,
+   		'title' 		=> strip_tags($simplepie->get_title()),
+   		'description' 	=> strip_tags($simplepie->get_description()),
+   		'logo'			=> $simplepie->get_image_url(),
+   		'campaign_id'	=> $id
+   	);
+   if(!$thatfeed) {
+      $wpdb->insert( $this->db['campaign_feed'], 
+        $thisfeed, array('%s', '%s', '%s', '%s', '%d')
+       );  
       
       return $wpdb->insert_id;
+    } elseif ($isupdate) {
+    	
+    	foreach (array('url', 'title', 'description', 'logo', 'campaign_id') as $key) {
+    		if ($thatfeed->$key != $thisfeed[$key]) {
+    			$thatfeed->$key = $thisfeed[$key];
+    		}
+    	}
+		$wpdb->update($this->db['campaign_feed'], $thatfeed, array( 'id' => $thatfeed->id),
+			array('%s', '%s', '%s', '%s', '%d')
+		);
     }
-    
     return false;
   }
   
