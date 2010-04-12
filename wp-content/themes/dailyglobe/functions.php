@@ -889,9 +889,7 @@ function mytheme_add_admin() {
 	global $themename, $shortname, $options;
 	 
 	if ( $_GET['page'] == basename(__FILE__) ) {
-	 
 		if ( 'save' == $_REQUEST['action'] ) {
-	 
 			foreach ($options as $value) {
 				update_option( $value['id'], htmlspecialchars($_REQUEST[ $value['id'] ]) ); 
 			}
@@ -904,7 +902,7 @@ function mytheme_add_admin() {
 				}
 			}
 		 
-			header("Location: admin.php?page=functions.php&saved=true");
+			header("Location: themes.php?page=functions.php&saved=true");
 			die;
 		 
 		} elseif( 'reset' == $_REQUEST['action'] ) {
@@ -912,13 +910,13 @@ function mytheme_add_admin() {
 			foreach ($options as $value) {
 				delete_option( $value['id'] ); }
 		 
-			header("Location: admin.php?page=functions.php&reset=true");
+			header("Location: themes.php?page=functions.php&reset=true");
 			die;
 		 
 		}
 	}
  
-	add_menu_page($themename, $themename, 'administrator', basename(__FILE__), 'mytheme_admin');
+	add_theme_page($themename, $themename, 'administrator', basename(__FILE__), 'mytheme_admin');
 }
 
 function mytheme_add_init() {

@@ -7,8 +7,11 @@ Template Name: Home
 
 
 <?php get_header(); ?>
-
-
+<pre>
+<?php global $options;
+	//print_r($options);
+?>
+</pre>
 <div id="home_sub-container" class="left">
 	<div id="home_content">
 		<?php $pages = setup_popular_posts();?>

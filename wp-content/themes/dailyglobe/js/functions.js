@@ -5,8 +5,8 @@ $(document).ready(function() {
 	$('.submenu').parent().append('<div class="down_arrow"></div>');
 	
 	$('.submenu').parent().hover(
-		function() { $('.submenu', this).fadeIn(500); },
-		function() { $('.submenu', this).fadeOut(500); 
+		function() { $('.submenu', this).stop(false,true).fadeIn(500); },
+		function() { $('.submenu', this).stop(false,true).fadeOut(500); 
 	});
 	
 	$('#search-events').click(function() {

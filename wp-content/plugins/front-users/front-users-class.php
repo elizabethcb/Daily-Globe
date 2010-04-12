@@ -1175,7 +1175,7 @@ HERE;
 			feed_id mediumint(9) NOT NULL,
 			value tinyint(2) NOT NULL DEFAULT 10,
 			object_id mediumint(9) NOT NULL,
-			object_type enum('vote', 'badges', 'sharing') NOT NULL DEFAULT 'vote'
+			object_type enum('vote', 'badges', 'sharing') NOT NULL DEFAULT 'vote',
 			PRIMARY KEY (id) )";
 		
 		//$count = 0;

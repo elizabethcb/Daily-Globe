@@ -64,6 +64,8 @@ $(document).ready(function() {
 });
 
 </script>
+<?php } ?>
+<!--/Lookit me-->
 <script type="text/javascript">
 $(document).ready(function() {
     $('#customer_content').cycle({ 
@@ -81,6 +83,10 @@ $(document).ready(function() {
     
    });
    
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
    // Array of day names
 	var dayNames = new Array("Sunday","Monday","Tuesday","Wednesday",
 					"Thursday","Friday","Saturday");
@@ -97,8 +103,6 @@ $(document).ready(function() {
    
 });
 </script>
-<?php } ?>
-<!--/Lookit me-->
 
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/css/style_IE7.css">
@@ -158,6 +162,7 @@ $(document).ready(function() {
 	</div>
 	<div id="customize_color"><span><a id="customize_box" href="#colorchart">Customize</a></span>
 		<div id="colorchart" style="display:none">
+			<h3 id="colorchanger_header">Customize TheDailyGlobe to your favorite color</h3>
 			<ul id="color-changer">
 				<?php foreach(array("lightblue","orange", "salmon", "teal", "yellow", "lightgreen", "lavender", "pink", "grey",
 				 "darkblue", "red", "darkpink", "darkteal", "darkyellow", "darkgreen", "purple", "maroon", "black") as $color) { ?>
@@ -320,7 +325,7 @@ $(document).ready(function() {
 					}
 					?>
 					
-					<?php $catNum1 = get_cat_id(get_option('dg_sub_cat1')); ?>
+					<?php if($catNum1 = get_cat_id(get_option('dg_sub_cat1'))) {?>
 					<li class="cat-item"><a href="<?php bloginfo('siteurl') ;?>/category/<?php echo get_option('dg_sub_cat1') ;?>/"><?php echo get_option('dg_sub_cat1'); ?></a>
 						<?php 
 						$catCount = count(get_categories("child_of=$catNum1&title_li=&hide_empty=1"));
@@ -330,7 +335,7 @@ $(document).ready(function() {
 							</ul>	
 						<?php } ?>				
 					</li>
-					<?php $catNum2 = get_cat_id(get_option('dg_sub_cat2')); ?> 
+					<?php } if ($catNum2 = get_cat_id(get_option('dg_sub_cat2'))) { ?> 
 					<li class="cat-item"><a href="<?php bloginfo('siteurl') ;?>/category/<?php echo get_option('dg_sub_cat2') ;?>/"><?php echo get_option('dg_sub_cat2'); ?></a>
 						<?php 
 						$catCount = count(get_categories("child_of=$catNum2&title_li=&hide_empty=1"));
@@ -341,7 +346,7 @@ $(document).ready(function() {
 						<?php } ?>
 					
 					</li>
-					<?php $catNum3 = get_cat_id(get_option('dg_sub_cat3')); ?> 
+					<?php } if ($catNum3 = get_cat_id(get_option('dg_sub_cat3'))){ ?> 
 					<li class="cat-item"><a href="<?php bloginfo('siteurl') ;?>/category/<?php echo get_option('dg_sub_cat3') ;?>/"><?php echo get_option('dg_sub_cat3'); ?></a>
 						<?php 
 						$catCount = count(get_categories("child_of=$catNum3&title_li=&hide_empty=1"));
@@ -352,7 +357,7 @@ $(document).ready(function() {
 						<?php } ?>
 					
 					</li>
-					<?php $catNum4 = get_cat_id(get_option('dg_sub_cat4')); ?>
+					<?php } if ($catNum4 = get_cat_id(get_option('dg_sub_cat4'))) { ?>
 					<li class="cat-item"><a href="<?php bloginfo('siteurl') ;?>/category/<?php echo get_option('dg_sub_cat4') ;?>/"><?php echo get_option('dg_sub_cat4'); ?></a>
 						<?php 
 						$catCount = count(get_categories("child_of=$catNum4&title_li=&hide_empty=1"));
@@ -363,7 +368,7 @@ $(document).ready(function() {
 						<?php } ?>
 					
 					</li> 
-					<?php $catNum5 = get_cat_id(get_option('dg_sub_cat5')); ?> 
+					<?php } if ($catNum5 = get_cat_id(get_option('dg_sub_cat5'))) { ?> 
 					<li class="cat-item"><a href="<?php bloginfo('siteurl') ;?>/category/<?php echo get_option('dg_sub_cat5') ;?>/"><?php echo get_option('dg_sub_cat5'); ?></a>
 						<?php 
 						$catCount = count(get_categories("child_of=$catNum5&title_li=&hide_empty=1"));
@@ -374,7 +379,7 @@ $(document).ready(function() {
 						<?php } ?>
 					
 					</li>
-					<?php $catNum6 = get_cat_id(get_option('dg_sub_cat6')); ?>
+					<?php } if ($catNum6 = get_cat_id(get_option('dg_sub_cat6'))) { ?>
 					<li class="cat-item"><a href="<?php bloginfo('siteurl') ;?>/category/<?php echo get_option('dg_sub_cat6') ;?>/"><?php echo get_option('dg_sub_cat6'); ?></a>
 						<?php 
 						$catCount = count(get_categories("child_of=$catNum6&title_li=&hide_empty=1"));
@@ -385,7 +390,7 @@ $(document).ready(function() {
 						<?php } ?>
 					
 					</li> 
-					<?php $catNum7 = get_cat_id(get_option('dg_sub_cat7')); ?>
+					<?php } if ($catNum7 = get_cat_id(get_option('dg_sub_cat7'))) { ?>
 					<li class="cat-item"><a href="<?php bloginfo('siteurl') ;?>/category/<?php echo get_option('dg_sub_cat7') ;?>/"><?php echo get_option('dg_sub_cat7'); ?></a>
 						<?php 
 						$catCount = count(get_categories("child_of=$catNum7&title_li=&hide_empty=1"));
@@ -396,7 +401,7 @@ $(document).ready(function() {
 						<?php } ?>
 					
 					</li> 
-					<?php $catNum8 = get_cat_id(get_option('dg_sub_cat8')); ?> 
+					<?php } if ($catNum8 = get_cat_id(get_option('dg_sub_cat8'))) { ?> 
 					<li class="cat-item"><a href="<?php bloginfo('siteurl') ;?>/category/<?php echo get_option('dg_sub_cat8') ;?>/"><?php echo get_option('dg_sub_cat8'); ?></a>
 						<?php 
 						$catCount = count(get_categories("child_of=$catNum8&title_li=&hide_empty=1"));
@@ -407,6 +412,7 @@ $(document).ready(function() {
 						<?php } ?>
 					
 					</li>
+					<?php } ?>
 			</ul>
 			<?php } ?>
 		</div>
@@ -427,12 +433,6 @@ $(document).ready(function() {
   feedback_widget_options.placement = "left";
   feedback_widget_options.color = "#222";
   feedback_widget_options.style = "question";
-  
-  
-  
-  
-  
-  
 
   var feedback_widget = new GSFN.feedback_widget(feedback_widget_options);
 </script>
