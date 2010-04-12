@@ -487,6 +487,10 @@ li.top-location {
 	font-size:26px;
 }
 
+#thedate {
+	margin-top: 10px;
+}
+
 
 .citysearch	{
 	background:url('images/citysearch.png') no-repeat center;

@@ -19,7 +19,7 @@ if ($results) {
 		echo "<span style=\"visibility:hidden\">Lat: <span id=\"loc-lat-{$count}\">"
 			. $res->latitude ."</span> Long: <span id=\"loc-lng-{$count}\">"
 			.$res->longitude ."</span></span>";
-		echo '<span style="visibility:hidden" id="blog-id-' . $count . " >{$res->blog_id}</span></li>";
+		echo '<span style="visibility:hidden" id="blog-id-' . $count . "\" >{$res->blog_id}</span></li>";
 		$count++;
 	}
 	echo '</ul>';
@@ -91,7 +91,7 @@ if ($results) {
 		var out = "lat=" + lat + '&lng=' + lng;
 		var textout = $(this).text();
 		var blogid = $('#blog-id-' + info[2]).text();
-		createCookie('location',out + '&city=' + textout,365);
+		//createCookie('location',out + '&city=' + textout,365);
 		//testout = testout + 'carp';
 		$('li.location').text(textout);
 		$('#location-to-change').text(textout);

@@ -30,7 +30,7 @@
 						echo get_avatar( $author_email, 32 ); ?>
 						<p class="left">Posted by <?php the_author(); ?>
 					<? } ?>
-					on <?php  the_time('F jS, Y'); ?></p><br/>
+					on <?php  the_time('F jS, Y'); ?></p><br />
 					<p class="left">Filed under <?php the_category(', '); ?>.</p>
 					<div class="clear"></div>
 				</div>
