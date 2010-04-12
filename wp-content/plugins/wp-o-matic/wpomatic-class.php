@@ -1020,13 +1020,13 @@ function wpo_get_post_image($id = false){
       
       return $wpdb->insert_id;
     } elseif ($isupdate) {
-    	
+    	$updatefeed = array();
     	foreach (array('url', 'title', 'description', 'logo', 'campaign_id') as $key) {
-    		if ($thatfeed->$key != $thisfeed[$key]) {
-    			$thatfeed->$key = $thisfeed[$key];
+    		if ( $thisfeed[$key] != $thatfeed->$key) {
+    			 $updatefeed[$key] = $thisfeed[$key];
     		}
     	}
-		$wpdb->update($this->db['campaign_feed'], $thatfeed, array( 'id' => $thatfeed->id),
+		$wpdb->update($this->db['campaign_feed'], $updatefeed, array( 'id' => $thatfeed->id),
 			array('%s', '%s', '%s', '%s', '%d')
 		);
     }
