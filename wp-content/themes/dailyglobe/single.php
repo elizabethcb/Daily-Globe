@@ -50,19 +50,7 @@
 				
 			</div>
 			
-			<div id="article_profit_wrangler2" class="<?php echo get_option('dg_ad_placement'); ?>">
-					<script type="text/javascript"><!--
-					google_ad_client = "pub-5222051702127265";
-					/* DailyGlobe Single Article (before/after comments) */
-					google_ad_slot = "5252582605";
-					google_ad_width = 468;
-					google_ad_height = 15;
-					//-->
-					</script>
-					<script type="text/javascript"
-					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-					</script>
-			</div>
+
 			
 			<div class="single_post left" id="post-<?php the_ID(); ?>">
 				
@@ -93,10 +81,10 @@
 			<div id="article_profit_wrangler3">
 				<script type="text/javascript"><!--
 				google_ad_client = "pub-5222051702127265";
-				/* DailyGlobe Single Article (before/after comments) */
-				google_ad_slot = "5252582605";
-				google_ad_width = 468;
-				google_ad_height = 15;
+				/* 336x280, created 4/11/10 */
+				google_ad_slot = "1499896030";
+				google_ad_width = 336;
+				google_ad_height = 280;
 				//-->
 				</script>
 				<script type="text/javascript"

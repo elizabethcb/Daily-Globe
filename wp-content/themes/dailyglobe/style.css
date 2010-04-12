@@ -106,7 +106,8 @@ img.right {
 	margin:auto;
 }
 #appstore_button {
-	margin: 28px;
+	margin-top: 56px;
+	margin-left: 28px;
 	float: left;
 }
 .search	{
@@ -114,7 +115,7 @@ img.right {
 	height:45px;
 	position:absolute;
 	right:0;
-	top:65px;
+	top:40px;
 	width:200px;
 }
 
@@ -220,7 +221,7 @@ img.right {
 	
 }
 #menu > ul {
-	width: 965px;
+	width: 845px;
 	margin: 0 auto;
 	list-style-type: none;
 	font-size:15px;
@@ -532,6 +533,18 @@ li.top-location {
 	border-radius: 8px;
 	z-index: 9000;
 	height:46px;
+	position: relative;
+	top: 85px;
+	left: 40px;
+}
+#colorchanger_header {
+	margin-top: 0 !important;
+	padding: 0;
+	position: relative;
+	top: 54px;
+	font-size: 21px;
+	color: #4A4A4A;
+	font-weight: bold;
 }
 #fancy_div #color-changer li {	
 	margin:2px;
@@ -2560,6 +2573,11 @@ img.alignleft {
 	font-size: 25px;
 	font-weight: bold;
 }
+
+#footerlinks ul li {
+	margin-bottom: 10px;
+}
+
 #signup	{
 	float: left;
 	width: 380px;
@@ -2670,6 +2688,49 @@ a#signupbtn:hover	{
 a[href="http://www.satollo.net"]{
 	display:none;
 }
+
+
+.terms_full h2 {
+	margin:0 0 0.5em 0;
+}
+.terms_full p {
+	margin:0 0 1.1em 0;
+	line-height:1.4em;
+}
+
+.terms_full ol {
+	list-style:decimal;
+	line-height:1.4em;
+}
+.terms_full ol li {
+	margin:0 0 1.1em 15px;
+	
+}
+
+.about_full h2{
+	color:#c1c1c1;
+	font-size:3.1em;
+	margin:0 0 0.3em 0;
+}
+
+.about_full p + h2 {	margin:1.4em 0 0 0; }
+
+.about_full p + p {margin:1.6em 0 0 0;}
+
+.about_full p {
+	font-weight:bold;
+	font-size:1.5em;
+	line-height:1.1em;
+}
+
+.about_full p span {display:inline-block;width:150px;}
+.about_full p a{color:#bcbcbc;}
+
+.mobile_full .centered {text-align:center;font-size:1.35em;margin:0 0 2.5em 0;}
+.mobile_full {font-weight:bold;}
+.mobile_full h2 {color:#c1c1c1;font-size:3.1em;}
+.mobile_full .featured {padding:0 100px;}
+.mobile_full li {font-size:1.2em;margin:0.2em;line-height:1.6em;}
 
 /********** TEMPORARY SHIT ******************/
 

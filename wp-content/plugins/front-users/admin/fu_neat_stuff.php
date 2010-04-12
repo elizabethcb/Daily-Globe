@@ -1,6 +1,5 @@
 <?php
-	global $echome;
-echo $echome;
+
 
 ?>
 
