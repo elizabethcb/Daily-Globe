@@ -221,7 +221,7 @@ img.right {
 	
 }
 #menu > ul {
-	width: 845px;
+	width: 855px;
 	margin: 0 auto;
 	list-style-type: none;
 	font-size:15px;
@@ -1113,9 +1113,9 @@ h2.pagetitle, div.event-header {
 	margin: 10px 27px;
 }
 #article_profit_wrangler3 {
-	float: right;
-	width: 468px;
-	height: 25px;
+	float: left;
+	width: 338px;
+	height: 280px;
 	margin: 10px 27px;
 }
 
@@ -2292,7 +2292,7 @@ li.
 	margin:0;
 	padding: 0;
 }
-#sidebar .widget_bg	{
+#sidebar .widget_bg, .pretty_ad	{
 	background:#f9f9f9;
 	border:10px solid #efefef;
 	padding:10px;
