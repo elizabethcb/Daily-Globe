@@ -21,31 +21,6 @@
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/js/fancybox/jquery.fancybox-1.2.6.css" type="text/css" media="screen" />
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/ajaxlogin.js"></script>
 
-<script type="text/javascript" src="http://pyunitedcoders.appspot.com/geo_data.js?key=#google_key#"></script>
-<?php global $wpdb;
-if ( $wpdb->blogid == 1 ) { ?>
-<script type="text/javascript">
-	//var lat= com.unitedCoders.geo.getLat();
-	//var lng = com.unitedCoders.geo.getLong();
-	//var out = "lat=" + lat + '&lng=' + lng;
-	//$.getJSON("<?php bloginfo('stylesheet_directory'); ?>/json/ip-location.php?"+out, function(data) {
-		//createCookie('location',out + '&city=' + data.name + '&domain=' + data.link,365);
-		//window.location = "http://"+data.link;
-	//});
-</script>
-<?php } else { ?>
-<script type="text/javascript">
-	//if(!readCookie('location')) {
-		//var lat= com.unitedCoders.geo.getLat();
-		//var lng = com.unitedCoders.geo.getLong();
-		//var out = "lat=" + lat + '&lng=' + lng;
-		//$.getJSON("<?php bloginfo('stylesheet_directory'); ?>/json/ip-location.php?"+out, function(data) {
-			//createCookie('location',out + '&city=' + data.name,365);
-			//window.location = "http://"+data.link;
-		//});
-	//}
-</script>
-<?php } ?>
 <script>
  document.bloginfo = "<?php bloginfo('stylesheet_directory'); ?>";
 </script>
@@ -63,8 +38,8 @@ if ( $wpdb->blogid == 1 ) { ?>
 	<link rel="stylesheet" href="<?php echo FU_PLUGIN_DIR_URL ?>layout/stylesheets/fu-style.css" type="text/css" media="screen" />
 <?php } ?>
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-ui-1.7.2.custom.min.js"></script>
-
-<?php if(is_page('Home') ) { ?>
+<!--Look at me-->
+<?php if ( is_home() ) { ?>
 <script type="text/javascript">
 var slideshowFlag = true;
 function onBefore(curr, next, opts) {
@@ -89,7 +64,6 @@ $(document).ready(function() {
 });
 
 </script>
-<?php } ?>
 <script type="text/javascript">
 $(document).ready(function() {
     $('#customer_content').cycle({ 
@@ -123,6 +97,9 @@ $(document).ready(function() {
    
 });
 </script>
+<?php } ?>
+<!--/Lookit me-->
+
 <!--[if IE 7]>
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/css/style_IE7.css">
 <![endif]-->
@@ -198,7 +175,9 @@ $(document).ready(function() {
 			<?php } else { ?>
 				<a href="/profile/">My Account</a>
 			<?php } ?> | <?php if ($current_user->user_login) {
-						echo '<a href="' . wp_logout_url( $_SERVER['REQUEST_URI'] ) . '" title="Logout">Logout</a>';
+						$uri = preg_match( '/submit-a/', $_SERVER['REQUEST_URI']) ? get_bloginfo('siteurl') : $_SERVER['REQUEST_URI'];
+							
+						echo '<a href="' . wp_logout_url( $uri ) . '" title="Logout">Logout</a>';
 					   } else {
 						echo '<a id="wploginout" href="#ajaxlogin">Log In</a>';
 					   } ?>
