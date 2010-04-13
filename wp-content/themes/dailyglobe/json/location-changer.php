@@ -5,13 +5,13 @@ $cityenc = urlencode($city);
 $citysplit = explode( ',', $city);
 include_once('../../../../wp-load.php');
 global $wpdb;
-$results = $wpdb->get_results("SELECT b.blog_id, b.blog_name, c.latitude, c.longitude
+$results = $wpdb->get_results("SELECT b.blog_id, b.blog_name, b.domain, c.latitude, c.longitude
 	FROM wp_blogs b 
 	JOIN cities c ON b.blog_id = c.blog_id
 	WHERE blog_name LIKE '%" . $citysplit[0] . "%'");
 
 if ($results) {
-	echo '<ul>';
+	echo 'Our Sites:<ul>';
 	$count = 1;
 	foreach ($results as $res ) {
 		echo '<li style="margin-left: 10px;"><a href="#" id="loc-link-'.$count.'" class="please-change-me">'.
@@ -19,14 +19,18 @@ if ($results) {
 		echo "<span style=\"visibility:hidden\">Lat: <span id=\"loc-lat-{$count}\">"
 			. $res->latitude ."</span> Long: <span id=\"loc-lng-{$count}\">"
 			.$res->longitude ."</span></span>";
-		echo '<span style="visibility:hidden" id="blog-id-' . $count . "\" >{$res->blog_id}</span></li>";
+		echo '<span style="visibility:hidden" id="blog-id-' . $count . "\" >{$res->blog_id}</span>" . 
+		'<span style="visibility:hidden" id="domain-' . $count . ">{$res->domain}</span></li>";
 		$count++;
 	}
 	echo '</ul>';
-} else {
+}
+if ($count < 6) {
+	echo '-----------------------------------------';
+	$diff = 6 - $count;
 	//adminCode1 is 2 char state code for US so split on comma etc.
 	//echo "<p style='text-align: center;'>Your Search: <em>".$cityenc."</em></p><br />";
-	$jsonurl = "http://ws.geonames.org/searchJSON?q=".$cityenc."&country=US&featureClass=p&maxRows=5";
+	$jsonurl = "http://ws.geonames.org/searchJSON?q=".$cityenc."&country=US&featureClass=p&maxRows=$diff";
 	//echo $jsonurl. "<br />";
 	$json = file_get_contents($jsonurl,0,null,null);
 	$json_output = json_decode($json);
@@ -35,8 +39,7 @@ if ($results) {
 	//echo "</pre>";
 	if ($json_output->totalResultsCount > 0) {
 		//echo "Here are the results:<br /><br />";
-		$count = 1;
-		echo '<ul">';
+		echo 'Other Cities:<ul">';
 		foreach ( $json_output->geonames as $result ) {
 			//echo "<pre>";
 			//echo print_r($result);
@@ -56,6 +59,7 @@ if ($results) {
 		echo "Oh shucks, there was a problem with the server we're requesting info from.";
 	}
 }
+//$_SESSION['checkfornewlocation'] = true;
 //echo '<pre>';
 //print_r( array_slice($wpdb->queries, -1, 5) ); 
 //echo '</pre>';
@@ -63,7 +67,7 @@ if ($results) {
 <!--Session: <?php global $sm_session_id; echo $sm_session_id; ?>-->
 
 <script type="text/javascript">
-<?php if($admin) { //this sucks, but stoopid j ?>
+<?php if($admin) {  //this sucks, but stoopid j ?>
 	jQuery.noConflict();
 	jQuery('#results a').click( function () {
 		//alert("I've been clicked");
@@ -89,10 +93,19 @@ if ($results) {
 		var lat = $('#loc-lat-' + info[2]).text();
 		var lng = $('#loc-lng-' + info[2]).text();
 		var out = "lat=" + lat + '&lng=' + lng;
-		var textout = $(this).text();
+		var textout = $.URLEncode( $(this).text() );
 		var blogid = $('#blog-id-' + info[2]).text();
-		//createCookie('location',out + '&city=' + textout,365);
+		var dom = $('#domain-' + info[2]).text();
+		var more;
+		if (blogid) {
+			more = textout + '&id=' + blogid + '&domain=' + dom;
+		} else {
+			more = textout;
+		}
+		//createCookie('newlocation',out + '&city=' + more,365);
 		//testout = testout + 'carp';
+		$('li.location').load(document.bloginfo + "/json/location-changer-commit.php?" + out + '&city=' + more);
+		
 		$('li.location').text(textout);
 		$('#location-to-change').text(textout);
 		$("a#change-your-location").fancybox.close();
