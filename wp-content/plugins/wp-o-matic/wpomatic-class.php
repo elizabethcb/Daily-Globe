@@ -341,7 +341,7 @@ class WPOMatic {
 
     // Log
     $this->log('Processing feed ' . $feed->title . ' (ID: ' . $feed->id . ')');
-    $this->addCampaignFeed($campaign->id, html_entity_decode( $feed->url), true); 
+   // $this->addCampaignFeed($campaign->id, html_entity_decode( $feed->url), true); 
     // Access the feed
     $simplepie = $this->fetchFeed(html_entity_decode($feed->url), false, $campaign->max);
     
