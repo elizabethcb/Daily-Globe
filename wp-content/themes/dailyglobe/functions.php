@@ -59,13 +59,135 @@ function dbem_is_single_location_page () {
 // playing with session manager info
 // foreach ($populars as $pop)
 // get_post($pop->post_id);
+function setup_main_popular_posts($blog_id = 3, $number = 4) {
+	if (switch_to_blog($blog_id) ) {
+		$pages = new_setup_popular_posts($number);
+		restore_current_blog();
+		return $pages;
+	
+	}
+	return false;
+}
 
-function setup_popular_posts() {
+function new_setup_popular_posts($number = 40) {
 	// Need to combine votes.
 	if(!get_option('sm_settings'))
 		return;
 
-	$pages = my_sm_get_pages('hits', 'DESC', 20);
+	$hittotals = my_sm_get_pages('hits', 'DESC', 40);
+	// Session Manager doesn't store post_id, so I have to retrieve that before retrieving the category.
+	global $wpdb, $blog_id;
+
+	$sql = "
+		SELECT 
+		   v.total_votes,
+		   v.positive_votes,
+		   p.ID AS post_id,
+		   p.post_title,
+		  p.post_content,
+		  p.comment_count,
+		  p.post_date,
+		  p.guid,
+		  cat.category_id,
+		  cat.category
+		FROM " . $wpdb->posts . " p 
+		JOIN (
+			SELECT COUNT(*) AS total_votes,
+			  SUM(rating) AS positive_votes,
+			  item_id
+			FROM wp_tu_votes
+			WHERE  blog_id=$blog_id AND item_type='post'
+			GROUP BY item_id
+		) AS v ON p.ID = v.item_id
+		JOIN (
+			SELECT 
+				t.term_id AS category_id,
+				tr.object_id AS post_id,
+				t.name AS category
+			FROM " . $wpdb->terms . " AS t 
+			INNER JOIN " . $wpdb->term_taxonomy . " AS tt ON tt.term_id = t.term_id 
+			INNER JOIN " . $wpdb->term_relationships . " AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id 
+			WHERE tt.taxonomy='category' 
+		) AS cat ON p.ID = cat.post_id
+		GROUP BY p.ID
+		ORDER BY v.positive_votes
+		LIMIT 10";
+	$found = array();
+	$results = $wpdb->get_results( $sql );
+	
+	$hits = array();
+	//echo "<br />Hits for $blog_id: <br />";
+	foreach ($hittotals as $h) {
+		$pid = url_to_postid($h->url);
+		if ( in_array($pid, $found) )
+			continue;
+		//echo "Post: $pid, hits: " . $h->hits . '<br />';
+		$hits[$pid] = $h->hits;
+	}
+	//print_r($hits);
+	foreach($results as &$post) {
+		$post->hits = $hits[$post->post_id];
+		unset($hits[$post->post_id]);
+		$neg = $post->total_votes - $post->positive_votes;
+		$vb = $post->total_votes - $neg;
+
+		$post->value = $post->hits + $vb * 5;
+		//if (0 == $post->value)
+			//unset($results[$post]);
+	}
+	
+	$more = array();
+	$cnt = count($results);
+	if ( $cnt < 6 ) {
+		$n = 6 - $cnt;
+		//echo "<h2>hi $cnt and $n</h2>";
+		$count = 0;
+		foreach ($hits as $key => $val ) {
+			$more[] = $key;
+			$count++;
+			if ($count > $n)
+				break;
+		}
+		//print_r($more);
+		//echo '<br />';
+		$pids = implode( ', ', $more );
+		//echo $pids . "<br />";
+		$moresql = "SELECT 
+				p.ID AS post_id,
+				p.post_title,
+ 				p.post_content,
+ 				p.comment_count,
+ 				p.guid,
+ 				p.post_date,
+ 				t.name AS category,
+				t.term_id AS category_id
+		FROM " . $wpdb->terms . " AS t
+		INNER JOIN " . $wpdb->term_taxonomy . "  AS tt ON t.term_id = tt.term_id
+		INNER JOIN " . $wpdb->term_relationships . " AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id
+		INNER JOIN " . $wpdb->posts . " p ON p.ID = tr.object_id
+		WHERE tt.taxonomy = 'category' AND p.ID IN($pids)";
+
+		$stuff = $wpdb->get_results($moresql);
+		foreach ($stuff as $thing) {
+			$thing->value = $hits[$thing->post_id];
+		}
+		//print_r($stuff);
+		$results = array_merge($results, $stuff);
+		//print_r($results);
+	}
+
+	usort($results, "pop_sort");
+	//print_r($pages); 
+//	echo '</pre>';
+
+	return $results;
+}
+function setup_popular_posts($number = 40) {
+	// Need to combine votes.
+	if(!get_option('sm_settings'))
+		return;
+
+	$pages = my_sm_get_pages('hits', 'DESC', $number);
 	// Session Manager doesn't store post_id, so I have to retrieve that before retrieving the category.
 	global $wpdb, $blog_id;
 
@@ -74,7 +196,7 @@ function setup_popular_posts() {
 		COUNT(*) 		AS total_votes,
 		SUM(v.rating)	 AS positive_votes,
 		MAX(v.date)		AS last_vote_date
-		FROM ". $wpdb->prefix . "posts i 
+		FROM ". $wpdb->posts . " i 
 	JOIN wp_tu_votes v ON i.ID = v.item_id
 	WHERE i.ID=%d  AND v.blog_id=%d AND v.item_type='post'
 	GROUP BY i.ID";
@@ -437,7 +559,7 @@ function add_category_images ($stuff) {
 
 // Only use with session manager plugin installed.
 function my_sm_get_pages($sort, $order, $limit=false) {
-    global $wpdb, $table_name, $user_excludes_table;
+    global $wpdb;
 
     $sm_settings = get_option('sm_settings');
     $filter = '[0-9]{4}/[0-9]{2}/[0-9]{2}/';
@@ -446,9 +568,9 @@ function my_sm_get_pages($sort, $order, $limit=false) {
                 COUNT(t1.id) AS hits
                 , t1.url
             FROM
-                ' . $table_name . ' t1
-                ' . (!$sm_settings->view_robot_hits ? ' LEFT JOIN ' . $user_excludes_table . ' t2 ON (t1.ip_address = t2.ip_address)':'') . '
-            WHERE 1 ' . ($filter ? "AND url REGEXP '" . $filter . "'" :'') . (!$sm_settings->view_robot_hits ? ' AND t2.id IS NULL ':'') . '
+                ' . $wpdb->prefix . 'session_manager t1
+                ' . (!$sm_settings->view_robot_hits ? ' LEFT JOIN ' . $wpdb->prefix . 'session_manager_user_exclude t2 ON (t1.ip_address = t2.ip_address)':'') . 
+                "WHERE url REGEXP '[0-9]{4}/[0-9]{2}/[0-9]{2}/'" . (!$sm_settings->view_robot_hits ? ' AND t2.id IS NULL ':'') . '
             GROUP BY t1.url
             ORDER BY ' . $sort . ' ' . $order;
     if ($limit) {
