@@ -21,10 +21,10 @@ if (count($xml) > 0 ) {
 			if ($result->image) {
 				$image = $result->image;
 			} else {
-				$image = "http://seattle.campdx.com/wp-content/themes/dailyglobe/images/home_img/business3.png";
+				$image = "/wp-content/themes/dailyglobe/images/home_img/business3.png";
 			}
 
-			$profileLink = "http://seattle.campdx.com/local-search/local-search-result/?id=";
+			$profileLink = "/local-search/local-search-result/?id=";
 
 			echo '<div class="tweet">';
 				echo '<img width="48" height="48" src="' . $image . '" class="left" />';

@@ -9,10 +9,10 @@
 			<div id="search_results_profit_wrangler">
 				<script type="text/javascript"><!--
 				google_ad_client = "pub-5222051702127265";
-				/* DailyGlobe Search Results link unit (before results) */
-				google_ad_slot = "8772293235";
-				google_ad_width = 728;
-				google_ad_height = 15;
+				/* 336x280, created 4/12/10 */
+				google_ad_slot = "7743255937";
+				google_ad_width = 336;
+				google_ad_height = 280;
 				//-->
 				</script>
 				<script type="text/javascript"
@@ -40,10 +40,10 @@
 			<div id="search_results_profit_wrangler2">
 				<script type="text/javascript"><!--
 				google_ad_client = "pub-5222051702127265";
-				/* DailyGlobe Search Results link unit (before results) */
-				google_ad_slot = "8772293235";
-				google_ad_width = 728;
-				google_ad_height = 15;
+				/* 336x280, created 4/12/10 */
+				google_ad_slot = "7743255937";
+				google_ad_width = 336;
+				google_ad_height = 280;
 				//-->
 				</script>
 				<script type="text/javascript"
@@ -58,9 +58,9 @@
 	
 			<script type="text/javascript"><!--
 			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe 160x600 Search Results (side) */
-			google_ad_slot = "6484433385";
-			google_ad_width = 160;
+			/* 120x600, created 4/12/10 */
+			google_ad_slot = "6984527206";
+			google_ad_width = 120;
 			google_ad_height = 600;
 			//-->
 			</script>

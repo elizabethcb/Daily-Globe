@@ -2457,8 +2457,8 @@ li.
 }
 .search_result_title a {
 	font-weight: normal;
-	color: #0A1291;
-	border-bottom: 1px solid #D8D8FF;
+	color: #000000;
+	border-bottom: 1px solid #CCCCCC;
 	font-size: 16px;
 }
 .search_result {
@@ -2468,6 +2468,7 @@ li.
 }
 .search_result p {
 	padding: 0 5px;
+	color: #666;
 }
 .search_result img {
 	display: none;
@@ -2480,7 +2481,7 @@ li.
 	margin: 10px 0px 0px 0px;
 }
 .search_result_meta a {
-	color: green;
+	color: #6A8DBB;
 	font-style: oblique;
 }
 #searchform {
