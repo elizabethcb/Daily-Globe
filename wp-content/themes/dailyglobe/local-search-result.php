@@ -11,7 +11,7 @@ $(document).ready(function() {
 </script>
 <div id="sub-container" class="local_tweets">
 	
-	<div id="result_content" class="left">
+	<div id="result_content" class="left" style="margin-right: -20px;">
 
 		<div id="localtweets_ad_wrangler" class="left">
 			<script type="text/javascript"><!--
@@ -25,18 +25,7 @@ $(document).ready(function() {
 			<script type="text/javascript"
 			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 			</script>
-			
-			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe 120x600 Local Tweets 2 */
-			google_ad_slot = "6151531906";
-			google_ad_width = 120;
-			google_ad_height = 600;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
+
 		</div>
 		
 		<div id="tweets_page" class="right">
@@ -194,16 +183,28 @@ $(document).ready(function() {
 		</div>
 
 		<div id="tweets" class="left"></div>
-	</div><!---content-- >
-
-	<div id="sidebar">
-	<?php get_sidebar (2); ?>
-	<?php get_sidebar (2); ?>
+	</div><!--content-->
+	
+	<div id="sidebar_thing" class="right">
 	<?php get_sidebar (2); ?>
 
 	</div>
 	
-</div><!---subcontainer -->
+	<div id="bottom_profit_wrangler_local">
+		<script type="text/javascript"><!--
+		google_ad_client = "pub-5222051702127265";
+		/* 728x90, created 4/12/10 */
+		google_ad_slot = "6738632594";
+		google_ad_width = 728;
+		google_ad_height = 90;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+	
+</div><!--subcontainer -->
 
 <?php 
 $locationArray = explode(", ", get_bloginfo('name'));

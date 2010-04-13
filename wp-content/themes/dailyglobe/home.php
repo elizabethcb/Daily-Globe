@@ -14,7 +14,7 @@ Template Name: Home
 </pre>
 <div id="home_sub-container" class="left">
 	<div id="home_content">
-		<?php $pages = setup_popular_posts();?>
+		<?php $pages = setup_popular_posts(40);?>
 	
 		<div id="content_wrangler_1" class="left">	
 			

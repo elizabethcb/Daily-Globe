@@ -1,6 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
 
+<?php 
+	// redirect user to us news if trying to access main blog
+global $blog_id;
+if ($blog_id == 1) { ?>
+	<script type="text/javascript"><!--
+		window.location = "http://usnews.thedailyglobe.com/"
+	//--></script>
+<?php } ?>
 <head profile="http://gmpg.org/xfn/11">
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 
@@ -136,7 +144,7 @@ $(document).ready(function() {
 							?>
 							<li><a href="<?php echo $url;?>">Local</a></li>
 							<li><a href="http://usnews.<?php echo $current_site->domain; ?>">National</a></li>
-							<li><a href="http://international.<?php echo $current_site->domain; ?>">International</a></li>
+							<li><a href="/international/">International</a></li>
 						</ul>
 					
 				</div>
@@ -245,6 +253,8 @@ $(document).ready(function() {
 				echo "Topics";
 			} elseif(is_page('Cities')) {
 				echo "Browse Cities";
+			} elseif(is_page('International')) {
+				echo "International";
 			} elseif(is_page('Advertise')) {
 				echo "Advertise";
 			} elseif(is_page('Local Tweets')) {
@@ -290,9 +300,17 @@ $(document).ready(function() {
 				
 				
 			<?php } elseif (is_page("Local Tweets")) { ?>
-			
+				
+				<?php 
+					$locationArray = explode(", ", get_bloginfo('name'));
+					$city = $locationArray[0]; 
+					$state = $locationArray[1];
+					if ($state == "OR") { $state = "Oregon"; }
+					$location = $city . ", " . $state;
+				?>
+				
 				<div id="twitter-form">
-					<input type="text" name="search" id="search" value="<?php echo strip_tags(get_bloginfo('name')); ?> news" />
+					<input type="text" name="search" id="search" value="<?php echo strip_tags($location); ?> news" />
 					<a href=" " id="searchBtn">Search</a>
 					<br/>
 				</div>	
