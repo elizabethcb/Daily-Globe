@@ -436,7 +436,7 @@ $(document).ready(function() {
 			<?php } ?>
 		</div>
 	</div><!--/subheader-->
-	<div id="test-div"><a id="click-me-once">Click</a></div>		
+	<!--<div id="test-div"><a id="click-me-once">Click</a></div>-->		
 	<!-- Get Satisfaction -->
 	<script type="text/javascript" charset="utf-8">
   var is_ssl = ("https:" == document.location.protocol);
