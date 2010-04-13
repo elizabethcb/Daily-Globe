@@ -5,7 +5,6 @@ Template Name: Main Home
 ?>
 
 
-
 <?php get_header(); ?>
 <pre>
 <?php global $options;
@@ -16,7 +15,7 @@ Template Name: Main Home
 	<div id="home_content">
 	<pre>	<?php 
 			$featured = array();
-			foreach (array(3, 4, 7) as $bid) {
+			foreach (array(3, 5, 13, 8, 39, 44, 41, 47, 55, 58,62,63,4,49) as $bid) {
 				$pages[$bid] = setup_main_popular_posts($bid, 40);
 				$featured[] = array_shift($pages[$bid]);
 			}
@@ -41,7 +40,7 @@ Template Name: Main Home
 							<img src="<?php echo $image_link; ?>" />
 							<h3 class="slide_title"><a href="<?php echo $post->guid; ?>"><?php echo $post->post_title; ?></a></h3>
 						</div>
-						<?php $count++; ?>
+						<?php $count++; if ($count > 6) break;?>
 					 <?php } ?>
 				</div>
 				<div class="slide_nav">
@@ -63,7 +62,7 @@ Template Name: Main Home
 									</script>
 								</li>
 								
-								<?php $count++; ?>
+								<?php $count++; if ($count == 6) break;?>
 						 		
 					 	<?php } ?>
 					 </ul>
@@ -71,16 +70,16 @@ Template Name: Main Home
 				
 			</div>	
 			<?php // for each one of these, we'll iterate over $pages[$blog_id] ?>
-			<?php if ( isset($pages[3]) ) { 
+			<?php if ( isset($pages[5]) ) { 
 				$numarts = 0;
 			?>
 			<div id="home_cat3" class="left">
 			<?php //$catNum = get_cat_id(get_option('dg_sect_cat3')); 
 			//$category_link = get_category_link( $catNum ); ?> 
-				<div class="home_cat_title"><h2>Seattle</a></h2></div>
+				<div class="home_cat_title"><h2>Seattle, WA</a></h2></div>
 				<?php //$pops1 = get_popular_posts_by_category($pages, $catNum, 2);
-					foreach($pages[3] as $post) { ?>
-					<h3 class="home_post_title left"><a href="<?php echo $pop->post->guid;?>">
+					foreach($pages[5] as $post) { ?>
+					<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 					<?php echo $post->post_title;?>&ensp;&raquo;</a></h3>
 					<div class="home_post_wrapper left">
 						<p class="cat3_posts home_post">
@@ -101,30 +100,30 @@ Template Name: Main Home
 								<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
 								<?php }
 								elseif ($count == 1) {
-									echo '<a href="' . $pop->post->guid . '">1 Comment</a> | '; }
+									echo '<a href="' . $post->guid . '">1 Comment</a> | '; }
 								else { 
-									echo '<a href="' . $pop->post->guid . '">No Comments</a> | '; } ?>
-								<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
+									echo '<a href="' . $post->guid . '">No Comments</a> | '; } ?>
+								<a href="<?php echo $post->guid; ?>">Read More &raquo;</a> |
 								<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
 						</div>
 					</div>
 			  <?php $numarts++;
-			  		if ($numarts == 4) break;
+			  		if ($numarts == 3) break;
 			  }	?>
 			</div>
 		</div>
 		<?php } ?>
 		
 		<div id="content_wrangler_2" class="left">
-			<?php if ( isset($pages[4]) ) {
+			<?php if ( isset($pages[3]) ) {
 				$numarts = 0;
 			?>
 			<div id="home_cat2" class="left">
 				
-				<div class="home_cat_title"><h2>Las Vegas</a></h2></div>
+				<div class="home_cat_title"><h2>Portland, OR</a></h2></div>
 				<?php 
-				foreach($pages[4] as $post) { ?>
-					<h3 class="home_post_title left"><a href="<?php echo $pop->post->guid;?>">
+				foreach($pages[3] as $post) { ?>
+					<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 					<?php echo $post->post_title;?> &raquo;</a></h3>
 					<div class="home_post_wrapper left">
 						<p class="cat2_posts home_post">
@@ -142,18 +141,18 @@ Template Name: Main Home
 						<div class="home_post_meta">
 							<?php $count = $post->comment_count; ?> 
 							<?php if($count > 0) { ?> 
-								<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
+								<a href="<?php $post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
 								<?php }
 								elseif ($count == 1) {
 									echo '<a href="' . $post->guid . '">1 Comment</a> | '; }
 								else { 
 									echo '<a href="' . $post->guid . '">No Comments</a> | '; } ?>
-								<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
+								<a href="<?php echo $post->guid; ?>">Read More &raquo;</a> |
 								<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
 						</div>
 					</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 5) break;
 			  }	?>			</div>
 			<?php } ?>
 			
@@ -188,12 +187,12 @@ Template Name: Main Home
 			</script>
 		</div>
 		
-		<?php if ( isset($pages[7]) ) { 
+		<?php if ( isset($pages[13]) ) { 
 			$numarts = 0;
 		?>
 		<div id="home_cat4" class="left">
-				<div class="home_cat_title"><h2>Portland</h2></div>
-				<?php foreach($pages[7] as $post) { ?>
+				<div class="home_cat_title"><h2>Boise, ID</h2></div>
+				<?php foreach($pages[13] as $post) { ?>
 				<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 				<?php echo $post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
@@ -212,28 +211,28 @@ Template Name: Main Home
 					<div class="home_post_meta">
 						<?php $count = $post->comment_count; ?> 
 						<?php if($count > 0) { ?> 
-							<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
+							<a href="<?php $post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
 							<?php }
 							elseif ($count == 1) {
 								echo '<a href="' . $post->guid . '">1 Comment</a> | '; }
 							else { 
 								echo '<a href="' . $post->guid . '">No Comments</a> | '; } ?>
-							<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
+							<a href="<?php echo $post->guid; ?>">Read More &raquo;</a> |
 							<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 4) break;
 			  }	?>
 			  </div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[20]) ) {
+		<?php if ( isset($pages[8]) ) {
 		$numarts = 0;
 		?>
 		<div id="home_cat5" class="left">
-				<div class="home_cat_title"><h2>Name</h2></div>
-				<?php	foreach($pages[20] as $post) { ?>
+				<div class="home_cat_title"><h2>Coffee</h2></div>
+				<?php	foreach($pages[8] as $post) { ?>
 				<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 				<?php echo $post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
@@ -251,18 +250,18 @@ Template Name: Main Home
 					<div class="home_post_meta">
 						<?php $count = $post->comment_count; ?> 
 						<?php if($count > 0) { ?> 
-							<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
+							<a href="<?php $post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
 							<?php }
 							elseif ($count == 1) {
 								echo '<a href="' . $post->guid . '">1 Comment</a> | '; }
 							else { 
 								echo '<a href="' . $post->guid . '">No Comments</a> | '; } ?>
-							<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
+							<a href="<?php echo $post->guid; ?>">Read More &raquo;</a> |
 							<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
 					</div>
 				</div>
 						  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
@@ -284,10 +283,10 @@ Template Name: Main Home
 		</div>
 		<div style="clear: both;"></div>
 		
-		<?php if ( isset($pages[35] )) {$numarts = 0; ?>
+		<?php if ( isset($pages[39] )) {$numarts = 0; ?>
 		<div id="home_cat6" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>Cheese</h2></div>
+				<?php 	foreach($pages[39] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -308,15 +307,15 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[35] )) {$numarts = 0; ?>
+		<?php if ( isset($pages[44] )) {$numarts = 0; ?>
 		<div id="home_cat7" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>Living Green</h2></div>
+				<?php 	foreach($pages[44] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -337,15 +336,15 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[35] )) {$numarts = 0; ?>
+		<?php if ( isset($pages[41] )) {$numarts = 0; ?>
 		<div id="home_cat8" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>Dogs</h2></div>
+				<?php 	foreach($pages[41] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -366,15 +365,15 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[35] )) {$numarts = 0; ?>
+		<?php if ( isset($pages[47] )) {$numarts = 0; ?>
 		<div id="home_cat9" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>Men</h2></div>
+				<?php 	foreach($pages[47] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -395,15 +394,15 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[35] )) {$numarts = 0; ?>
+		<?php if ( isset($pages[55] )) {$numarts = 0; ?>
 		<div id="home_cat10" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>Travel</h2></div>
+				<?php 	foreach($pages[55] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -424,17 +423,17 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
 		
 		<div style="clear:both;"></div>
 		
-		<?php if ( isset($pages[35] )) {$numarts = 0; ?>
+		<?php if ( isset($pages[58] )) {$numarts = 0; ?>
 		<div id="home_cat11" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>iPad</h2></div>
+				<?php 	foreach($pages[58] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -455,15 +454,15 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[35] )) { $numarts = 0;?>
+		<?php if ( isset($pages[62] )) { $numarts = 0;?>
 		<div id="home_cat12" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>DIY</h2></div>
+				<?php 	foreach($pages[62] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -484,15 +483,15 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[35] )) { $numarts = 0;?>
+		<?php if ( isset($pages[63] )) { $numarts = 0;?>
 		<div id="home_cat13" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>Technology</h2></div>
+				<?php 	foreach($pages[63] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -513,15 +512,15 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[35] )) { $numarts = 0;?>
+		<?php if ( isset($pages[4] )) { $numarts = 0;?>
 		<div id="home_cat14" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>Celebrities</h2></div>
+				<?php 	foreach($pages[4] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -542,15 +541,15 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[35] )) { $numarts = 0;?>
+		<?php if ( isset($pages[49] )) { $numarts = 0;?>
 		<div id="home_cat15" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Name</h2></div>
-				<?php 	foreach($pages[35] as $post) { ?>
+			<div class="home_cat_title"><h2>Yoga</h2></div>
+				<?php 	foreach($pages[49] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -571,7 +570,7 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
