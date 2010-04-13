@@ -80,7 +80,7 @@ Template Name: Main Home
 				<div class="home_cat_title"><h2>Seattle</a></h2></div>
 				<?php //$pops1 = get_popular_posts_by_category($pages, $catNum, 2);
 					foreach($pages[3] as $post) { ?>
-					<h3 class="home_post_title left"><a href="<?php echo $pop->post->guid;?>">
+					<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 					<?php echo $post->post_title;?>&ensp;&raquo;</a></h3>
 					<div class="home_post_wrapper left">
 						<p class="cat3_posts home_post">
@@ -121,10 +121,10 @@ Template Name: Main Home
 			?>
 			<div id="home_cat2" class="left">
 				
-				<div class="home_cat_title"><h2>Las Vegas</a></h2></div>
+				<div class="home_cat_title"><h2>Las Vegas</h2></div>
 				<?php 
 				foreach($pages[4] as $post) { ?>
-					<h3 class="home_post_title left"><a href="<?php echo $pop->post->guid;?>">
+					<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 					<?php echo $post->post_title;?> &raquo;</a></h3>
 					<div class="home_post_wrapper left">
 						<p class="cat2_posts home_post">

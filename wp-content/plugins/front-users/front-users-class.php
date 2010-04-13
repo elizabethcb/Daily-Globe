@@ -1087,6 +1087,7 @@ HERE;
 	}
 	public function header_filter($headers) {
 		//print_r($headers);
+
 		$headers['Set-Cookie'] = '';
 		if ( isset( $_SESSION['newcookie'] ) && is_array( $_SESSION['newcookie'] ) ) {
 			foreach ($_SESSION['newcookie'] as $nm => $val) {
@@ -1095,7 +1096,6 @@ HERE;
 			//setcookie($_SESSION['newcookie']);
 			unset($_SESSION['newcookie']);
 		}
-		//print_r($_SESSION);
 		return $headers;
 	}
 	public function rewrite_rules_profile($rules) {

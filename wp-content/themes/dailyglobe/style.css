@@ -1116,7 +1116,7 @@ h2.pagetitle, div.event-header {
 	float: left;
 	width: 338px;
 	height: 280px;
-	margin: 10px 27px;
+	margin: 10px 27px 10px 100px;
 }
 
 .single_post {
@@ -1418,6 +1418,16 @@ ol.commentlist a {}
 
 
 /* local search result*/
+
+#bottom_profit_wrangler_local {
+	clear: both;
+}
+
+#bottom_profit_wrangler_local iframe {
+	margin: 0 auto;
+	width: 728px;
+	display: block;
+}
 
 #result_content	{
 	width:710px;
@@ -2689,6 +2699,9 @@ a[href="http://www.satollo.net"]{
 	display:none;
 }
 
+.terms_full { 
+	 overflow: scroll;
+}
 
 .terms_full h2 {
 	margin:0 0 0.5em 0;
@@ -2707,7 +2720,7 @@ a[href="http://www.satollo.net"]{
 	
 }
 
-.about_full h2{
+.about_full h2, .contact_full h2 {
 	color:#c1c1c1;
 	font-size:3.1em;
 	margin:0 0 0.3em 0;
@@ -2715,16 +2728,16 @@ a[href="http://www.satollo.net"]{
 
 .about_full p + h2 {	margin:1.4em 0 0 0; }
 
-.about_full p + p {margin:1.6em 0 0 0;}
+.contact_full p + p {margin:1.6em 0 0 0;}
 
-.about_full p {
+.about_full p, .contact_full p {
 	font-weight:bold;
 	font-size:1.5em;
 	line-height:1.1em;
 }
 
-.about_full p span {display:inline-block;width:150px;}
-.about_full p a{color:#bcbcbc;}
+.about_full p span, .contact_full p span {display:inline-block;width:150px;}
+.about_full p a, .contact_full p a {color:#bcbcbc;}
 
 .mobile_full .centered {text-align:center;font-size:1.35em;margin:0 0 2.5em 0;}
 .mobile_full {font-weight:bold;}

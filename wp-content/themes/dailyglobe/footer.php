@@ -30,7 +30,7 @@
 		</ul>
 	</div><!--/signups-->
 </div><!--/footer-->
-<div style="text-align: center; clear: both; padding: 10px;">&copy; 2010 TheDailyGlobe</div>
+<div style="text-align: center; clear: both; padding: 10px;">&copy; 2010 TheDailyGlobe INC.</div>
 
 <?php wp_footer(); ?>
 	

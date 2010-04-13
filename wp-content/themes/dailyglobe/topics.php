@@ -21,11 +21,17 @@ Template Name: Topics
 			$('#cities_link').addClass('current_page_item');
 		});
 	</script>
+<?php } elseif (is_page(international)) { ?>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#news_link').addClass('current_page_item');
+		});
+	</script>
 <?php } ?>
 
 <div id="sub-container">	
 <div id="content" class="left">
-	<?php if (is_page('Topics')) { $type = 'topic';} else { $type = 'city';} ?>	
+	<?php if (is_page('Topics')) { $type = 'topic';} elseif (is_page(cities)) { $type = 'city';} else { $type = 'country'; }?>	
 	<div id="topics_page" class="left">
 		<?#php echo get_option('topic'); ?>
 		<?php $topics = (isset($_REQUEST['letter']) && $_REQUEST['letter'] != '') ?

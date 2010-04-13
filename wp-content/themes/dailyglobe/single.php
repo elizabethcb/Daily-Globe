@@ -78,7 +78,7 @@
 	
 		<?php endwhile; ?>
 	
-			<div id="article_profit_wrangler3" class="pretty_ad">
+			<div id="article_profit_wrangler3">
 				<script type="text/javascript"><!--
 				google_ad_client = "pub-5222051702127265";
 				/* 336x280, created 4/11/10 */
