@@ -27,29 +27,7 @@ $(document).ready(function() {
 	$('div#fancy_div #change-location-text').live('click', function() {
 		if ($(this).val() == "City and State or Zip") $(this).attr("value", '');
 	});
-	 //$('#change-location').dialog({
-	//	 autoOpen: false,
-	//	 width: 400,
-	//	 title: "Change Your Location",
-	//	 buttons: {
-	//		 "Show List": function() {
-	//		 	var str = escape($("#change-location-text").val());
-	//		 	// urlencode
-	//			var newloc = document.bloginfo + "City and State or Zip/json/location-changer.php?city=" + str;
-	//			$('#location-results').css("display","block");
-	//			$('#location-results').load(newloc);
 
-	//		}, //Change button
-		//	"Close": function() {
-			//	$(this).dialog("close");
-				//}
-			//}
-		//});
-	 // Dialog Link
-	//$('#change-your-location').click(function(){
-		//$('#change-location').dialog('open');
-		//return false;
-	//});
 	
 	$("a#change-your-location").fancybox({
 		'speedIn'				:	600, 
@@ -100,7 +78,11 @@ $(document).ready(function() {
 		$('div#fancy_div div#location-results').fadeIn();
 		return false;
 	});
-	
+	$('a#click-me-once').click( function() {
+		var newloc = document.bloginfo + "/json/location-changer-commit.php?test=1";
+		$('div#test-div').load(newloc);
+		return false;
+	});
 	$('div#fancy_div a#submit-location-search').live('click', function() {
     	var str = escape($("div#fancy_div input").val());
 		// urlencode
@@ -111,28 +93,5 @@ $(document).ready(function() {
 	});
  
 	
-	// search cities
-		 //$('#search-location').dialog({
-		 //autoOpen: false,
-		 //width: 400,
-		 //title: "Search our Cities",
-		 //buttons: {
-			 //"Show List": function() {
-			 	//var str = escape($("#search-location-text").val());
-			 	// urlencode
-				//var newloc = document.bloginfo + "/json/location-search.php?city=" + str;
-				//$('#search-location-results').css("display","block");
-				//$('#search-location-results').load(newloc);
 
-			//}, //Change button
-			//"Close": function() {
-				//$(this).dialog("close");
-				//}
-			//}
-		//});
-	 // Dialog Link
-	//$('#search-for-location').click(function(){
-		//$('#search-location').dialog('open');
-		//return false;
-	//}); 
 });

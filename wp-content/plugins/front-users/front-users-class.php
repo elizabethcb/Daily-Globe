@@ -1095,6 +1095,7 @@ HERE;
 			}
 			//setcookie($_SESSION['newcookie']);
 			unset($_SESSION['newcookie']);
+			//$_SESSION['location'] = $headers['Set-Cookie'];
 		}
 		return $headers;
 	}

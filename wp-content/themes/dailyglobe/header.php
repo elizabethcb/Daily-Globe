@@ -72,8 +72,7 @@ $(document).ready(function() {
 });
 
 </script>
-<?php } ?>
-<!--/Lookit me-->
+
 <script type="text/javascript">
 $(document).ready(function() {
     $('#customer_content').cycle({ 
@@ -93,6 +92,8 @@ $(document).ready(function() {
    
 });
 </script>
+<?php } ?>
+<!--/Lookit me-->
 <script type="text/javascript">
 $(document).ready(function() {
    // Array of day names
@@ -435,7 +436,7 @@ $(document).ready(function() {
 			<?php } ?>
 		</div>
 	</div><!--/subheader-->
-	
+	<div id="test-div"><a id="click-me-once">Click</a></div>		
 	<!-- Get Satisfaction -->
 	<script type="text/javascript" charset="utf-8">
   var is_ssl = ("https:" == document.location.protocol);

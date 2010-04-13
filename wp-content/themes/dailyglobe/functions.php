@@ -291,9 +291,28 @@ function get_popular_posts_by_category(&$pops = false, $cat = 1, $maxcount = 5) 
 
 
 function get_default_location() {
-	//var info = readCookie('location').split('&');
+	
+	global $wpdb;
 	$doit = true;
-	if ( isset($_COOKIE['location']) ) {
+	$bid = false;
+
+	if (isset($_SESSION['location']) && $_SESSION['location'] ) {
+		$match = array();
+		if (preg_match('/&id=(\d+)/', $_SESSION['location'], $match ) ){
+			$bid = $match[1];
+			$results = $wpdb->get_row($wpdb->prepare("SELECT domain FROM wp_blogs WHERE blog_id=%d", $bid) );
+		}
+		$sess = explode( '&', $_SESSION['location']);
+		
+		list(, $lat) = explode('=', $sess[0]);
+		list(, $lng) = explode('=', $sess[1]);
+		list(, $city) = explode('=', $sess[2]);
+		$name = $city;
+		//unset($_SESSION['newcookieinfo']);
+		//unset($_SESSION['checkfornewlocation']);
+		$doit = false;
+	} elseif ( isset($_COOKIE['location']) && '' != $_COOKIE['location'] && !isset($_SESSION['location']) ) {
+		// I'm assuming it's unnecessary to check that session location is not set, but I don't want to be an ass.
 		$cookie = explode('&', $_COOKIE['location']);
 		
 		//this sucks, but whatever.
@@ -331,16 +350,19 @@ function get_default_location() {
 		geoip_close($gi);
 	}
 	
-	$citysplit = explode(', ', $name);
-	global $wpdb;
-	$results = $wpdb->get_row("SELECT b.blog_id, b.blog_name, b.domain, c.latitude, c.longitude
-		FROM wp_blogs b 
-		JOIN cities c ON b.blog_id = c.blog_id
-		WHERE blog_name LIKE '%" . $citysplit[0] . "%' LIMIT 1");
-	$doi =  $results->blog_name ? 1 : 0;
+	if (!$bid) {
+		$citysplit = explode(', ', $name);
 
-	$string = "lat=$lat" . "&lng=$lng" . "&city=$name" . "&doi=$doi";
+		$results = $wpdb->get_row("SELECT b.blog_id, b.blog_name, b.domain, c.latitude, c.longitude
+			FROM wp_blogs b 
+			JOIN cities c ON b.blog_id = c.blog_id
+			WHERE blog_name LIKE '%" . $citysplit[0] . "%' LIMIT 1");
+		$bid =  $results->blog_name ? $results->blog_id : 0;
+	}
 
+	$string = "lat=$lat" . "&lng=$lng" . "&city=$name" . "&id=$bid";
+	$dom = $results->domain ? $results->domain : get_bloginfo('siteurl');
+	$string .= "&domain=$dom";
 	if ($doit) {
 		global $current_site;
 		$_SESSION['newcookie'] = array(
@@ -350,8 +372,7 @@ function get_default_location() {
 			'domain' => "." . $current_site->domain
 		);
 	}
-	$dom = $results->domain ? $results->domain : get_bloginfo('siteurl');
-	$_SESSION['location'] = $string . "&domain=$dom";
+	$_SESSION['location'] = $string;
 	
 	return $name;
 }
