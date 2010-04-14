@@ -12,7 +12,31 @@ if ($blog_id == 1) { ?>
 <head profile="http://gmpg.org/xfn/11">
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 
-<title>The Daily Globe | <?php bloginfo('name'); ?> <?php if ( is_single() ) { ?> &raquo; Blog Archive <?php } ?> <?php wp_title(); ?></title>
+<title>
+	<?php 
+		if (is_home () ) { 
+			bloginfo('name');
+			echo " | TheDailyGlobe"; 
+		} elseif ( is_category() ) { 
+			single_cat_title(); 
+			echo ' - ' ; 
+			bloginfo('name');
+			echo " | TheDailyGlobe"; 
+		} elseif (is_single() ) {
+			bloginfo('name');
+			echo ': ';
+			single_post_title();
+			echo " | TheDailyGlobe";
+		} elseif (is_page() ) { 
+			bloginfo('name'); 
+			echo ': '; 
+			single_post_title();
+			echo " | TheDailyGlobe";
+		} else { 
+			wp_title('',true); 
+		} 
+	?>
+</title>
 
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/smoothness/jquery-ui-1.7.2.custom.css" type="text/css" media="screen" />
@@ -75,10 +99,6 @@ $(document).ready(function() {
 
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#customer_content').cycle({ 
-    timeout: 0 
-    
-   });
    
     $('#full').cycle({ 
     timeout: 0

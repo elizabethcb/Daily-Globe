@@ -500,6 +500,11 @@ li.top-location {
 	margin:auto;
 }
 
+.local-search-result-content {
+	margin-left: -10px;
+	margin-right: 10px;
+}
+
 /*	color customize		*/
 #customize {
 	position: absolute;
@@ -2701,7 +2706,8 @@ a[href="http://www.satollo.net"]{
 }
 
 .terms_full { 
-	 overflow: scroll;
+	 overflow-y: scroll;
+	 height: 1500px;
 }
 
 .terms_full h2 {
@@ -2721,6 +2727,8 @@ a[href="http://www.satollo.net"]{
 	
 }
 
+.about_full { height: 1500px;}
+
 .about_full h2, .contact_full h2 {
 	color:#c1c1c1;
 	font-size:3.1em;
@@ -2729,6 +2737,8 @@ a[href="http://www.satollo.net"]{
 
 .about_full p + h2 {	margin:1.4em 0 0 0; }
 
+.contact_full {height: 1500px;}
+
 .contact_full p + p {margin:1.6em 0 0 0;}
 
 .about_full p, .contact_full p {
@@ -2736,15 +2746,21 @@ a[href="http://www.satollo.net"]{
 	font-size:1.5em;
 	line-height:1.1em;
 }
-
+.clear {clear:both;}
 .about_full p span, .contact_full p span {display:inline-block;width:150px;}
 .about_full p a, .contact_full p a {color:#bcbcbc;}
-
 .mobile_full .centered {text-align:center;font-size:1.35em;margin:0 0 2.5em 0;}
-.mobile_full {font-weight:bold;}
-.mobile_full h2 {color:#c1c1c1;font-size:3.1em;}
+.mobile_full p.centered {margin-top: -50px;}
+.mobile_full {font-weight:bold; height: 1500px;}
+.mobile_full h2, .coming-soon.centered {color:#c1c1c1;font-size:3.1em;}
 .mobile_full .featured {padding:0 100px;}
 .mobile_full li {font-size:1.2em;margin:0.2em;line-height:1.6em;}
+.mobile_info {font-size:2.3em;color:#262626;font-weight:bold;width:450px;margin:0 auto;}
+.mobile_info .adsupported {color:#c4c4c4;font-size:0.4em;display:block;text-align:center;padding:10px 0 0 0;}
+.mobile_info a {display:block;width:220px;height:37px;text-decoration:none;float:left;}
+.mobile_info a img {position:relative;top:8px;padding-right:10px;}
+.lrg-img1 {margin:0 0 0 -100px;}
+.lrg-img2 {margin:50px 0 0 -50px !important;}
 
 /********** TEMPORARY SHIT ******************/
 

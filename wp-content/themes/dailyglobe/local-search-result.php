@@ -63,7 +63,7 @@ $(document).ready(function() {
 						  <img src="http://api.citysearch.com/tracker/imp?action_target=listing_profile&amp;listing_id=<?php echo $xml->id; ?>&amp;publisher=DailyGlobe&amp;reference_id=2&amp;placement=full" width="1" height="1" alt="" />
 						</noscript>
 						<?php
-						echo '<div class="result" style="height: 100%;">';
+						echo '<div class="result" id="local-search-result-content" style="height: 100%;">';
 							
 							echo "<h1>{$result->name}</h1> <div class='local-search-rating'>{$result->reviews->overall_review_rating}</div>";
 
@@ -156,27 +156,29 @@ $(document).ready(function() {
 					</script>
 					<script type="text/javascript">
 					
-							$('#customer_content').cycle(); 
-													 $('.owner').click(function() { 
-														$('#customer_content').cycle(0); 
-														$('.currenttab').removeClass("currenttab");
-														$(this).addClass("currenttab");
-														return false; 
-													 }); 
-													  $('.editor').click(function() { 
-														$('#customer_content').cycle(1); 
-														$('.currenttab').removeClass("currenttab");
-														$(this).addClass('currenttab');
-														return false; 
-													 }); 
-													  $('.users').click(function() { 
-														$('#customer_content').cycle(2); 
-														$('.currenttab').removeClass("currenttab");
-														$(this).addClass('currenttab');
-														return false; 
-													 }); 
+							    $('#customer_content').cycle({ 
+    								timeout: 0 
+   								}); 
+								 $('.owner').click(function() { 
+									$('#customer_content').cycle(0); 
+									$('.currenttab').removeClass("currenttab");
+									$(this).addClass("currenttab");
+									return false; 
+								 }); 
+								  $('.editor').click(function() { 
+									$('#customer_content').cycle(1); 
+									$('.currenttab').removeClass("currenttab");
+									$(this).addClass('currenttab');
+									return false; 
+								 }); 
+								  $('.users').click(function() { 
+									$('#customer_content').cycle(2); 
+									$('.currenttab').removeClass("currenttab");
+									$(this).addClass('currenttab');
+									return false; 
+								 }); 
 													 
-							</script>
+					</script>
 							
 
 			</div>
