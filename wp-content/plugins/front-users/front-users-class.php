@@ -957,7 +957,7 @@ HERE;
 			///		if ($test) echo "yey!";
 			//	}
 				//$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=61";
-				$sql = "SELECT ID, guid FROM " . $wpdb->posts . " WHERE guid LIKE '%about%' AND post_type='page'";
+				$sql = "SELECT ID, guid, post_content, comment_status FROM " . $wpdb->posts . " WHERE post_title LIKE '%about%' AND post_type='page' ORDER BY ID";
 				//$results = $wpdb->get_results($sql);
 //				foreach ($results as $res) { 
 				//$pagesadded = array();
@@ -965,20 +965,23 @@ HERE;
 					$page = "about+About";
 					//$post = array();
 					$post['post_type'] = 'page';
-					list($slug, $post['post_title'] ) = explode('+', $page);
-					$test =  $wpdb->get_row($sql);
-					if ( $test->guid ) 
+					list($slug, $post->post_title-> ) = explode('+', $page);
+					$test =  $wpdb->get_results($sql);
+					$post = $test[0];
+					if ( $post->ID ) 
 						continue;
-					$post['post_status'] = 'publish';
+					$post->post_status = 'publish';
 //					$res->post_author = get_usermeta(1, 'feeduserid');
 					//$post['post_content'] = '[CONTENT]';
-					$post['comment_status'] = $post['ping_status'] = 'closed';
-													
-//					$postid = wp_update_post($res);
+					$post->comment_status = $post->ping_status = 'closed';
+					$post->post_content = '';								
 //					
-					$postid = wp_insert_post($post);
+					$postid = wp_update_post($post);
+//					
+					//$postid = wp_insert_post($post);
 					if ($postid > 0) {
 						add_post_meta($postid, '_wp_page_template', $slug . '.php');
+						wp_delete_post($test[1]->ID);
 //						$pagesadded[] = $postid;
 					} else {
 						echo 'Oops';
