@@ -109,8 +109,9 @@
 </div><!---content-->
 
 <div id="sidebar">
+<!-- MOBILE2 -->
 <?php get_sidebar (7); ?>
-
+<!-- MOBILE2 -->
 <?php get_sidebar (2); ?>
 <div class="iphone_app_img">
 	<a href="#"><img src="<?php bloginfo('template_directory'); ?>/images/iphone_app.png"></a>
