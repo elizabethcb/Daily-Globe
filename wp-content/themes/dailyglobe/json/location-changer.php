@@ -20,14 +20,14 @@ if ($results) {
 			. $res->latitude ."</span> Long: <span id=\"loc-lng-{$count}\">"
 			.$res->longitude ."</span></span>";
 		echo '<span style="visibility:hidden" id="blog-id-' . $count . "\" >{$res->blog_id}</span>" . 
-		'<span style="visibility:hidden" id="domain-' . $count . ">{$res->domain}</span></li>";
+		'<span style="visibility:hidden" id="domain-' . $count . "\">{$res->domain}</span></li>";
 		$count++;
 	}
 	echo '</ul>';
 }
-if ($count < 6) {
-	echo '-----------------------------------------';
-	$diff = 6 - $count;
+if ($count < 5) {
+	//echo '-----------------------------------------<br />';
+	$diff = 5 - $count;
 	//adminCode1 is 2 char state code for US so split on comma etc.
 	//echo "<p style='text-align: center;'>Your Search: <em>".$cityenc."</em></p><br />";
 	$jsonurl = "http://ws.geonames.org/searchJSON?q=".$cityenc."&country=US&featureClass=p&maxRows=$diff";
@@ -39,7 +39,7 @@ if ($count < 6) {
 	//echo "</pre>";
 	if ($json_output->totalResultsCount > 0) {
 		//echo "Here are the results:<br /><br />";
-		echo 'Other Cities:<ul">';
+		echo 'Other Cities:<ul>';
 		foreach ( $json_output->geonames as $result ) {
 			//echo "<pre>";
 			//echo print_r($result);

@@ -57,6 +57,7 @@
 				
 				
 				<div class="entry left">
+				<!--PUTMOBILE2HERE-->
 					<?php 
 						if ($feed) { ?>
 						<span><a class="topic-tag-link" href="<?php echo $feed['link']; ?>" target="_blank">Original Story</a></span>

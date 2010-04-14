@@ -909,13 +909,13 @@ HERE;
 		global $wpdb;
 		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
 		echo "<h2>Hi</h2>";
-		$sqlfirst = "SELECT option_value AS cron_code FROM ";
-		$sqllast = " WHERE option_name='wpo_croncode'";
+//		$sqlfirst = "SELECT option_value AS cron_code FROM ";
+//		$sqllast = " WHERE option_name='wpo_croncode'";
 		$count = 0;
 		foreach ($results as $res) {
 			 if(switch_to_blog($res->blog_id)) {
 			 
-			 	$wpdb->query( "UPDATE ". $wpdb->posts . " SET post_author=35 WHERE post_author=61");
+//			 	$wpdb->query( "UPDATE ". $wpdb->posts . " SET post_author=35 WHERE post_author=61");
 				//$wpdb->query("ALTER TABLE ". $wpdb->prefix . 'wpo_campaign
 				//	ALTER COLUMN max SET DEFAULT 40,
 				//	ALTER COLUMN cacheimages SET DEFAULT 0');
@@ -956,37 +956,39 @@ HERE;
 			//		);
 			///		if ($test) echo "yey!";
 			//	}
-//				$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=61";
-				
+				//$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=61";
+				$sql = "SELECT ID, guid FROM " . $wpdb->posts . " WHERE guid LIKE '%about%' AND post_type='page'";
 				//$results = $wpdb->get_results($sql);
 //				foreach ($results as $res) { 
 				//$pagesadded = array();
 				//foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
-					//$page = "profile+Profile";
+					$page = "about+About";
 					//$post = array();
-					//$post['post_type'] = 'page';
-						//list($slug, $post['post_title'] ) = explode('+', $page);
-					//$test =  $wpdb->get_row($wpdb->prepare($sql, $slug));
-					//if ( $slug == $test->post_name) 
-					//	continue;
-					//$post['post_status'] = 'publish';
+					$post['post_type'] = 'page';
+					list($slug, $post['post_title'] ) = explode('+', $page);
+					$test =  $wpdb->get_row($sql);
+					if ( $test->guid ) 
+						continue;
+					$post['post_status'] = 'publish';
 //					$res->post_author = get_usermeta(1, 'feeduserid');
 					//$post['post_content'] = '[CONTENT]';
-					//$post['comment_status'] = $post['ping_status'] = 'closed';
+					$post['comment_status'] = $post['ping_status'] = 'closed';
 													
 //					$postid = wp_update_post($res);
-//					if ($postid > 0) {
-//						add_post_meta($postid, '_wp_page_template', $slug . '.php');
+//					
+					$postid = wp_insert_post($post);
+					if ($postid > 0) {
+						add_post_meta($postid, '_wp_page_template', $slug . '.php');
 //						$pagesadded[] = $postid;
-//					} else {
-//						echo 'Oops';
-//					}
-				}
+					} else {
+						echo 'Oops';
+					}
+				//}
 
 
-//			} else {
-//			 	echo "whoops";
-//			}
+			} else {
+			 	echo "whoops";
+			}
 			
 			$count++;
 //			if ($count >= 3)
@@ -1022,6 +1024,12 @@ HERE;
 			}		
 		}
 	}
+	
+	public function deletemysession() {
+		//session_destroy();
+	
+	}
+	
 	public function dontdothisonenopenope() {
 		global $wpdb;
 		$results = $wpdb->get_results("select blog_id, domain, blog_type from wp_blogs");
