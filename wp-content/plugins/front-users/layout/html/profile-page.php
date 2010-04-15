@@ -71,7 +71,7 @@
 	<div id="profile_all">
 	
 		<div class="cred_full">
-			Rep: <pre><?php print_r($reputation); ?></pre>
+			Rep: <!--<pre><?php //print_r($reputation); ?></pre>--> Coming Soon.
 		</div>
 		
 		<div class="stats_full">
@@ -143,7 +143,7 @@
 	</div><!--/profile_all-->
 	<script type="text/javascript">
 		
-	$('#profile_all').cycle(); 
+	$('#profile_all').cycle({timeout: 0}); 
 		 $('.cred').click(function() { 
 			$('#profile_all').cycle(0); 
 			$('.onthis').removeClass("onthis");

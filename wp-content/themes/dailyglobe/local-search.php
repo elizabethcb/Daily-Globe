@@ -66,7 +66,7 @@ $(document).ready(function() {
 
 <div id="sidebar">
 <?php // get_sidebar (1); ?>
-<a href="#" id="local_search_iphone"></a>
+<a href="/about/#mobile-apps" id="local_search_iphone"></a>
 </div>
 </div><!-- subcontainer -->
 
@@ -86,19 +86,21 @@ $(document).ready(function() {
 <script type="text/javascript">
 			
 				
-	var searchVal = $('#search').serialize();
+	var searchVal1 = $('#search').val();
+	searchVal = $.URLEncode(searchVal1);
 
 	var locationVal = "<?php echo $location; ?>";
 
-	$("#searchresults").fadeOut().load("<?php bloginfo('stylesheet_directory'); ?>/json/local-search/get-local-search.php?" + searchVal + "&location=" + locationVal).fadeIn();
+	$("#searchresults").fadeOut().load("<?php bloginfo('stylesheet_directory'); ?>/json/local-search/get-local-search.php?search=" + searchVal + "&location=" + locationVal).fadeIn();
 
 					
 	$('#searchBtn').click(function(){
 					  
-	var searchVal = $('#search').serialize();
+	var searchVal1 = $('#search').val();
+	searchVal = $.URLEncode(searchVal1);
 					  
 					  
-	$("#searchresults").fadeOut().load("<?php bloginfo('stylesheet_directory'); ?>/json/local-search/get-local-search.php?" + searchVal + "&location=" + locationVal).fadeIn();
+	$("#searchresults").fadeOut().load("<?php bloginfo('stylesheet_directory'); ?>/json/local-search/get-local-search.php?search=" + searchVal + "&location=" + locationVal).fadeIn();
 
 
 	return false;
