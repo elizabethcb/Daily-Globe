@@ -65,7 +65,7 @@ $(document).ready(function() {
 
 <div id="sidebar">
 <?php get_sidebar (6); ?>
-<a href="#" id="news_tweets_iphone"></a>
+<a href="/about/#mobile-apps" id="news_tweets_iphone"></a>
 
 </div>
 </div><!-- subcontainer -->
