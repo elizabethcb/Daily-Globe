@@ -289,6 +289,20 @@ function get_popular_posts_by_category(&$pops = false, $cat = 1, $maxcount = 5) 
 
 }
 
+function get_users_location() {
+	if ( isset($_SESSION['location']) ) {
+		$sess = explode( '&', $_SESSION['location']);
+               
+		list(, $lat) = explode('=', $sess[0]);
+		list(, $lng) = explode('=', $sess[1]);
+		list(, $city) = explode('=', $sess[2]);
+		$name = $city;
+	} else {
+		$name = get_bloginfo('name');
+	}
+	return $name;
+
+}
 
 function get_default_location() {
 	
@@ -383,8 +397,6 @@ function get_local_link() {
 	$list = explode( '&', $_SESSION['location'] );
 	foreach ($list as $item) {
 		list($key, $val) = explode( '=', $item );
-		if ( 'doi' == $key && 0 == $val)
-			break;
 		if ( 'domain' == $key )
 			return $val;
 	}

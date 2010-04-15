@@ -73,15 +73,13 @@ $(document).ready(function() {
 
 
 <?php
-if (get_bloginfo('name') == "U.S. News") {
-	$location = "US";
-} else {
-	$locationArray = explode(", ", get_bloginfo('name'));
+
+	$locationArray = explode(", ", get_users_location());
 	$city = $locationArray[0]; 
 	$state = $locationArray[1];
 	if ($state == "OR") { $state = "Oregon"; }
 	$location = $city . "," . $state;
-}
+
 ?>	
 
 
