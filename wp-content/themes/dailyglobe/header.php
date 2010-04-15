@@ -140,13 +140,13 @@ $(document).ready(function() {
 <?php wp_head(); ?>
 
 </head>
-<!--<img src="<?php bloginfo('stylesheet_directory') ?>/images/submenu.png" />-->
+
 <body>
 <!--<h3>Frak: <?php global $sm_session_id; echo $sm_session_id; ?></h3>-->
 <div id="header">
 	
 	<div id="appstore_button">
-		<a href="#"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/appstore.png"></a>
+		<a href="<?php bloginfo('siteurl'); ?>/about/#mobile-apps"><img src="<?php bloginfo('stylesheet_directory'); ?>/images/appstore.png"></a>
 	</div>
 	
 	<a class="logo" href="<?php bloginfo('siteurl'); ?>"></a>
@@ -288,6 +288,8 @@ $(document).ready(function() {
 				echo "Submit A Feed";
 			} elseif(is_page('submit-an-article')) {
 				echo "Submit An Article";
+			} elseif(is_page('Site Search')) {
+				echo "Site Search";
 			} else {
 				bloginfo('name'); 
 			}?>
@@ -306,7 +308,7 @@ $(document).ready(function() {
 			}?> 
 		</h3>
 		
-		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search")){ echo 'style="height: 100px;"'; } ?>>
+		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search") || is_page("Site Search") ){ echo 'style="height: 100px;"'; } ?>>
 			<?php if (is_page("Topics") || is_page("international") || is_page('Cities') ) { ?>
 				<a href="<?php bloginfo('siteurl'); ?>" class="alpha-home">Home</a>
 				<div id="alphabet">
@@ -346,6 +348,19 @@ $(document).ready(function() {
 				</div>
 				<span id="search_examples"> Try searching for local stuff, like "Food SE 60th"</span>
 				
+			<?php } elseif ( is_page("Site Search") ) { ?>
+				<!-- Google Search with AdSense -->
+				<!-- Box -->
+				<form action="<?php bloginfo('url'); ?>/site-search" id="cse-search-box">
+				  <div id="twitter-form">
+					<input type="hidden" name="cx" value="partner-pub-5222051702127265:e7krnq-r0kk" />
+					<input type="hidden" name="cof" value="FORID:10" />
+					<input type="hidden" name="ie" value="UTF-8" />
+					<input type="text" name="q" id="searchBtn" />
+					<input type="submit" name="sa" value="Search" />
+				  </div>
+				</form>
+				<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
 			<?php } else { ?>
 			<ul>
 				<li class="justin cat-item" ><a href="<?php bloginfo('siteurl'); ?>/just-in/">Just In</a>
