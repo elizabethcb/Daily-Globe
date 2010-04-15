@@ -1426,12 +1426,8 @@ ol.commentlist a {}
 
 #bottom_profit_wrangler_local {
 	clear: both;
-}
-
-#bottom_profit_wrangler_local iframe {
-	margin: 0 auto;
 	width: 728px;
-	display: block;
+	margin: 0 auto;
 }
 
 #result_content	{
