@@ -22,7 +22,7 @@ Template Name: About
 				
 					<div class="about_full">
 						<h2>Why</h2>
-						<p>TheDailyGlobe is a news site that embodies the traditional feel of a newspaper with all the added benefit of the web. Our goal is the give writers, journalists, and bloggers the ability to become trusted news sources for their city and topic.</p>
+						<p>TheDailyGlobe is a news site that embodies the traditional feel of a newspaper with all the added benefit of the web. Our goal is to give writers, journalists, and bloggers the ability to become trusted news sources for their city and topic.</p>
 					</div>
 					
 					<div class="contact_full">

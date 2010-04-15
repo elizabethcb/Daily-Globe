@@ -165,7 +165,7 @@ $(document).ready(function() {
 							?>
 							<li><a href="<?php echo $url;?>">Local</a></li>
 							<li><a href="http://usnews.<?php echo $current_site->domain; ?>">National</a></li>
-							<li><a href="http://international.<?php echo $current_site->domain; ?>">International</a></li>
+							<li><a href="/international/">International</a></li>
 						</ul>
 					
 				</div>
