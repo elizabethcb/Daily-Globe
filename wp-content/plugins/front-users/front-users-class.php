@@ -964,13 +964,13 @@ HERE;
 				//foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
 					$page = "about+About";
 					//$post = array();
-					$post['post_type'] = 'page';
-					list($slug, $post->post_title-> ) = explode('+', $page);
 					$test =  $wpdb->get_results($sql);
 					$post = $test[0];
-					if ( $post->ID ) 
-						continue;
+					//if ( $post->ID ) 
+					//	continue;
 					$post->post_status = 'publish';
+					list($slug, $post->post_title ) = explode('+', $page);
+					$post->post_type = 'page';
 //					$res->post_author = get_usermeta(1, 'feeduserid');
 					//$post['post_content'] = '[CONTENT]';
 					$post->comment_status = $post->ping_status = 'closed';
