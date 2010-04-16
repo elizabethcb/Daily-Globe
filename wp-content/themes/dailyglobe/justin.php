@@ -10,7 +10,6 @@ Template Name: Just In
 <div id="sub-container">
 <h2 class="pagetitle">Categories in <?php bloginfo('name'); ?></h2>
 
-
 	<div id="justin_ad_wrangler" class="left">
 		<div class="blockofwin-120x600 left">
 			<script type="text/javascript"><!--

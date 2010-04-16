@@ -3,7 +3,7 @@
 	require_once(dirname(__FILE__) . '/../../../wp-config.php');
 	                                     
 	nocache_headers();
-	error_log("hi.  I at least got here");
+	//error_log("hi.  I at least got here");
 	// if uninstalled, let's not do anything
 	if(! get_option('wpo_version'))
 	  return false;

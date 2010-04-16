@@ -965,7 +965,7 @@ HERE;
 					$page = "about+About";
 					//$post = array();
 					$post['post_type'] = 'page';
-					list($slug, $post->post_title-> ) = explode('+', $page);
+					list($slug, $post->post_title ) = explode('+', $page);
 					$test =  $wpdb->get_results($sql);
 					$post = $test[0];
 					if ( $post->ID ) 

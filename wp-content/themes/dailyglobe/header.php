@@ -256,7 +256,7 @@ $(document).ready(function() {
 		
 		
 		 <!--
-		 <h2 id="locationname">
+		 <h2 id="locationname"> -->
 		<?php // if (is_category('uncategorized'))	{
 		//			echo "";
 		//		} else {
@@ -267,11 +267,13 @@ $(document).ready(function() {
 		//	} else {
 		//		echo "";		
 		// }  ?>
+		<!--
 		</h2>
 		 -->
 		<h1 id="blogname"><a href="<?php bloginfo('siteurl'); ?>">
 		<?php if (is_page('Topics')) {
 				echo "Topics";
+				
 			} elseif(is_page('Cities')) {
 				echo "Browse Cities";
 			} elseif(is_page('International')) {
@@ -310,6 +312,11 @@ $(document).ready(function() {
 		
 		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search") || is_page("Site Search") ){ echo 'style="height: 100px;"'; } ?>>
 			<?php if (is_page("Topics") || is_page("international") || is_page('Cities') ) { ?>
+				<script>
+				$(document).ready(function() {
+					$('#blogname').addClass('topics_bg');	
+				});
+				</script>
 				<a href="<?php bloginfo('siteurl'); ?>" class="alpha-home">Home</a>
 				<div id="alphabet">
 					<a href="/cities/" class="alphabet alph-all">All</a>
