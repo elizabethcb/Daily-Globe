@@ -344,6 +344,16 @@ img.right {
 	margin:auto;
 	text-align:center;
 }
+.topics_bg {
+	background: url('images/topics_bg.png') center center no-repeat;
+	display: block;
+	padding: 0;
+	margin-top: 53px !important;
+}
+.topics_bg a {
+	position: relative;
+	top: -20px;
+}
 #locationtab {
 	position: absolute;
 	top:165px;

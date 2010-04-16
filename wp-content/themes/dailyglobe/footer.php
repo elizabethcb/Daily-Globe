@@ -40,9 +40,11 @@ document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.
 </script>
 <script type="text/javascript">
 try {
-var pageTracker = _gat._getTracker("UA-15791629-1");
-pageTracker._trackPageview();
-} catch(err) {}</script>
+	var pageTracker = _gat._getTracker("UA-15791629-3");
+	pageTracker._setDomainName(".thedailyglobe.com");
+	pageTracker._trackPageview();
+} catch(err) {}
+</script>
 
 </body>
 </html>
