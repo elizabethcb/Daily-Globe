@@ -1,6 +1,21 @@
 
 <?php get_header(); ?>
 <div id="sub-container">
+
+	<div id="bottom_profit_wrangler_local" style="margin-bottom: 15px;">
+		<script type="text/javascript"><!--
+		google_ad_client = "pub-5222051702127265";
+		/* 728x90, created 4/15/10 */
+		google_ad_slot = "8087097302";
+		google_ad_width = 728;
+		google_ad_height = 90;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
+	</div>
+
 <div id="content" class="left">
 
 
@@ -38,10 +53,10 @@
 			<div id="article_profit_wrangler" class="<?php echo get_option('dg_ad_placement'); ?>">
 				<script type="text/javascript"><!--
 				google_ad_client = "pub-5222051702127265";
-				/* Daily Globe 120x600 Single/Article 1 */
-				google_ad_slot = "4608094546";
+				/* 120x90, created 4/15/10 */
+				google_ad_slot = "6782212583";
 				google_ad_width = 120;
-				google_ad_height = 600;
+				google_ad_height = 90;
 				//-->
 				</script>
 				<script type="text/javascript"
