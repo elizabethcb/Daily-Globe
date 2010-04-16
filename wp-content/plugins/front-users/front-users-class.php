@@ -964,11 +964,8 @@ HERE;
 				//foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
 					$page = "about+About";
 					//$post = array();
-<<<<<<< HEAD:wp-content/plugins/front-users/front-users-class.php
-=======
 					$post['post_type'] = 'page';
 					list($slug, $post->post_title ) = explode('+', $page);
->>>>>>> 47a3f4c9ac47d435d75809c03100554bb9f5a4a8:wp-content/plugins/front-users/front-users-class.php
 					$test =  $wpdb->get_results($sql);
 					$post = $test[0];
 					//if ( $post->ID ) 
