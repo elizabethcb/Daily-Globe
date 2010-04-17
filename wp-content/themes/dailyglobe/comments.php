@@ -30,10 +30,7 @@
 
 
 	</ul>
-<!--<?php global $wp_query; ?>
-Comments:<pre>
-<?php print_r($wp_query->comments); ?>
-</pre>-->
+
 	<div class="navigation">
 		<div class="alignleft"><?php previous_comments_link() ?></div>
 		<div class="alignright"><?php next_comments_link() ?></div>
