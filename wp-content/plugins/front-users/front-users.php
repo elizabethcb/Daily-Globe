@@ -73,10 +73,10 @@ if ( 'fu-fu' == $myact) {
 }
 
 // Flush rules needs to be flushed per subdomain
-if (!get_option('fu_flushed_rules')) {
+//if (!get_option('fu_flushed_rules')) {
 	add_filter('init', array(&$fu, 'flush_rules'));
-	update_option('fu_flushed_rules', 1);
-}
+//	update_option('fu_flushed_rules', 1);
+//}
 
 function fu_add_new_user($fu = false) {
 	//echo "wtf?";

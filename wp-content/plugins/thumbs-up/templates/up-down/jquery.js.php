@@ -40,7 +40,7 @@ $(document).ready(function() {
 		var postdata = {
 			thumbsup_id : $('input[name=thumbsup_id]', $thumbsup_form).val(),
 			thumbsup_rating: $(this).val(),
-			thumbsup_type: $('input[name=thumbsup_type]', $thumbsup_form).val()
+			thumbsup_type: $('input[name=thumbsup_type]', $thumbsup_form).val(),
 			thumbsup_calling: 'Calling from here'
 		};
 
