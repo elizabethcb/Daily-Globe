@@ -50,20 +50,6 @@
 					<div class="clear"></div>
 				</div>
 			</div>
-			<div id="article_profit_wrangler" class="<?php echo get_option('dg_ad_placement'); ?>">
-				<script type="text/javascript"><!--
-				google_ad_client = "pub-5222051702127265";
-				/* 120x90, created 4/15/10 */
-				google_ad_slot = "6782212583";
-				google_ad_width = 120;
-				google_ad_height = 90;
-				//-->
-				</script>
-				<script type="text/javascript"
-				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-				</script>
-				
-			</div>
 			
 
 			
@@ -75,19 +61,22 @@
 				<!--PUTMOBILE2HERE-->
 					<?php 
 						if ($feed) { ?>
-						<span><a class="topic-tag-link" href="<?php echo $feed['link']; ?>" target="_blank">Original Story</a></span>
 						<div class="syndicated-content">
+							<div class="post_meta_box">
+							<span id="synd-read-more" class="syndication-info">
+							<a class="topic-tag-link ttl1" href="<?php echo $feed['link']; ?>" target="_blank">Original Story</a><br />
+							<a class="topic-tag-link ttl2" href="/feed-information/<?php echo $feed['id']; ?>/">Feed information</a>
+							</span>
+							<?php //the closing div is in thumbsup the_content hook function ?>
 						<?php the_content(); ?>
 						</div>
-						<span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $feed['link']; ?>" target="_blank">Read More</a></span>
+						<!--<span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $feed['link']; ?>" target="_blank">Read More</a></span>-->
 						<br/>
-						<span id="synd-feed-info" class="syndication-info">
-							
-							<a class="topic-tag-link" href="/feed-information/<?php echo $feed['id']; ?>">Feed information</a>
-						</span>
-					<?php } else {
-						the_content();
-					} ?>
+
+					<?php } else { ?>
+
+						<?php the_content(); ?>
+					<?php } ?>
 				</div>
 
 			</div>

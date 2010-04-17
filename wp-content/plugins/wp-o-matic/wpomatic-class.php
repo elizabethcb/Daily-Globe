@@ -661,7 +661,7 @@ function wpo_get_post_image($id = false){
 //    echo $item->get_title() . '<br /><pre>Images:<br />';print_r($images);
     if ( sizeof($images[2]) > 0  ) {
     	foreach ($images[2] as $img) {
-    		if (preg_match( '/pheedo|feedburner/', $img) )
+    		if (preg_match( '/pheedo|feedburner|doubleclick|adnxs|openx/', $img) )
     			continue;
     		$tmp = getimagesize($img);
     		if ($tmp[0] > 100 || $tmp[1] > 100) {
@@ -788,8 +788,9 @@ function wpo_get_post_image($id = false){
     $cachepath = $this->cachepath;
     
     if ( is_writable($cachepath) && $contents ) { 
-      file_put_contents($cachepath . '/' . $filename, $contents);
-      return $this->pluginpath . '/' . get_option('wpo_cachepath') . '/' . $filename;
+    	$file = $cachepath . '/' . $filename;
+      file_put_contents($file, $contents);
+      return $file;
     }
     
     return false;

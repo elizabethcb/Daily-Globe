@@ -316,7 +316,8 @@ HERE;
 		global $wp_query, $wpdb, $blog_id;
 		
 		$feedid = $wp_query->query_vars['feedid'] ? $wp_query->query_vars['feedid'] : 0;
-
+		if ( 0 == $feedid ) return false;
+		
 		$vars['feed'] = $wpdb->get_row( $wpdb->prepare(
 			"SELECT * FROM ".$this->tables['feeds']['data'] . " WHERE id=%d", $feedid));
 		
@@ -331,12 +332,12 @@ HERE;
 				un.id, 
 				un.user_id, 
 				un.value, 
-				un.post_id, 
+				p.ID AS post_id, 
 				un.`date`,
 				p.post_title,
 				p.guid
-			FROM $wpdb->postmeta pm
-			JOIN (
+			FROM $wpdb->posts p
+			LEFT JOIN (
 				SELECT 
 					id, 
 					user_id, 
@@ -350,7 +351,7 @@ HERE;
 					SELECT 
 						comment_ID AS id,  
 						user_id, 
-						NULL AS value, 
+						'comment' AS value, 
 						comment_post_ID AS post_id, 
 						comment_date AS `date`
 					FROM $wpdb->comments
@@ -364,9 +365,10 @@ HERE;
 					FROM $this->tutable
 				)
 			) AS un 
-			ON un.post_id = pm.post_id
-			JOIN $wpdb->posts p ON p.ID = un.post_id
+			ON un.post_id = p.ID
+			JOIN $wpdb->postmeta pm ON pm.post_id = p.ID
 			WHERE pm.meta_key='wpo_feedid' AND pm.meta_value=%d
+
 			ORDER BY `date` DESC
 			LIMIT 20
 		";

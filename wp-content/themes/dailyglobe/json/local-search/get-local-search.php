@@ -21,7 +21,7 @@ if (count($xml) > 0 ) {
 			if ($result->image) {
 				$image = $result->image;
 			} else {
-				$image = "/wp-content/themes/dailyglobe/images/home_img/business3.png";
+				$image = "/css/images/dgdefault.png";
 			}
 
 			$profileLink = "/local-search/local-search-result/?id=";

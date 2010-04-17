@@ -87,17 +87,25 @@ $(document).ready(function() {
 			
 				
 	var searchVal1 = $('#search').val();
-	searchVal = $.URLEncode(searchVal1);
+	searchVal = searchVal1.replace(/\s/g,"-");
 
 	var locationVal = "<?php echo $location; ?>";
 
 	$("#searchresults").fadeOut().load("<?php bloginfo('stylesheet_directory'); ?>/json/local-search/get-local-search.php?search=" + searchVal + "&location=" + locationVal).fadeIn();
 
+	
+	$('#search').bind('keypress', function(e) {
+        if(e.keyCode==13){
+                var searchVal1 = $('#search').val();
+				searchVal = searchVal1.replace(/\s/g,"-");	  
+				$("#searchresults").fadeOut().load("<?php bloginfo('stylesheet_directory'); ?>/json/local-search/get-local-search.php?search=" + searchVal + "&location=" + locationVal).fadeIn();
+        }
+	});
 					
 	$('#searchBtn').click(function(){
 					  
 	var searchVal1 = $('#search').val();
-	searchVal = $.URLEncode(searchVal1);
+	searchVal = searchVal1.replace(/\s/g,"-");
 					  
 					  
 	$("#searchresults").fadeOut().load("<?php bloginfo('stylesheet_directory'); ?>/json/local-search/get-local-search.php?search=" + searchVal + "&location=" + locationVal).fadeIn();

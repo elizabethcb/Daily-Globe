@@ -60,7 +60,7 @@ if ( 'fu-fu' == $myact) {
 	//$anotherfu->dontdoit();
 } elseif ( 'dontdothiseither' == $myact ) {
 	//$fu->grrr();
-	$fu->dontdoiteither();
+	//$fu->dontdoiteither();
 } elseif ( 'dontdothisone' == $myact ) {
 	//$fu->dontdothisone();
 	$fu->deletemysession();

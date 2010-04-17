@@ -1,12 +1,48 @@
+
+.thumbsup_template_up-down {
+	
+
+}
 /* Reset form margin/padding */
-.thumbsup_template_up-down form { position:relative; margin:0 auto; padding:0; width:60px; height:100px; background:#fff; color:#000; }
+.thumbsup_template_up-down form { 
+	position:relative; 
+	width:60px; 
+/*	margin:0 auto; 
+	padding:0; 
+	height:100px; 
+	background:#fff; 
+	color:#000; 
+*/
+}
 
 /* Stuff to hide */
-.thumbsup_template_up-down .thumbsup_hide { display:none; }
+.thumbsup_template_up-down .thumbsup_hide { 
+	display:none; 
+}
 
 /* Position score */
-.thumbsup_template_up-down .votes_balance { display:block; font:bold 30px 'Myriad Pro',Myriad,Helvetica,Arial,sans-serif; letter-spacing:-0.05em; text-align:center; line-height:100px; }
-.thumbsup_template_up-down input { position:absolute; left:0; width:60px; height:30px; background:#ccc url(./images/sprite.png) no-repeat 0 -30px; border:0; text-indent:-9999px; cursor:pointer; }
+.thumbsup_template_up-down .votes_balance { 
+	display:block; 
+	font:bold 30px 'Myriad Pro',Myriad,Helvetica,Arial,sans-serif; 
+	letter-spacing:-0.05em; 
+	text-align:center; 
+	line-height:100px; 
+
+}
+
+.thumbsup_template_up-down input { 
+	position:absolute; 
+	width:60px; 
+	height:30px;
+	background:#ccc url(./images/sprite.png) no-repeat 0 -30px; 
+	border:0px;  
+	cursor:pointer;
+/*
+	text-indent:-9999px;
+	left:0px; 
+*/
+}
+
 .thumbsup_template_up-down input.vote_up { top:0; }
 .thumbsup_template_up-down input.vote_down { bottom:0; background-position:0 -60px; }
 .thumbsup_template_up-down input.vote_up:hover { background-color:#8fd910; background-position:0 0; }
@@ -14,7 +50,15 @@
 
 /* Closed form */
 .thumbsup_template_up-down .closed input { display:none; }
-.thumbsup_template_up-down .closed span { display:block; position:absolute; top:12px; left:0; width:60px; font:12px Helvetica,Arial,sans-serif; text-align:center; }
+.thumbsup_template_up-down .closed span { 
+	display:block; 
+	position:absolute; 
+	top:12px; 
+	left:0; 
+	width:60px; 
+	font:12px Helvetica,Arial,sans-serif; 
+	text-align:center; 
+}
 
 /* Spinner position */
 .thumbsup_template_up-down img { vertical-align:middle; }

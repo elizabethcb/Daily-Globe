@@ -39,7 +39,6 @@ if ($blog_id == 1) { ?>
 </title>
 
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
-<link rel="stylesheet" href="<?php bloginfo('stylesheet_directory'); ?>/css/smoothness/jquery-ui-1.7.2.custom.css" type="text/css" media="screen" />
 
 <link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS Feed" href="<?php bloginfo('rss2_url'); ?>" />
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
@@ -59,7 +58,7 @@ if ($blog_id == 1) { ?>
 <!-- include Cycle plugin -->
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.cycle/jquery.cycle.all.min.js"></script>
 
-
+<!-- If is_single or category load TU.  If events, load events css.  If submit, load fu stuff-->
 <?php if(is_single() || is_category()) { ?>
 <script type="text/javascript" src="<?php echo THUMBSUP_PLUGIN_URL ?>core/thumbsup.js"></script>
 <?php } ?>
@@ -165,7 +164,7 @@ $(document).ready(function() {
 							?>
 							<li><a href="<?php echo $url;?>">Local</a></li>
 							<li><a href="http://usnews.<?php echo $current_site->domain; ?>">National</a></li>
-							<li><a href="/international/">International</a></li>
+							<li><a href="http://international.<?php echo $current_site->domain; ?>">International</a></li>
 						</ul>
 					
 				</div>
@@ -256,7 +255,7 @@ $(document).ready(function() {
 		
 		
 		 <!--
-		 <h2 id="locationname"> -->
+		 <h2 id="locationname">
 		<?php // if (is_category('uncategorized'))	{
 		//			echo "";
 		//		} else {
@@ -267,13 +266,11 @@ $(document).ready(function() {
 		//	} else {
 		//		echo "";		
 		// }  ?>
-		<!--
 		</h2>
 		 -->
 		<h1 id="blogname"><a href="<?php bloginfo('siteurl'); ?>">
 		<?php if (is_page('Topics')) {
 				echo "Topics";
-				
 			} elseif(is_page('Cities')) {
 				echo "Browse Cities";
 			} elseif(is_page('International')) {
@@ -312,11 +309,6 @@ $(document).ready(function() {
 		
 		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search") || is_page("Site Search") ){ echo 'style="height: 100px;"'; } ?>>
 			<?php if (is_page("Topics") || is_page("international") || is_page('Cities') ) { ?>
-				<script>
-				$(document).ready(function() {
-					$('#blogname').addClass('topics_bg');	
-				});
-				</script>
 				<a href="<?php bloginfo('siteurl'); ?>" class="alpha-home">Home</a>
 				<div id="alphabet">
 					<a href="/cities/" class="alphabet alph-all">All</a>
