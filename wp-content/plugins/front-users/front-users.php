@@ -60,7 +60,7 @@ if ( 'fu-fu' == $myact) {
 	//$anotherfu->dontdoit();
 } elseif ( 'dontdothiseither' == $myact ) {
 	//$fu->grrr();
-	$fu->dontdoiteither();
+	//$fu->dontdoiteither();
 } elseif ( 'dontdothisone' == $myact ) {
 	//$fu->dontdothisone();
 	$fu->deletemysession();
@@ -74,7 +74,7 @@ if ( 'fu-fu' == $myact) {
 
 // Flush rules needs to be flushed per subdomain
 //if (!get_option('fu_flushed_rules')) {
-	add_filter('init', array(&$fu, 'flush_rules'));
+//	add_filter('init', array(&$fu, 'flush_rules'));
 //	update_option('fu_flushed_rules', 1);
 //}
 

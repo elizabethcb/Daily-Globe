@@ -18,7 +18,6 @@ define('THUMBSUP_TEMPLATE', 'thumbs-up-down');
 
 ?>
 
-(function($) {
 $(document).ready(function() {
 
 	// Whenever a vote is cast
@@ -86,4 +85,3 @@ $(window).load(function() {
 	thumbsup_preload2.src = '<?php echo THUMBSUP_WEBROOT ?>thumbsup/templates/<?php echo THUMBSUP_TEMPLATE ?>/images/spinner_negative.gif';
 
 });
-})(jQuery);

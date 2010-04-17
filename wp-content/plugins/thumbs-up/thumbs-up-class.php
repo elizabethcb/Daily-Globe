@@ -126,10 +126,12 @@ class ThumbsUp {
 	 */
 	 
 	public function add_content($content) {
-		$content .= $this->setup(get_the_ID(), 'up-down')->render(TRUE);
+		$stuff = $this->setup(get_the_ID(), 'up-down')->render(TRUE);
+		// This is a silly hack for our custom stuff, but we need a closing div before content.
+		$stuff .= '</div>' . $content;
 		//echo $this->setup(get_the_ID(), 'up-down')->render(TRUE);
 		//print_r($content);
-		return $content;	
+		return $stuff;	
 	}
 	
 	public function append_comment($comment_text) {

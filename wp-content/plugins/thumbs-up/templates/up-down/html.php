@@ -6,7 +6,7 @@
 	<?php if ( ! empty($item['vote']['error'])) { ?>
 		<p><em><?php echo htmlspecialchars($item['vote']['error']) ?></em></p>
 	<?php } ?>
-		<span style="font-size:xx-small">Put your vote somewhere?</span>
+
 	<form method="post" class="<?php if ($item['vote'] OR ('0' == $item['closed'])) echo 'closed' ?>">
 		<input type="hidden" name="thumbsup_id" value="<?php echo $item['item_id'] ?>" />
 		<input type="hidden" name="thumbsup_type" value="post" />

@@ -2,7 +2,6 @@
 
 <!-- START THUMBSUP: <?php echo htmlspecialchars($item['name']) ?> -->
 <div id="thumbsup_<?php echo $item['id'] ?>" class="thumbsup thumbsup_template_<?php echo $config['template'] ?>">
-
 	<?php if ( ! empty($item['vote']['error'])) { ?>
 		<p><em><?php echo htmlspecialchars($item['vote']['error']) ?></em></p>
 	<?php } ?>
