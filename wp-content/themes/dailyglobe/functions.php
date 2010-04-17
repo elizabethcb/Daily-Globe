@@ -807,10 +807,20 @@ function dg_comment($comment, $args, $depth) {
    $GLOBALS['comment'] = $comment; ?>
    <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
      <div id="comment-<?php comment_ID(); ?>">
+     <!--<pre><?php print_r($comment); ?></pre>-->
       <div class="comment-author vcard">
          <?php echo get_avatar($comment,$size='48',$default='<path_to_url>' ); ?>
- 
-         <?php printf(__('<cite class="fn">%s</cite> <span class="says">says:</span>'), get_comment_author_link()) ?>
+ 		
+         <?php 
+         if ( isset($comment->user_id) && $comment->user_id > 0 ) {
+         	$user = get_userdata($comment->user_id);
+         	$name = isset($user->display_name) ? $user->display_name : $user->user_login;
+        	$link = '<a href="' . get_bloginfo('url') . '/profile/' . $user->user_login . '">' . $name . '</a>';
+        } else {
+        	$link = get_comment_author_link();
+        }
+        printf(__('<cite class="fn">%s</cite> <span class="says">says:</span>'), $link);
+        ?>
       </div>
       <?php if ($comment->comment_approved == '0') : ?>
          <em><?php _e('Your comment is awaiting moderation.') ?></em>

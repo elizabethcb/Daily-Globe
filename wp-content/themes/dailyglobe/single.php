@@ -69,6 +69,19 @@
 							</span>
 							<?php //the closing div is in thumbsup the_content hook function ?>
 						<?php the_content(); ?>
+						<div id="article_profit_wrangler3">
+							<script type="text/javascript"><!--
+							google_ad_client = "pub-5222051702127265";
+							/* 336x280, created 4/11/10 */
+							google_ad_slot = "1499896030";
+							google_ad_width = 336;
+							google_ad_height = 280;
+							//-->
+							</script>
+							<script type="text/javascript"
+							src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+							</script>
+						</div>
 						</div>
 						<!--<span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $feed['link']; ?>" target="_blank">Read More</a></span>-->
 						<br/>
@@ -76,26 +89,26 @@
 					<?php } else { ?>
 
 						<?php the_content(); ?>
+						<div id="article_profit_wrangler3">
+							<script type="text/javascript"><!--
+							google_ad_client = "pub-5222051702127265";
+							/* 336x280, created 4/11/10 */
+							google_ad_slot = "1499896030";
+							google_ad_width = 336;
+							google_ad_height = 280;
+							//-->
+							</script>
+							<script type="text/javascript"
+							src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+							</script>
+						</div>
 					<?php } ?>
 				</div>
 
 			</div>
 	
 		<?php endwhile; ?>
-	
-			<div id="article_profit_wrangler3">
-				<script type="text/javascript"><!--
-				google_ad_client = "pub-5222051702127265";
-				/* 336x280, created 4/11/10 */
-				google_ad_slot = "1499896030";
-				google_ad_width = 336;
-				google_ad_height = 280;
-				//-->
-				</script>
-				<script type="text/javascript"
-				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-				</script>
-			</div>
+
 			<?php comments_template(); ?>
 	<?php else : ?>
 	
