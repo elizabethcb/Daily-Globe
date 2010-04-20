@@ -119,6 +119,22 @@ class WPOMatic {
     $this->cron_command = attribute_escape('*/20 * * * * '. $this->getCommand() . ' ' . $this->cron_url);
 	
   }
+  
+  
+	/**
+	 * This is the hook to set data for the other hooks like the_author and the_content
+	 */
+	 
+	public function the_post($post) {
+		$this->actpost = $post;
+		$fid = get_post_meta($post->ID, 'wpo_feedid', true);
+		if ($fid > 0) {
+			$this->actpost->feedid = $fid;
+			$this->issyndicated = true;
+		}
+		return $post;
+	}
+	
 	public function is_syndicated() {
 		global $wpdb;
 		if ($this->issyndicated && $this->actpost->feedid > 0) {
@@ -134,25 +150,12 @@ class WPOMatic {
 		return false;
 	}
 
-	/**
-	 * This is the hook to set data for the other hooks like the_author and the_content
-	 */
-	 
-	function the_post($post) {
-		$this->actpost = $post;
-		$fid = get_post_meta($post->ID, 'wpo_feedid', true);
-		if ($fid > 0) {
-			$this->actpost->feedid = $fid;
-			$this->issyndicated = true;
-		}
-		return $post;
-	}
 	
 	/**
 	 * the_author is a hook that runs everytime the_author is run
 	 */
 	 
-	function the_author($stuff) {
+	public function the_author($stuff) {
 		global $wpdb;
 		//$result = $wpdb->get_row( $wpdb->prepare($sql, $this->actpost->post_author) );
 		$aid = get_post_meta($this->actpost->ID, 'wpo_author', true);
@@ -385,6 +388,7 @@ class WPOMatic {
       	break;
       }
     }
+
     $diff = $count - $itemcount;
     // If we have added items, let's update the hash
     if ($diff > 0)
@@ -401,7 +405,10 @@ class WPOMatic {
     if(isset($this->campaign_data['feeds']['new']) )
     	$wpdb->insert(	$wpdb->prefix . 'feedmeta', 
     		array('feed_id' => $feed->id), array('%d') );
-    
+    $simplepie->__destruct();
+	unset($simplepie);
+	unset($item);   
+
     return $itemcount;
   }              
   

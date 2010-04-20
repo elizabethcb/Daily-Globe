@@ -106,14 +106,12 @@
 		
 		<div class="badges_full">
 			<ul>
-			<li><span class="bullit-silver"> </span>yermom</li>
-			<li><span class="bullit-gold"> </span>chump</li>
-			<li><span class="bullit-bronze"> </span>joker</li>
+			<li><span class="bullit-silver"> </span>badge</li>
 			</ul>
 
 		</div>
 
-		
+		<?php #I've been deleted again ?>
 
 
 	</div><!--/profile_all-->

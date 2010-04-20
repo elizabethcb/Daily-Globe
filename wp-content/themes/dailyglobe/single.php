@@ -64,7 +64,7 @@
 						<div class="syndicated-content">
 							<div class="post_meta_box">
 							<span id="synd-read-more" class="syndication-info">
-							<a class="topic-tag-link ttl1" href="<?php echo $feed['link']; ?>" target="_blank">Original Story</a><br />
+							<a class="topic-tag-link ttl1" href="<?php echo $feed['link']; ?>" target="_blank">Original Story</a>
 							<a class="topic-tag-link ttl2" href="/feed-information/<?php echo $feed['id']; ?>/">Feed information</a>
 							</span>
 							<?php //the closing div is in thumbsup the_content hook function ?>
@@ -119,7 +119,11 @@
 	<?php endif; ?>
 		<!-- MOBILE -->
 			
-			
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('.entry br').replace('<div class="br-replacement"></div>');
+			});
+		</script>
 			
 			
 			
