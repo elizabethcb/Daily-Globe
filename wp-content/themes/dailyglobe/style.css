@@ -181,11 +181,12 @@ img.right {
 .mu_register { margin: 28px auto; width: 60%; }
 .mu_register h2 { text-align: center; font-size: 24px; }
 .mu_register .error { font-weight:700; padding:10px; color:#333333; background:#FFEBE8; border:1px solid #CC0000; }
-.mu_register #blog_title, .mu_register #user_email, .mu_register #blogname, .mu_register #user_name { width:100%; font-size: 24px; margin:5px auto; }
+.mu_register #blog_title, .mu_register #user_email, .mu_register .register-field { width:100%; font-size: 24px; margin:5px auto; }
 .mu_register .prefix_address, .mu_register .suffix_address {font-size: 18px;display:inline; }			
 .mu_register label { font-weight:700; font-size:15px; display:block; }
 .mu_register label.checkbox { display:inline; }
 .mu_register .mu_alert { font-weight:700; padding:10px; color:#333333; background:#ffffe0; border:1px solid #e6db55; }
+
 #setupform {
 	margin: auto;
 	width: 400px;
@@ -198,7 +199,7 @@ img.right {
 	font-weight: normal;
 	font-style: oblique;
 }
-#setupform #user_name, #setupform #user_email {
+#setupform .register-field {
 	border: 2px solid #D9D9D9;
 	-moz-border-radius: 5px;
 	-khtml-border-radius: 5px;
