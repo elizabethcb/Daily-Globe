@@ -138,8 +138,10 @@ img.right {
 	letter-spacing: -1px;
 	font-style: oblique;
 	margin-top: -3px;
-	margin-left: 6px;
+	margin-left: 5px;
 	display: block;
+	text-align: center;
+	width: 150px;
 }
 /**** Login - Customize Color ****/
 #customize_color, #login-register {
@@ -2791,6 +2793,10 @@ a[href="http://www.satollo.net"]{
 .mobile_info a img {position:relative;top:8px;padding-right:10px;}
 .lrg-img1 {margin:0 0 0 -100px;}
 .lrg-img2 {margin:50px 0 0 -50px !important;}
+
+#cse-search-results {
+	text-align: center;
+}
 
 /********** TEMPORARY SHIT ******************/
 
