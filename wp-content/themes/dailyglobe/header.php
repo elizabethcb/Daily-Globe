@@ -38,12 +38,13 @@ if ($blog_id == 1) { ?>
 	?>
 </title>
 
+<?php wp_head(); ?>
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
+<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-1.3.2.min.js"></script>
 
 <link rel="alternate" type="application/rss+xml" title="<?php bloginfo('name'); ?> RSS Feed" href="<?php bloginfo('rss2_url'); ?>" />
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 
-<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/functions.js"></script>
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/customize_box.js"></script>
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/color-changer.js"></script>
@@ -55,9 +56,10 @@ if ($blog_id == 1) { ?>
 <script>
  document.bloginfo = "<?php bloginfo('stylesheet_directory'); ?>";
 </script>
+<?php if (is_home() || is_page('Profile') || is_page('About') || is_page('Feed Information') ) { ?>
 <!-- include Cycle plugin -->
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.cycle/jquery.cycle.all.min.js"></script>
-
+<?php } ?>
 <!-- If is_single or category load TU.  If events, load events css.  If submit, load fu stuff-->
 <?php if(is_single() || is_category()) { ?>
 <script type="text/javascript" src="<?php echo THUMBSUP_PLUGIN_URL ?>core/thumbsup.js"></script>
@@ -68,8 +70,9 @@ if ($blog_id == 1) { ?>
 	<script type="text/javascript" src="<?php echo FU_PLUGIN_DIR_URL ?>layout/javascript/fu-javascript.js"></script>
 	<link rel="stylesheet" href="<?php echo FU_PLUGIN_DIR_URL ?>layout/stylesheets/fu-style.css" type="text/css" media="screen" />
 <?php } ?>
-<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-ui-1.7.2.custom.min.js"></script>
-<!--Look at me-->
+<!--/if pages-->
+<!--<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-ui-1.7.2.custom.min.js"></script>-->
+<!--Home-->
 <?php if ( is_home() ) { ?>
 <script type="text/javascript">
 var slideshowFlag = true;
@@ -111,8 +114,8 @@ $(document).ready(function() {
    
 });
 </script>
-<?php } ?>
-<!--/Lookit me-->
+<?php } // end if_home ?>
+<!--/Home-->
 <script type="text/javascript">
 $(document).ready(function() {
    // Array of day names
@@ -136,7 +139,6 @@ $(document).ready(function() {
 <link rel="stylesheet" type="text/css" href="<?php bloginfo('stylesheet_directory'); ?>/css/style_IE7.css">
 <![endif]-->
 
-<?php wp_head(); ?>
 
 </head>
 
@@ -220,7 +222,7 @@ $(document).ready(function() {
 	<!-- INSERT HAS BADGE HERE OR SOMETHING <?php //if (user_has_a_new_badge()) show, otherwise don't ?>-->
 	<div class="search">
 		<?php include (TEMPLATEPATH . '/searchform.php'); ?>
-		<span id="main_search_undertext">Search for articles in your location</span>
+		<span id="main_search_undertext"><a href="/site-search/">Click here to search all of TheDailyGlobe.</a></span>
 	</div>
 	
 </div>
@@ -288,7 +290,7 @@ $(document).ready(function() {
 			} elseif(is_page('submit-an-article')) {
 				echo "Submit An Article";
 			} elseif(is_page('Site Search')) {
-				echo "Site Search";
+				echo 'Search';
 			} else {
 				bloginfo('name'); 
 			}?>
@@ -300,6 +302,8 @@ $(document).ready(function() {
 				echo "your business hyper locally";
 			} elseif(is_page('Local Search') || is_page('local-search-result')) {
 				echo "<div class='citysearch'></div>";
+			} elseif(is_page('Site Search')) {
+				echo '<span style="font-size: 60%">Search across all of TheDailyGlobes cities and topics</span>';
 			} else {
 				//$my_t=getdate(date("U"));
 				//print("$my_t[month] $my_t[mday], $my_t[year]");
@@ -355,8 +359,8 @@ $(document).ready(function() {
 					<input type="hidden" name="cx" value="partner-pub-5222051702127265:e7krnq-r0kk" />
 					<input type="hidden" name="cof" value="FORID:10" />
 					<input type="hidden" name="ie" value="UTF-8" />
-					<input type="text" name="q" id="searchBtn" />
-					<input type="submit" name="sa" value="Search" />
+					<input type="text" name="q" id="search" />
+					<input type="submit" name="sa" value="Search" id="searchBtn" style="display: inline-block; height: 43px; padding: 5px 0px; width: 100px;"/>
 				  </div>
 				</form>
 				<script type="text/javascript" src="http://www.google.com/cse/brand?form=cse-search-box&amp;lang=en"></script>
