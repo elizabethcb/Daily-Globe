@@ -81,7 +81,7 @@
 							</script>
 							<?php //the closing div is in thumbsup the_content hook function ?>
 						<?php the_content(); ?>
-						<div style="text-align: center; padding-top: 10px;"><a href="<?php echo $feed['link']; ?>" class="topic-tag-link" style="padding: 10px;">Read the whole story here.</a></div>
+						<div style="text-align: center; padding-top: 10px;"><a href="<?php echo $feed['link']; ?>" class="topic-tag-link" style="padding: 10px;" target="_blank">Read the whole story here.</a></div>
 						<div id="article_profit_wrangler3">
 							<script type="text/javascript"><!--
 							google_ad_client = "pub-5222051702127265";

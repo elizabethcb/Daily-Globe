@@ -30,7 +30,9 @@ if ('' != fu_get('a') ) {
 			<label for="fu-post-title">Post Title</label><br />
 			<input type="text" id="fu-post-title" name="fu[post_title]" /><br />
 			<label for="fu-snippet-title">Snippet Title (optional)</label><br />
-			<input type="text" id="fu-snippet-title" name="fu[snippet-title]" />
+			<input type="text" id="fu-snippet-title" name="fu[snippet-title]" /><br />
+			<label for="fu-snippet-url">Original Source URL (use if quoting another story)</label><br />
+			<input type="text" id="fu-snippet-url" name="fu[snippet-url]"/>
 		</div>
 		<div class="right">
 			<label for="post-cats">Category</label><br />
@@ -55,19 +57,22 @@ if ('' != fu_get('a') ) {
 	</div>
 	
 	<div class="section_bg">
-		<h2>Article Snippet</h2>
-		<textarea name="fu[post-snippet]" id="fu-post-snippet" cols="90" rows="20" ></textarea>
-		<p>
-			<label for="fu-snippet-url">Original Source URL:</label>
-			<input type="text" id="fu-snippet-url" name="fu[snippet-url]"/><br />
-		</p>
-	</div>
-
-	<div class="section_bg">
-		<h2>Your Review or Comments</h2>
+		<h2>Your Article</h2>
 		<textarea name="fu[post_content]" id="fu-post-content" cols="90" rows="20" ></textarea>
 		<input type="submit" value="Submit" />
 	</div>
+	
+	<!--<div class="section_bg">
+		<h2>Article Snippet</h2>
+		<small>This is the portions of the article you'd like to quote.  To separate portions
+		of article separate with [...]</small>
+		<textarea name="fu[post-snippet]" id="fu-post-snippet" cols="90" rows="20" ></textarea>
+		<p>
+
+		</p>
+	</div>-->
+
+
 </div>
 
 </form>
@@ -87,9 +92,6 @@ if ('' != fu_get('a') ) {
 		<div class="post">
 			<div class="entry">
 			<?php echo $post['post_content']; ?>
-				<div class="post-snippet">
-					<?php echo $post['post-snippet']; ?>
-				</div>
 			</div>
 		</div>
 	</div>
@@ -97,5 +99,5 @@ if ('' != fu_get('a') ) {
 </div>
 <br class="clear" />
 <!--<pre>
-	<?php print_r($post); ?>
+	<?php //print_r($post); ?>
 </pre>-->

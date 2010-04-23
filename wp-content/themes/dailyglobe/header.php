@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
+<html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?> >
 
 <?php 
 	// redirect user to us news if trying to access main blog
 global $blog_id;
 if ($blog_id == 1) { ?>
 	<script type="text/javascript"><!--
-		window.location = "http://usnews.thedailyglobe.com/"
+		//window.location = "http://usnews.thedailyglobe.com/"
 	//--></script>
 <?php } ?>
 <head profile="http://gmpg.org/xfn/11">
@@ -175,7 +175,7 @@ $(document).ready(function() {
 			<li id="tweets_link"><a href="/local-tweets/">News Tweets</a></li>
 			<li id="local_search_link"><a href="/local-search/">Local Search</a></li>
 			<!--<li id="local_events_link"><a href="/events/">City Events</a></li>-->
-			<li id="register"><a href="/register/">Become a Globe Blogger</a></li>
+			<li id="register"><a href="/wp-signup.php">Become a Globe Blogger</a></li>
 			<li id="cities_link"><a href="/cities/">Browse Cities</a></li>
 			
 			<!--<li><a href="#search-location" id="search-for-location">Browse Cities</a></li>-->
@@ -203,7 +203,7 @@ $(document).ready(function() {
 	</div>
 	<div id="login-register">
 		<span>
-		<?php global $current_user;
+		<?php /*global $current_user;
 			get_currentuserinfo();
 			if (!$current_user->user_login) { ?>
 				<a href="/register/" id="register">Register</a> 
@@ -215,9 +215,10 @@ $(document).ready(function() {
 						echo '<a href="' . wp_logout_url( $uri ) . '" title="Logout">Logout</a>';
 					   } else {
 						echo '<a id="wploginout" href="#ajaxlogin">Log In</a>';
-					   } ?>
+					   } */?>
+		<?php wp_loginout($_SERVER['REQUEST_URI']); ?>
 		</span>
-		<div id="ajaxlogin" style="display:none"><?php if ( function_exists('login_with_ajax') ) { login_with_ajax(); } ?></div>
+		<!--<div id="ajaxlogin" style="display:none"><?php if ( function_exists('login_with_ajax') ) { login_with_ajax(); } ?></div>-->
 	</div>
 	<!-- INSERT HAS BADGE HERE OR SOMETHING <?php //if (user_has_a_new_badge()) show, otherwise don't ?>-->
 	<div class="search">

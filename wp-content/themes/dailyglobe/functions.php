@@ -726,48 +726,40 @@ function makeURL($URL) {
 }
 
 
-function catch_that_image($content = false) {
+function catch_that_image($content = false, $category = '') {
 
   //global $post, $posts;
   
-	if(!$content) {
+	if(!$content)
+		return false;
+		
+	$first_img = '';
 
-		return "oops";
- 
-	}
-  $first_img = '';
-  
-	//ob_start();
-
-  
-	//ob_end_clean();
-  
 	$patt = '/<img.+src=["' . "'](.+?)['" . '"].*>/';
   
 	$output = preg_match($patt, $content, $matches);
   
 	$first_img = $matches[1];
   
-	if(preg_match('/doubleclick/', $first_img)) {
-		$first_img = '';
-	} elseif (preg_match('/tracker/', $first_img)) {
-		$first_img = '';
-	} elseif (preg_match('/ads.pheedo.com/', $first_img)) {
+	if ( preg_match('/doubleclick|tracker|pheedo/', $first_img) ) {
 		$first_img = '';
 	}
-	//echo '<pre>';
-  
-	//print_r($matches);
-  
-	//echo '</pre>';
-	if(empty($first_img)){ 
+	//echo '<pre>';print_r($matches);echo '</pre>';
+	if ( empty($first_img) && '' != $category ) { 
+		$filename = preg_replace('/ /', '', $category);
+		//echo "<h2>$filename</h2>";
+		$filename = preg_replace('/&amp;/', 'And', $filename) . '.png';
+		//echo "<h2>$filename</h2>";
 		//Defines a default image
-    
-		$first_img = get_bloginfo('stylesheet_directory') . "/images/categories/Featured.png";
-  
+		$default_img = get_bloginfo('stylesheet_directory') . "/images/categories/" . $filename;
+		$imgdir = ABSPATH . "wp-content/themes/dailyglobe/images/categories/" . $filename;
+		//echo "<h2>$imgdir</h2>";
+		if ( file_exists($imgdir) ) {
+			return $default_img;
+		} else {
+			return "/css/images/dgdefault.png";
+		}
 	}
-  
-	
 	return $first_img;
 }
 
