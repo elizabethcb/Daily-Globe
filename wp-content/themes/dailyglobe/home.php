@@ -8,8 +8,8 @@ Template Name: Home
 
 <?php get_header(); ?>
 <pre>
-<?php global $options;
-	//print_r($options);
+<?php global $options, $wpdb;
+	print_r($wpdb->queries);
 ?>
 </pre>
 <div id="home_sub-container" class="left">
@@ -77,7 +77,7 @@ Template Name: Home
 						<p class="cat3_posts home_post">
 							<?php $post_content_old = $pop->post->post_content;
 							$post_content = strip_tags($post_content_old);
-							$post_image = catch_that_image($post_content_old);
+							$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat3'));
 							if (strlen($post_content) <= 300) {
 								echo '<img src="' . $post_image . '" />';
 								echo $post_content;
@@ -120,7 +120,7 @@ Template Name: Home
 						<p class="cat2_posts home_post">
 							<?php 
 							$post_content = strip_tags($pop->post->post_content);
-							$post_image = catch_that_image($pop->post->post_content);
+							$post_image = catch_that_image($pop->post->post_content,get_option('dg_sect_cat2'));
 							if (strlen($post_content) <= 200) {
 								echo '<img src="' . $post_image . '" />';
 								echo $post_content;
@@ -191,7 +191,7 @@ Template Name: Home
 					<p class="cat4_posts home_post">
 						<?php $post_content_old = $pop->post->post_content;
 						$post_content = strip_tags($post_content_old);
-						$post_image = catch_that_image($post_content_old);
+						$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat4'));
 						if (strlen($post_content) <= 400) {
 							echo '<img src="' . $post_image . '" />';
 							echo $post_content;}
@@ -231,7 +231,7 @@ Template Name: Home
 					<p class="cat5_posts home_post">
 						<?php $post_content_old = $pop->post->post_content;
 						$post_content = strip_tags($post_content_old);
-						$post_image = catch_that_image($post_content_old);
+						$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat5'));
 						if (strlen($post_content) <= 250) {
 							echo '<img src="' . $post_image . '" />';
 							echo $post_content;}
@@ -282,7 +282,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat6'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
@@ -313,7 +313,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat7'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
@@ -344,7 +344,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat8'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
@@ -375,7 +375,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat9'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
@@ -406,7 +406,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat10'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
@@ -439,7 +439,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat11'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
@@ -470,7 +470,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat12'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
@@ -501,7 +501,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat13'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
@@ -532,7 +532,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat14'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>
@@ -563,7 +563,7 @@ Template Name: Home
 				<?php $pops1 = get_popular_posts_by_category($pages, $catNum, 1);
 			foreach($pops1 as $pop) { ?>
 				<?php $post_content_old = $pop->post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,get_option('dg_sect_cat15'));
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $pop->post->guid;?>">
 				<?php echo $pop->post->post_title;?> &raquo;</a></h3>

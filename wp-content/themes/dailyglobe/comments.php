@@ -17,6 +17,7 @@
 
 <!-- You can start editing here. -->
 <div id="comment-container">
+	<h2>Comments</h2>
 <?php if ( have_comments() ) : ?>
 	<h3 id="comments"><?php comments_number('No Comments', 'One Comment', '<span>%</span> Comments' );?> to &#8220;<?php the_title(); ?>&#8221;</h3>
 

@@ -71,7 +71,7 @@
 	<div id="profile_all">
 	
 		<div class="cred_full">
-			Rep: <!--<pre><?php //print_r($reputation); ?></pre>--> Coming Soon.
+			Rep: <pre><?php print_r($reputation); ?></pre>
 		</div>
 		
 		<div class="stats_full">
@@ -108,7 +108,7 @@
 		</div>
 		
 		<div class="activity_full">
-			<!--<pre><?php //print_r($activity); ?></pre>-->
+			<pre><?php print_r($activity); ?></pre>
 			<table>
 			<?php foreach ($activity as $action) { ?>
 			<?php 
@@ -171,4 +171,5 @@
 		 
 		 
 	</script>
+	<pre><?php print_r($_SESSION); ?></pre>
 </div><!--/profile-stuff-->
