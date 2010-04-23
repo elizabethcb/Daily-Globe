@@ -63,12 +63,25 @@
 						if ($feed) { ?>
 						<div class="syndicated-content">
 							<div class="post_meta_box">
-							<span id="synd-read-more" class="syndication-info">
-							<a class="topic-tag-link ttl1" href="<?php echo $feed['link']; ?>" target="_blank">Original Story</a>
-							<a class="topic-tag-link ttl2" href="/feed-information/<?php echo $feed['id']; ?>/">Feed information</a>
-							</span>
+							<span class="item1">Was this article newsworthy?</span>
+							<ul id="synd-read-more" class="syndication-info item3">
+								<li><a class="topic-tag-link ttl1" href="<?php echo $feed['link']; ?>" target="_blank">Original Story</a></li>
+								<li><a class="topic-tag-link ttl2" href="/feed-information/<?php echo $feed['id']; ?>/">Feed information</a></li>
+							</ul>
+							<script type="text/javascript"><!--
+							google_ad_client = "pub-5222051702127265";
+							/* 120x90, created 4/15/10 */
+							google_ad_slot = "6782212583";
+							google_ad_width = 120;
+							google_ad_height = 90;
+							//-->
+							</script>
+							<script type="text/javascript"
+							src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+							</script>
 							<?php //the closing div is in thumbsup the_content hook function ?>
 						<?php the_content(); ?>
+						<div style="text-align: center; padding-top: 10px;"><a href="<?php echo $feed['link']; ?>" class="topic-tag-link" style="padding: 10px;">Read the whole story here.</a></div>
 						<div id="article_profit_wrangler3">
 							<script type="text/javascript"><!--
 							google_ad_client = "pub-5222051702127265";
@@ -83,11 +96,23 @@
 							</script>
 						</div>
 						</div>
-						<!--<span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php echo $feed['link']; ?>" target="_blank">Read More</a></span>-->
+						<!-- <span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php // echo $feed['link']; ?>" target="_blank">Read More</a></span> -->
 						<br/>
 
 					<?php } else { ?>
-
+						<div class="post_meta_box">
+						<span class="item1">Was this article newsworthy?</span>
+						<script type="text/javascript"><!--
+						google_ad_client = "pub-5222051702127265";
+						/* 120x90, created 4/15/10 */
+						google_ad_slot = "6782212583";
+						google_ad_width = 120;
+						google_ad_height = 90;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+						</script>
 						<?php the_content(); ?>
 						<div id="article_profit_wrangler3">
 							<script type="text/javascript"><!--
@@ -104,41 +129,58 @@
 						</div>
 					<?php } ?>
 				</div>
-
+				
+				<script type="text/javascript">
+				$(document).ready(function() {
+					// Move Thumbsup to the right place.
+					$('.thumbsup_template_up-down').insertAfter('.item1');
+				});
+				</script>
+				
 			</div>
 	
 		<?php endwhile; ?>
-
-			<?php comments_template(); ?>
-	<?php else : ?>
+		
+			<!-- Call YARPP plugin -->
+			<?php related_posts(); ?>
+			
+			<!--  Call news tweets -->
+			
+				<?php if ( function_exists ( dynamic_sidebar(1) ) ) : ?>
 	
+					<?php dynamic_sidebar (1); ?>
+				<!-- end news tweets -->
+				<?php endif; ?>
+			
+			<?php comments_template(); ?>
+	
+	<?php else : ?>
 			<h2 class="center">Not Found</h2>
 			<p class="center">Sorry, but you are looking for something that isn't here.</p>
 			<?php include (TEMPLATEPATH . "/searchform.php"); ?>
-	
 	<?php endif; ?>
+	
+	
 		<!-- MOBILE -->
 			
-		<script type="text/javascript">
-			$(document).ready(function() {
-				$('.entry br').replace('<div class="br-replacement"></div>');
-			});
-		</script>
+		
 			
 			
 			
-	</div><!---articlepage -->
+	<!--</div> --><!---articlepage commented out, newstweets plugin generating an extra /div -->
 </div><!---content-->
 
 <div id="sidebar">
-<!-- MOBILE2 -->
-<?php get_sidebar (7); ?>
-<!-- MOBILE2 -->
-<?php get_sidebar (2); ?>
-<div class="iphone_app_img">
-	<a href="#"><img src="<?php bloginfo('template_directory'); ?>/images/iphone_app.png"></a>
-</div>
-<?php get_sidebar (3); ?>
+	<!-- MOBILE2 -->
+	<?php get_sidebar (7); ?>
+	<!-- MOBILE2 -->
+	<?php get_sidebar (2); ?>
+	
+	<div class="iphone_app_img">
+		<a href="#"><img src="<?php bloginfo('template_directory'); ?>/images/iphone_app.png"></a>
+	</div>
+	
+	<?php get_sidebar (3); ?>
 </div>
 
 
