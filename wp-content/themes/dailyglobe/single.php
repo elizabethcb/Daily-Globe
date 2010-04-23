@@ -142,7 +142,11 @@
 		<?php endwhile; ?>
 		
 			<!-- Call YARPP plugin -->
-			<?php if (function_exists( 'related_posts' ) ) { related_posts(); } ?>
+			<?php if (function_exists( 'related_posts' ) ) { 
+				related_posts(); 
+			} else { 
+				echo '</div>'; 
+			} ?>
 			
 			<!--  Call news tweets -->
 			
