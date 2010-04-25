@@ -76,7 +76,7 @@ $(document).ready(function() {
 				
 var searchVal = $('#search').serialize();
 
-$("#searchresults").fadeOut().load("<?php bloginfo('stylesheet_directory'); ?>/json/twitter-search.php?" + searchVal).fadeIn();
+$("#searchresults").hide().load("<?php bloginfo('stylesheet_directory'); ?>/json/twitter-search.php?" + searchVal).show();
 
 					
 $('#searchBtn').click(function(){
@@ -84,7 +84,7 @@ $('#searchBtn').click(function(){
 var searchVal = $('#search').serialize();
 					  
 					  
-$("#searchresults").fadeOut().load("<?php bloginfo('stylesheet_directory'); ?>/json/twitter-search.php?" + searchVal).fadeIn(); 
+$("#searchresults").hide().load("<?php bloginfo('stylesheet_directory'); ?>/json/twitter-search.php?" + searchVal).show(); 
 
 
 return false;

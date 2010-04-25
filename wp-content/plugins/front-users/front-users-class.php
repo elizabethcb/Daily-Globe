@@ -157,7 +157,7 @@ HERE;
 			global $current_user;
 			$vars['user'] = $current_user;
 		}
-	
+		// Something about redirecting if $vars['user'] not set.
 
 		// Votes by user the votes you've made.
 		$vars['votes'] = $wpdb->get_results( $wpdb->prepare(
@@ -170,22 +170,13 @@ HERE;
 		
 		
 		// Reputation
-		
-		$vars['reputation'] = $wpdb->get_results( $wpdb->prepare(
-			"SELECT 
-				user_id, 
-				object_id,
-				SUM(value) AS total_reputation
-				FROM " . $this->tables['reputation'] . "
-			WHERE user_id=%d
-			GROUP BY user_id",
-			$vars['user']->ID ) );
-			
-		// articles submitted and comments made
+		$vars['reputation'] = $this->get_reputation_data($vars['user']->ID);
+
+		// articles submitted
 		
 		$vars['posts'] = $this->get_posts_for_user($vars['user']->ID);
 		
-			// Activity
+		// Activity
 		$vars['activity'] = $this->parse_activity($wpdb->get_results( $wpdb->prepare(
 			"SELECT * FROM ". $this->tables['activity'] . "
 			WHERE user_id=%d ORDER BY date DESC LIMIT 30", $vars['user']->ID )));
@@ -228,6 +219,9 @@ HERE;
 			}
 		}
 		$posts = array(); $coms = array(); $voted = array(); $votees = array(); $shares = array();
+		
+		// The blog_id variable isn't actually the blog_id.  Obviously, it doesn't 
+		// matter except for readability
 		while ( $blog_id = current($ps) ) {
 			$sql = "SELECT post_title, guid, ID AS object_id FROM wp_".key($ps)."_posts WHERE ID IN(".implode(', ', $blog_id).")";
 			$posts[key($ps)] = $this->rearrange( $wpdb->get_results($sql), 'posts' );
@@ -295,7 +289,7 @@ HERE;
 		
 	}
 	
-	private function rearrange($results, $type) {
+	private function rearrange($results, $type = 'comment') {
 		if (!$results || !is_array($results))
 			return;
 		if ('comment' == $type) {
@@ -311,6 +305,113 @@ HERE;
 		}
 		return $return;
 	}
+	
+	private function get_reputation_data($user_id) {
+		// DATE_SUB(CURDATE(),INTERVAL 30 DAY) <= date
+		global $wpdb;
+		// Votes
+		$repvote = $wpdb->get_results( $wpdb->prepare(
+			"SELECT r.user_id, r.object_id AS vote_id, r.value, UNIX_TIMESTAMP(r.date) * 1000 AS date, 
+				v.item_id, v.item_type, v.blog_id
+			FROM " . $this->tables['reputation'] . " r
+			JOIN " . $this->tutable . " v ON v.id = r.object_id
+			WHERE r.user_id=%d AND r.object_type='vote'
+			ORDER BY r.date ASC",
+			$user_id
+		) );
+		$ps = array(); $cs = array();
+		foreach( $repvote as $vote ) {
+			switch ($vote->item_type) {
+				case 'post':
+					if (!in_array($vote->item_id, $ps[$vote->blog_id]) )
+						$ps[$vote->blog_id][] = $vote->item_id;
+					break;
+				case 'comment':
+					if (!in_array($vote->item_id, $cs[$vote->blog_id]) )
+						$cs[$vote->blog_id][] = $vote->item_id;
+					break;
+			}
+		}
+		
+		$posts = array(); $coms = array();
+		while ( $id = current($ps) ) {
+			$sql = "SELECT post_title, guid, ID AS object_id FROM wp_". key($ps) ."_posts
+				WHERE ID IN(" . implode(',',$id) . ")";
+			$posts[key($ps)] = $this->rearrange( $wpdb->get_results($sql) );
+			next($ps);
+		}
+		while ( $id = current($cs) ) {
+			$sql = "SELECT p.post_title, p.guid, c.comment_ID AS object_id FROM wp_". key($cs) ."_posts p
+				JOIN wp_". key($cs) ."_comments c ON c.comment_post_ID = p.ID
+				WHERE c.comment_ID IN(". implode(',',$id) .")";
+			$coms[key($cs)] = $this->rearrange( $wpdb->get_results($sql) );
+			next($cs);
+		}
+		
+		foreach ( $repvote as $vote ) {
+			switch ($vote->item_type) {
+				case 'post':
+					list($vote->post_title, $vote->url) = $posts[$vote->blog_id][$vote->item_id];
+					break;
+				case 'comment':
+					list($vote->post_title, $vote->url) = $coms[$vote->blog_id][$vote->item_id];
+					break;
+			}
+		}
+		
+		// Sharing
+		$repshare = $wpdb->get_results( $wpdb->prepare(
+			"SELECT 
+				r.user_id, r.object_id, r.value, UNIX_TIMESTAMP(r.date) * 1000 AS date,
+				s.post_id, s.blog_id
+			FROM " . $this->tables['reputation'] . " r
+			JOIN " . $this->tables['sharing'] . " s ON s.id = r.object_id
+			WHERE r.user_id=%d AND r.object_type='sharing'
+			ORDER BY r.date ASC",
+			$user_id
+		) );
+		
+		$sh = array();
+		foreach ( $repshare as $share ) {
+			$sh[$share->blog_id][] = $share->object_id;
+		}
+		$shares = array();
+		while ( $id = current($sh) ) {
+			$sql = "SELECT post_title, guid, ID AS object_id FROM wp_".key($sh)."_posts
+				WHERE ID IN(" . implode(',',$id) . ")";
+			$shares[key($sh)] = $this->rearrange( $wpdb->get_results($sql) );
+			next($sh);
+		}
+		foreach ( $repshare as $share ) {
+			list($share->post_title, $share->url) = $shares[$share->blog_id][$share->object_id];
+			$share->date = strtotime($share->date) * 1000;
+		}
+		
+		// Badges -- all that's needed.
+		$repbadges = $wpdb->get_results( $wpdb->prepare(
+			"SELECT
+				r.user_id, r.object_id, r.value, UNIX_TIMESTAMP(r.date) * 1000 AS date,
+				b.title
+			FROM " . $this->tables['reputation'] . " r
+			JOIN " . $this->tables['badges'] . " b ON b.id = r.object_id
+			WHERE r.user_id=%d AND r.object_type='badge'
+			ORDER BY r.date ASC",
+			$user_id
+		) );
+		
+
+		$rep = array_merge($repbadges, $repshare, $repvote);
+		usort($rep, array(&$this, 'repsrt') );
+		
+		return $rep;
+	}
+	
+	private function repsrt ($a, $b) {
+		if ($a->date == $b->date)
+			return 0;
+		return ($a->date < $b->date) ? -1 : 1;
+	} 
+	
 	private function load_feed_page($file = false) {
 		if (!$file) return false;
 		global $wp_query, $wpdb, $blog_id;
@@ -424,6 +525,7 @@ HERE;
 						i.post_title AS title,
 						i.post_date AS date,
 						i.post_author,
+						i.guid AS link,
 						i.comment_count AS comments,
 						COUNT(v.id) AS total_votes,
 						SUM(v.rating) AS positive_votes,
@@ -431,7 +533,7 @@ HERE;
 					FROM wp_". $bid . "_posts i
 					LEFT JOIN $this->tutable v ON i.id = v.item_id
 					LEFT JOIN ". $this->tables['sharing'] . " sh ON i.id = sh.post_id
-					WHERE v.blog_id = %d AND i.post_author = %d
+					WHERE v.blog_id = %d AND i.post_author = %d AND i.post_type='post'
 					GROUP BY i.ID
 					ORDER BY i.post_title ASC
 					", $bid, $uid);
@@ -459,29 +561,29 @@ HERE;
 		$cats = $this->get_post('categories');
 		$nonce = $this->get_request('_wpnonce');
 	// grrr...while testing nonces I sometimes invalidate the nonce.
-		if (wp_verify_nonce($nonce, 'fu-submit-article')) {
-			$fu['post_category'] = $cats;
-		} else {
+		if ( ! wp_verify_nonce($nonce, 'fu-submit-article') ) {
 			$post = '';
 			$post['error'] = "Naughty Naughty";
 			$post['nonce'] = $nonce;
 			// Do something here.  whoops.
 			wp_redirect(get_bloginfo('url'));
 		}
+		$post['post_category'] = $cats;
 		
-		$post['post_content'] = $fu['post_content']
-			.'<div class="post-snippet">'
-			. $fu['post-snippet'] . '</div>';
-		foreach (array('post_title', 'post_category') as $as) {
-			$post[$as] = $fu[$as];
-		}
-		global $current_user;
-		$post['post_author'] = $current_user->ID;
+		$post['post_content'] = $fu['post_content'];
+//			.'<div class="post-snippet">'
+//			. $fu['post-snippet'] . '</div>';
+		//foreach (array('post_title', 'post_category') as $as) {
+		$post['post_title'] = $fu['post_title'];
+		//}
+		global $current_user, $user_id, $blog_id;
+		$post['post_author'] = $user_id;
 		$post['post_status'] = ( current_user_can('publish_posts') ) ? 'publish' : 'pending';
+		
 		//echo '<pre>';print_r($post); echo '</pre>';
 		//die('bitch');
 		
-		add_user_to_blog('','','Contributor');
+		add_user_to_blog($blog_id,$user_id,'Contributor');
 		//echo "inserting ";
 		$sf = wp_insert_post($post);
 		//echo $sf;
@@ -491,7 +593,7 @@ HERE;
 			$fu['message'] = "Success";		
 		
 			update_post_meta($sf, 'link', $fu['snippet-url']);
-			update_post_meta($sf, 'snippet', $fu['post-snippet']);
+			//update_post_meta($sf, 'snippet', $fu['post-snippet']);
 			
 		} else {
 			$fu['error'] = "There was a problem saving the post";

@@ -21,12 +21,13 @@
 	</div>
 	
 	<div id="partners">
-		<h2>Partners</h2>
+		<h2>Thank You</h2>
 		<ul>
-			<li><a href="http://www.google.com">Google</a></li>
-			<li><a href="http://www.amazon.com">Amazon</a></li>
-			<li><a href="http://www.slatetechpdx.com">Slate Technologies</a></li>
-			<li><a href="http://www.openx.org/">OpenX</a></li>
+			<li><a href="http://slatetechpdx.com">Slate Technologies</a></li>
+			<li><a href="http://wordpress.org">Wordpress</a></li>
+			<li><a href="http://geonames.org">Geonames</a></li>
+			<li><a href="http://stackoverflow.com">Stack Overflow</a></li>
+			<li><a href="http://www.geertdedeckere.be/">Geert De Deckare</a></li>
 		</ul>
 	</div><!--/signups-->
 </div><!--/footer-->

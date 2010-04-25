@@ -222,7 +222,7 @@ img.right {
 	
 }
 #menu > ul {
-	width: 855px;
+	width: 730px;
 	margin: 0 auto;
 	list-style-type: none;
 	font-size:15px;
@@ -233,7 +233,7 @@ img.right {
 #menu > ul > li {
 	float:left;
 	height:18px;
-	margin:0 8px;
+	margin:0 6px;
 	padding:12px 8px 18px;
 }
 
@@ -1409,7 +1409,7 @@ a.topic-tag-link:hover {
 	padding:0;
 }
 #author, #email, #url, #comment-text {
-	margin:8px 5px 0px 0;
+	margin:16px 5px 0px 0;
 	padding:0;
 	border: 2px solid #DDD;
 	position: relative;
@@ -1473,11 +1473,37 @@ ol.commentlist li p {
 	line-height: 14pt;
 }
 ol.commentlist a {}
+div#secureimgdiv {
+	float: right;
+	margin: -63px 3px -30px 0px;
+	width: 240px;
+}
+div#secureimgdiv img {
+	position: relative;
+	top: 6px;
+}
+input#securitycode {
+	left: 0px;
+	position: relative;
+	top: -29px;
+	width: 158px;
+}
+small#spam_statement {
+	bottom: 0px;
+	display: block;
+	left: 176px;
+	position: relative;
+	top: -44px;
+	width: 134px;
+}
+div#secureimgdiv span label {
+	position: relative;
+	top: 1px;
+	left:1px;
+}
 
 
-
-
-/* local search result*/
+/************* local search result ****************/
 
 #bottom_profit_wrangler_local {
 	clear: both;

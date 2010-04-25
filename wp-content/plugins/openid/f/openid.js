@@ -26,7 +26,6 @@ function add_openid_to_comment_form(wp_url, nonce) {
 	var openid_comment = jQuery('#openid_comment');
 	var openid_checkbox = jQuery('#login_with_openid');
 	var url = jQuery('#url');
-
 	jQuery('label[for="url"],#url').filter(':last').after(openid_comment.hide());
 
 	if ( url.val() ) check_openid( url );
