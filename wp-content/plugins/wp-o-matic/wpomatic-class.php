@@ -495,8 +495,7 @@ class WPOMatic {
     	$this->feeduser, $campaign->allowpings, 
     	$campaign->comment_status, $meta);
 
-    // Save post to wpo table
-    // if it fails delete post.  This will help with preventing duplicate entries.
+    // Save post to wpo table only if post was saved to wp table
 	if ( 0 == $post_id ) {
 		$this->log("Post wasn't inserted successfully.  Feed ID: " . $feed->id);
 		return 0;
@@ -510,7 +509,7 @@ class WPOMatic {
     
     if (null == $wpdb->insert_id || !$wpdb->insert_id || 0 == $wpdb->insert_id || !$test) {
     	// for testing only
-    	wp_delete_post($post_id, true);
+    	//wp_delete_post($post_id, true);
      	return 0;
      
     }

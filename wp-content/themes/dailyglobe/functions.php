@@ -30,6 +30,10 @@ function string_limit_words($string, $limit, $break=" ", $pad="...")
   return $string;
 }
 
+function dg_custom_login() {
+	echo '<link rel="stylesheet" type="text/css" href="' . get_bloginfo('stylesheet_directory') . '/css/custom-login.css" />';
+}
+add_action('login_head', 'dg_custom_login');
 // TODO : Really don't need these anymore
 // Functions for event page with Event Manager plugin
 function dbem_is_locations_page () {

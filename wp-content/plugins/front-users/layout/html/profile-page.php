@@ -3,14 +3,10 @@
 	<div class="profiletop left" >
 		<div class="profile-details">
 			<?php echo get_avatar( $user->id, $size = '125', $default = '/css/images/dgdefault.png' ); ?> 
-	
-			
 			<div class="rep">
-				<span class="big"><?php if ($reputation) {echo $reputation[0]->total_reputation . "<br /> reputation";} ?></span>
+				<span class="big" id="reputation-total"></span><br />
+				reputation
 			</div>
-
-			
-			
 		</div>
 	</div>
 	
@@ -24,11 +20,7 @@
 				<td class="filled">member since</td>
 				<td><?php echo time_since($user->user_registered); ?></td>
 			</tr>
-			<tr>
-				<td class="filled">seen</td>
-				<td>an amount of time that'll be figured out
-				once the uri rewrite stuff is done.</td>
-			</tr>
+
 			<tr>
 				<td class="filled">website</td>
 				<td><?php 
@@ -40,13 +32,11 @@
 			</tr>
 			<tr>
 				<td class="filled">location</td>
-				<td>whatever it says in the upper left corner.</td>
+				<td><?php echo get_users_location(); ?></td>
 			</tr>
-			
+
 		</table>
-	
-	</div><!--/profile-things-->
-	
+	</div><!--/profile-things-->	
 	<div class="ad right">
 		<div id="sidebar">
 			<?php get_sidebar (2); ?>
@@ -63,17 +53,41 @@
 		<li class="cred onthis">Reputation</li>
 		<li class="stats">Article Stats</li>
 		<li class="badges">Badges Earned</li>
-		<li class="activity">Activity</li>
-
-		
+		<li class="activity">Activity</li>	
 	</ul>
-	
 	<div id="profile_all">
-	
 		<div class="cred_full">
-			Rep: <pre><?php print_r($reputation); ?></pre>
+			<div id="placeholder" style="float: left; width: 500px; height: 300px;"></div>
+			<div class="right" style="height: 300px; overflow: auto; width: 300px">
+			<?php // user_id, object_id, value, date 
+			$jsdata = 'var d = [';
+			$value = 0;
+			foreach ($reputation as $rep) { 
+				$value = $value + $rep->value;
+				$jsdata .= "[$rep->date, $value], ";
+			?>
+			
+			<?php }
+			$jsdata .= '];';
+			
+			foreach ( array_reverse($reputation) as $rep ) {
+			?>
+			<?php echo $rep->value; ?>pts earned (or lost) on <?php echo date('M j, Y', $rep->date / 1000); ?><br />
+			
+			<?php } ?>
+			</div>
+			<script type="text/javascript">
+				$(function () {
+					<?php echo $jsdata; ?>
+					
+					$.plot($("#placeholder"), [d], { xaxis: { mode: "time" } });
+					
+					$("#reputation-total").text(<?php echo $value; ?>);
+				
+				});
+			</script>
+			<!--<pre><?php //print_r($reputation); ?></pre>-->
 		</div>
-		
 		<div class="stats_full">
 		<!--<pre><?php //print_r($posts); ?></pre>-->
 		<?php if ($posts) { ?>
@@ -88,9 +102,10 @@
 					<td class="coms"><span class="amt">
 						<?php echo $post->comments; ?>
 					</span>comments</td>
-					<td class="faved"><span class="amt">33</span>faved</td>
-					<td class="shared"><span class="amt">57</span>shared</td>
-					<td class="title"><?php echo $post->title; ?></td>
+					<td class="shared"><span class="amt"><?php echo $post->shares; ?></span>shared</td>
+					<td class="title">
+						<a href="<?php echo $post->link; ?>"><?php echo $post->title; ?></a>
+					</td>
 					<td><?php echo $post->post_author; ?></td>
 				</tr>
 			<?php } ?>
@@ -99,32 +114,33 @@
 			No articles posted yet.
 		<?php } ?>
 		</div>
-		
 		<div class="badges_full">
 			<ul>
 			<li><span class="bullit-silver"> </span>BADGE NAME</li>
 			</ul>
-
 		</div>
-		
 		<div class="activity_full">
-			<pre><?php print_r($activity); ?></pre>
+			<pre><?php //print_r($activity); ?></pre>
 			<table>
 			<?php foreach ($activity as $action) { ?>
 			<?php 
-			
-			if ($action->type == "comment") {
-				$actionText = "Commented on: ";
-			} elseif ($action->type == "voted") {
-				$actionText = "Voted on: ";
-			} elseif ($action->type == "sharing") {
-				$actionText = "Shared: ";
-			} elseif ($action->type == "post") {
-				$actionText = "Posted: ";
-			} elseif ($action->type == "vote") {
-				$actionText = "Received Vote on: ";
-			} else {
-				$actionText = "Did: ";
+			switch ( $action->type ) {
+				case "comment" :
+				 	$actionText = "Commented on: ";
+				 	break;
+				case "voted" :
+					$actionText = "Voted on: ";
+					break;
+				case "sharing" :
+					$actionText = "Shared: ";
+					break;
+				case "post" :
+					$actionText = "Posted: ";
+					break;
+				case "vote" :
+					$actionText = "Received Vote on: ";
+				default : 
+					$actionText = "Did: ";
 			}
 			
 			?>
@@ -138,8 +154,6 @@
 			<?php } ?>
 			</table>
 		</div>
-		
-
 	</div><!--/profile_all-->
 	<script type="text/javascript">
 		
@@ -168,8 +182,6 @@
 			$(this).addClass('onthis');
 			return false; 
 		 }); 
-		 
-		 
+
 	</script>
-	<pre><?php print_r($_SESSION); ?></pre>
 </div><!--/profile-stuff-->

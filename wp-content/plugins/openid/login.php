@@ -4,15 +4,33 @@
  * and may change without notice.
  */
 
-
+// line numbers for WP 2.9.1 (ish)
+// wp-login.php line:
 add_action( 'login_head', 'openid_wp_login_head');
+// wp-signup.php line: 17
+add_action( 'signup_header', 'openid_wp_login_head');
+// wp-login.php line:
 add_action( 'login_form', 'openid_wp_login_form');
+
+
+
+// wp-login.php line:
 add_action( 'register_form', 'openid_wp_register_form', 9);
+// wp-signup.php line: 139
+add_action( 'signup_extra_fields', 'openid_wp_register_form', 9);
+
+// wp-login.php line: 267
 add_action( 'register_post', 'openid_register_post', 10, 3);
 add_action( 'openid_finish_auth', 'openid_finish_login', 10, 2);
+
+// wp-login.php line: 269
 add_filter( 'registration_errors', 'openid_clean_registration_errors', -99);
 add_filter( 'registration_errors', 'openid_registration_errors');
-add_action( 'init', 'openid_login_errors' );
+// wp-signup.php line: 235
+add_filter( 'wpmu_validate_user_signup', 'openid_clean_registration_errors', -99);
+add_filter( 'wpmu_validate_user_signup', 'openid_registration_errors');
+
+//add_action( 'init', 'openid_login_errors' );
 
 
 /**
@@ -96,8 +114,11 @@ function openid_finish_login($identity_url, $action) {
  */
 function openid_login_errors() {
 	$self = basename( $GLOBALS['pagenow'] );
-	if ($self != 'wp-login.php') return;
-
+	if ($self != 'wp-login.php' && !preg_match( '/wp-signup/', $_SERVER['REQUEST_URI']) ) {
+		error_log('openid/login.php line: 118 Unable to detect page');
+		return;
+	}
+	
 	if ( array_key_exists('openid_error', $_REQUEST) ) {
 		global $error;
 		$error = htmlentities2($_REQUEST['openid_error']);
@@ -187,12 +208,22 @@ function openid_wp_register_form() {
 /**
  * Clean out registration errors that don't apply.
  */
-function openid_clean_registration_errors($errors) {
-	if (get_option('openid_required_for_registration') || !empty($_POST['openid_identifier'])) {
+function openid_clean_registration_errors($args) {
+	// given this if WPMU
+	// array('user_name' => $user_name, 'user_email' => $user_email, 'errors' => $errors )
+
+	if ( defined('WPMU_PLUGIN_DIR') ) {
+		$errors = $args['errors'];
+			echo 'crappity';
+	}
+	if ('' != $errors && ( get_option('openid_required_for_registration') || !empty( $_POST['openid_identifier']) ) ) {
 		$new = new WP_Error();
 		foreach ($errors->get_error_codes() as $code) {
-			if (in_array($code, array('empty_username', 'empty_email'))) continue;
-
+			if ( defined('WPMU_PLUGIN_DIR') ) {
+				if (in_array($code, array('user_name', 'user_email'))) continue;
+			} else {
+				if (in_array($code, array('empty_username', 'empty_email'))) continue;
+			}
 			$message = $errors->get_error_message($code);
 			$data = $errors->get_error_data($code);
 			$new->add($code, $message, $data);
@@ -201,18 +232,21 @@ function openid_clean_registration_errors($errors) {
 		$errors = $new;
 	}
 
-	if (get_option('openid_required_for_registration') && empty($_POST['openid_identifier'])) {
+	if ( is_object($errors) && get_option('openid_required_for_registration') && empty($_POST['openid_identifier'])) {
 		$errors->add('openid_only', __('<strong>ERROR</strong>: ', 'openid') . __('New users must register using OpenID.', 'openid'));
 	}
-
-	return $errors;
+	if ( defined('WPMU_PLUGIN_DIR') ) {
+		$args['errors'] = $errors;
+		return $args;
+	}
+	return $args;
 }
 
 /**
  * Handle WordPress registration errors.
  */
 function openid_registration_errors($errors) {
-	if (!empty($_POST['openid_identifier'])) {
+	if (!empty($_POST['openid_identifier']) && is_object($errors) ) {
 		$errors->add('invalid_openid', __('<strong>ERROR</strong>: ', 'openid') . openid_message());
 	}
 
@@ -223,7 +257,7 @@ function openid_registration_errors($errors) {
 /**
  * Handle WordPress registrations.
  */
-function openid_register_post($username, $password, $errors) {
+function openid_register_post($errors) {
 	if ( !empty($_POST['openid_identifier']) ) {
 		wp_signon();
 	}

@@ -68,17 +68,7 @@
 								<li><a class="topic-tag-link ttl1" href="<?php echo $feed['link']; ?>" target="_blank">Original Story</a></li>
 								<li><a class="topic-tag-link ttl2" href="/feed-information/<?php echo $feed['id']; ?>/">Feed information</a></li>
 							</ul>
-							<script type="text/javascript"><!--
-							google_ad_client = "pub-5222051702127265";
-							/* 120x90, created 4/15/10 */
-							google_ad_slot = "6782212583";
-							google_ad_width = 120;
-							google_ad_height = 90;
-							//-->
-							</script>
-							<script type="text/javascript"
-							src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-							</script>
+
 							<?php //the closing div is in thumbsup the_content hook function ?>
 						<?php the_content(); ?>
 						<div style="text-align: center; padding-top: 10px;"><a href="<?php echo $feed['link']; ?>" class="topic-tag-link" style="padding: 10px;" target="_blank">Read the whole story here.</a></div>
@@ -102,17 +92,7 @@
 					<?php } else { ?>
 						<div class="post_meta_box">
 						<span class="item1">Was this article newsworthy?</span>
-						<script type="text/javascript"><!--
-						google_ad_client = "pub-5222051702127265";
-						/* 120x90, created 4/15/10 */
-						google_ad_slot = "6782212583";
-						google_ad_width = 120;
-						google_ad_height = 90;
-						//-->
-						</script>
-						<script type="text/javascript"
-						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-						</script>
+						
 						<?php the_content(); ?>
 						<div id="article_profit_wrangler3">
 							<script type="text/javascript"><!--

@@ -249,7 +249,6 @@ function openid_comment_profilelink() {
  **/
 function openid_comment_form() {
 	global $wp_scripts;
-
 	if (comments_open() && !is_user_logged_in() && isset($wp_scripts) && $wp_scripts->query('openid')) {
 ?>
 		<span id="openid_comment">

@@ -84,11 +84,11 @@ function fu_add_new_user($fu = false) {
 	global $blog_id;
 	$email = sanitize_email( $fu['email'] );
 	//$current_site = get_current_site();
-	$password = 'N/A';
+	$pass = $fu['password'];
 	$user_id = email_exists($email);
 	//echo "hi";
 	if( !$user_id ) {
-		$password = generate_random_password();
+		$password = $pass ? $pass : generate_random_password();
 		$user_id = wpmu_create_user( $fu['username'], $password, $email );
 		if (false == $user_id) {
 			//echo "uh oh";
@@ -102,7 +102,8 @@ function fu_add_new_user($fu = false) {
 			update_user_option( $user_id, 'primary_blog', $blog_id, true );
 		
 	}
-	wp_redirect( $_SERVER['HTTP_REFERER'] );
+	$redirect = $fu['referer'] ? $fu['referer'] : get_bloginfo('url');
+	wp_redirect( $redirect );
 
 }
 
@@ -129,6 +130,7 @@ function fu_loaded() {
 	add_filter( 'fu_test',				'fu_comm_test');
 
 	add_action( 'fu_caught_vote', 		array(&$fu, 'caught_post_vote') );
+	add_action( 'fu_caught_comment_vote', array(&$fu, 'caught_comment_vote') );
 	//wp_enqueue_script( 'fu-comments', FU_PLUGIN_DIR_URL . 'layout/javascript/fu-javascript.js', '', '', true);
 
 }

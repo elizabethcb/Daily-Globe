@@ -7,8 +7,8 @@ Template Name: Main Home
 
 <?php get_header(); ?>
 <pre>
-<?php global $options;
-	//print_r($options);
+<?php global $options, $wpdb;
+	print_r($wpdb->queries);
 ?>
 </pre>
 <div id="home_sub-container" class="left">
@@ -50,7 +50,7 @@ Template Name: Main Home
 								<li>
 									<?php //$postid=$pop->post_id;
 									//$post = wp_get_single_post( $postid );
-									$image_link = catch_that_image($post->post_content);?>
+									$image_link = catch_that_image($post->post_content,$post->category);?>
 									<img class="thumb t<?php echo $count;?> <?php if($count == 0){ echo 'current';} ?>" src="<?php echo $image_link; ?>" />
 									
 					 				<script type="text/javascript">
@@ -85,7 +85,7 @@ Template Name: Main Home
 						<p class="cat3_posts home_post">
 							<?php $post_content_old = $post->post_content;
 							$post_content = strip_tags($post_content_old);
-							$post_image = catch_that_image($post_content_old);
+							$post_image = catch_that_image($post_content_old,$post->category);
 							if (strlen($post_content) <= 300) {
 								echo '<img src="' . $post_image . '" />';
 								echo $post_content;
@@ -129,7 +129,7 @@ Template Name: Main Home
 						<p class="cat2_posts home_post">
 							<?php 
 							$post_content = strip_tags($post->post_content);
-							$post_image = catch_that_image($post->post_content);
+							$post_image = catch_that_image($post->post_content,$post->category);
 							if (strlen($post_content) <= 200) {
 								echo '<img src="' . $post_image . '" />';
 								echo $post_content;
@@ -199,7 +199,7 @@ Template Name: Main Home
 					<p class="cat4_posts home_post">
 						<?php $post_content_old = $post->post_content;
 						$post_content = strip_tags($post_content_old);
-						$post_image = catch_that_image($post_content_old);
+						$post_image = catch_that_image($post_content_old,$post->category);
 						if (strlen($post_content) <= 400) {
 							echo '<img src="' . $post_image . '" />';
 							echo $post_content;}
@@ -239,7 +239,7 @@ Template Name: Main Home
 					<p class="cat5_posts home_post">
 						<?php $post_content_old = $post->post_content;
 						$post_content = strip_tags($post_content_old);
-						$post_image = catch_that_image($post_content_old);
+						$post_image = catch_that_image($post_content_old,$post->category);
 						if (strlen($post_content) <= 250) {
 							echo '<img src="' . $post_image . '" />';
 							echo $post_content;}
@@ -288,7 +288,7 @@ Template Name: Main Home
 			<div class="home_cat_title"><h2>Cheese</h2></div>
 				<?php 	foreach($pages[39] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,$post->category);
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
 				<?php echo $post->post_title;?> &raquo;</a></h3>
@@ -317,7 +317,7 @@ Template Name: Main Home
 			<div class="home_cat_title"><h2>Living Green</h2></div>
 				<?php 	foreach($pages[44] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,$post->category);
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
 				<?php echo $post->post_title;?> &raquo;</a></h3>
@@ -346,7 +346,7 @@ Template Name: Main Home
 			<div class="home_cat_title"><h2>Dogs</h2></div>
 				<?php 	foreach($pages[41] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,$post->category);
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
 				<?php echo $post->post_title;?> &raquo;</a></h3>
@@ -375,7 +375,7 @@ Template Name: Main Home
 			<div class="home_cat_title"><h2>Men</h2></div>
 				<?php 	foreach($pages[47] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,$post->category);
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
 				<?php echo $post->post_title;?> &raquo;</a></h3>
@@ -404,7 +404,7 @@ Template Name: Main Home
 			<div class="home_cat_title"><h2>Travel</h2></div>
 				<?php 	foreach($pages[55] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old);
+				$post_image = catch_that_image($post_content_old,$post->category);
 				echo '<img src="' . $post_image . '" />'; ?>
 				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
 				<?php echo $post->post_title;?> &raquo;</a></h3>

@@ -6,7 +6,7 @@
 	margin:0px;
 }
 
-#newstweet-container a { -moz-outline-style: none;} /* Removes ugly dotted lines in Firefox */
+#newstweet-container a { -moz-outline-style: none; color: #CA1616} /* Removes ugly dotted lines in Firefox */
 #newstweet-container a img{border:0;} /* Removes borders from images in IE */
 
 div#newstweet-header{float:left; margin: 25px 0px 2px; padding:0px 10px; font-size:21px; line-height:21px; font-weight:bold; text-align:left;} /* Style for the header */
@@ -15,7 +15,7 @@ div#newstweet-header em{color:#6388BB; font-style:normal;} /* Highlights the sea
 #newstweet-container div#twitterwrapper{float:left; width:auto; margin:0px auto; text-align:center;} /* Container where the posts are displayed */
 
 #newstweet-container div#tweetholder{float:left; margin:0 auto; padding:0px;} /* Interior container where the posts are displayed */
-div.tweet{background: #fff; float:left;margin:0px 0px 5px 0px; padding:10px; text-align:left; border:1px solid #e1e1e1; display:none; width: 602px;} /* Boxes where each post is displayed */
+#newstweet-container div.tweet{background: #fff; float:left;margin:0px 0px 5px 0px; padding:10px; text-align:left; border:1px solid #e1e1e1; display:none; width: 602px;} /* Boxes where each post is displayed */
 
 #newstweet-container img.avatar{float:left; margin:0px 10px 0px 0px; padding:2px; width:24px; height:24px; background:#fff; border:1px solid #e1e1e1;} /* Resize the avatar - Standard size is 48 x 48 */
 #newstweet-container p.posted{float:left; margin:0px;} /* Style for the text that displays who posted the tweet */

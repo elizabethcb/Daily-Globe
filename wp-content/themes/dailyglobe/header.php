@@ -60,6 +60,11 @@ if ($blog_id == 1) { ?>
 <!-- include Cycle plugin -->
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.cycle/jquery.cycle.all.min.js"></script>
 <?php } ?>
+<?php if ( is_page('Profile') || is_page('Feed Information') ) { ?>
+<!--[if IE]><script language="javascript" type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/flot/excanvas.pack.js"></script><![endif]-->
+<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/flot/jquery.flot.js"></script>
+<?php } ?>
+
 <!-- If is_single or category load TU.  If events, load events css.  If submit, load fu stuff-->
 <?php if(is_single() || is_category()) { ?>
 <script type="text/javascript" src="<?php echo THUMBSUP_PLUGIN_URL ?>core/thumbsup.js"></script>
@@ -175,7 +180,6 @@ $(document).ready(function() {
 			<li id="tweets_link"><a href="/local-tweets/">News Tweets</a></li>
 			<li id="local_search_link"><a href="/local-search/">Local Search</a></li>
 			<!--<li id="local_events_link"><a href="/events/">City Events</a></li>-->
-			<li id="register"><a href="/wp-signup.php">Become a Globe Blogger</a></li>
 			<li id="cities_link"><a href="/cities/">Browse Cities</a></li>
 			
 			<!--<li><a href="#search-location" id="search-for-location">Browse Cities</a></li>-->
@@ -188,6 +192,7 @@ $(document).ready(function() {
 					</ul>
 				</div>
 			</li>
+			<li id="register"><a href="/wp-signup.php">Sign Up!</a></li>
 		</ul>
 	</div>
 	<div id="customize_color"><span><a id="customize_box" href="#colorchart">Customize</a></span>
@@ -203,20 +208,20 @@ $(document).ready(function() {
 	</div>
 	<div id="login-register">
 		<span>
-		<?php /*global $current_user;
+		<?php global $current_user;
 			get_currentuserinfo();
 			if (!$current_user->user_login) { ?>
 				<a href="/register/" id="register">Register</a> 
 			<?php } else { ?>
 				<a href="/profile/">My Account</a>
 			<?php } ?> | <?php if ($current_user->user_login) {
-						$uri = preg_match( '/submit-a/', $_SERVER['REQUEST_URI']) ? get_bloginfo('siteurl') : $_SERVER['REQUEST_URI'];
-							
+						$uri = preg_match( '/submit-a|profile/', $_SERVER['REQUEST_URI']) ? get_bloginfo('siteurl') : $_SERVER['REQUEST_URI'];
+						/*	
 						echo '<a href="' . wp_logout_url( $uri ) . '" title="Logout">Logout</a>';
 					   } else {
-						echo '<a id="wploginout" href="#ajaxlogin">Log In</a>';
-					   } */?>
-		<?php wp_loginout($_SERVER['REQUEST_URI']); ?>
+						echo '<a id="wploginout" href="#ajaxlogin">Log In</a>';*/
+					   } ?>
+		<?php wp_loginout($uri); ?>
 		</span>
 		<!--<div id="ajaxlogin" style="display:none"><?php if ( function_exists('login_with_ajax') ) { login_with_ajax(); } ?></div>-->
 	</div>
