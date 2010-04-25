@@ -184,4 +184,5 @@
 		 }); 
 
 	</script>
+	<pre><?php print_r($_SESSION); ?></pre>
 </div><!--/profile-stuff-->
