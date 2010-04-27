@@ -35,17 +35,10 @@
 
 <?php wp_footer(); ?>
 	
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-	var pageTracker = _gat._getTracker("UA-15791629-3");
-	pageTracker._setDomainName(".thedailyglobe.com");
-	pageTracker._trackPageview();
-} catch(err) {}
-</script>
+<a title="Google Analytics Alternative" href="http://getclicky.com/207362"><img alt="Google Analytics Alternative" src="http://static.getclicky.com/media/links/badge.gif" border="0" /></a>
+<script src="http://static.getclicky.com/js" type="text/javascript"></script>
+<script type="text/javascript">clicky.init(207362);</script>
+<noscript><p><img alt="Clicky" width="1" height="1" src="http://in.getclicky.com/207362ns.gif" /></p></noscript>
 
 </body>
 </html>
