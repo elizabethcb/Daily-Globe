@@ -8,17 +8,15 @@ Template Name: Just In
 <?php get_header(); ?>
 
 <div id="sub-container">
-	<div id="bottom_profit_wrangler_local" style="margin-bottom: 15px;">
+	<div id="bottom_profit_wrangler_local" style="padding-bottom: 15px;">
 		<!-- YB: justin_header (728x90) -->
 		<script type="text/javascript"><!--
 		yieldbuild_site = 9633;
 		yieldbuild_loc = "justin_header";
 		//--></script>
 		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
-	<div>
+	</div>
 <h2 class="pagetitle">Categories in <?php bloginfo('name'); ?></h2>
-	
-	<div id="justin_content" class="left">
 	<div id="justin_ad_wrangler" class="left">
 		<!-- YB: justin_left_sidebar_1 (120x600) -->
 		<script type="text/javascript"><!--
@@ -36,6 +34,7 @@ Template Name: Just In
 			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 		</div>
 	</div>
+	<div id="justin_content" class="left">
 		<?php  
 		 $categories=get_categories($args);
 		foreach($categories as $category) {
