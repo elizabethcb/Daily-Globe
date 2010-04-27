@@ -8,7 +8,6 @@ Template Name: Just In
 <?php get_header(); ?>
 
 <div id="sub-container">
-<h2 class="pagetitle">Categories in <?php bloginfo('name'); ?></h2>
 	<div id="bottom_profit_wrangler_local">
 		<!-- YB: justin_header (728x90) -->
 		<script type="text/javascript"><!--
@@ -17,6 +16,7 @@ Template Name: Just In
 		//--></script>
 		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 	<div>
+<h2 class="pagetitle">Categories in <?php bloginfo('name'); ?></h2>
 	<div id="justin_ad_wrangler" class="left">
 		<!-- YB: justin_left_sidebar_1 (120x600) -->
 		<script type="text/javascript"><!--
