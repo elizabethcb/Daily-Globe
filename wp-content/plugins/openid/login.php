@@ -142,10 +142,10 @@ function openid_wp_login_head() {
 function openid_wp_login_form() {
 	echo '<hr id="openid_split" style="clear: both; margin-bottom: 1.0em; border: 0; border-top: 1px solid #999; height: 1px;" />';
 
-	echo '
+	echo '<h3>OR</h3>
 	<p style="margin-bottom: 8px;">
-		<label style="display: block; margin-bottom: 5px;">' . __('Or login using an OpenID', 'openid') . '<br />
-		<input type="text" name="openid_identifier" id="openid_identifier" class="input openid_identifier" value="" size="20" tabindex="25" /></label>
+		<label style="display: block; margin-bottom: 5px;">' . __('Login using an OpenID', 'openid') . '</label><br />
+		<input type="text" name="openid_identifier" id="openid_identifier" class="input openid_identifier" value="" size="20" tabindex="25" />
 	</p>
 
 	<p style="font-size: 0.9em; margin: 8px 0 24px 0;" id="what_is_openid">
@@ -161,7 +161,7 @@ function openid_wp_login_form() {
  **/
 function openid_wp_register_form() {
 	echo '
-	<div style="width:100%;">'; //Added to fix IE problem
+	<div style="width:100%; margin-top:30px;">'; //Added to fix IE problem
 
 	if (get_option('openid_required_for_registration')) {
 		$label = __('Register using an OpenID:', 'openid');
@@ -177,9 +177,11 @@ function openid_wp_register_form() {
 			});
 		</script>';
 	} else {
-		$label = __('Or register using an OpenID:', 'openid');
+		$label = __('Register using an OpenID:', 'openid');
 
-		echo '<hr id="openid_split" style="clear: both; margin-bottom: 1.5em; border: 0; border-top: 1px solid #999; height: 1px;" />';
+		echo '<hr class="openid_split" style="clear: left; float: left; width:160px; margin-bottom: 1.5em; border: 0; border-top: 1px solid #999; height: 1px;" />
+		<h3 style="float: left; margin-left: 20px; margin-right: 20px;">OR</h3>
+		<hr class="openid_split" style="clear:right; float: right; width:160px; border: 0; border-top: 1px solid #999; height: 1px;" />';
 
 		echo '
 		<script type="text/javascript">
@@ -190,10 +192,10 @@ function openid_wp_register_form() {
 		</script>';
 	}
 
-	echo '
+	echo '<br class="clear" />
 		<p>
-			<label style="display: block; margin-bottom: 5px;">' . $label . '<br />
-			<input type="text" name="openid_identifier" id="openid_identifier" class="input openid_identifier" value="" size="20" tabindex="25" /></label>
+			<label style="display: block; margin-bottom: 5px;">' . $label . '</label><br />
+			<input type="text" name="openid_identifier" id="openid_identifier" class="custom_oid" value="" size="20" tabindex="25" />
 		</p>
 
 		<p style="float: left; font-size: 0.8em; margin: 0.8em 0;" id="what_is_openid">

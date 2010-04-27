@@ -14,17 +14,12 @@ $(document).ready(function() {
 	<div id="result_content" class="left" style="margin-right: -20px;">
 
 		<div id="localtweets_ad_wrangler" class="left">
+			<!-- YB: local_search_result_left_sidebar (120x600) -->
 			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe 120x600 Local Tweets 1 */
-			google_ad_slot = "2623852250";
-			google_ad_width = 120;
-			google_ad_height = 600;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
+			yieldbuild_site = 9633;
+			yieldbuild_loc = "local_search_result_left_sidebar";
+			//--></script>
+			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 
 		</div>
 		
@@ -188,32 +183,22 @@ $(document).ready(function() {
 	</div><!--content-->
 	
 	<div id="sidebar_thing" class="right">
-	<script type="text/javascript"><!--
-	google_ad_client = "pub-5222051702127265";
-	/* 160x600, created 4/13/10 */
-	google_ad_slot = "4538611883";
-	google_ad_width = 160;
-	google_ad_height = 600;
-	//-->
-	</script>
-	<script type="text/javascript"
-	src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-	</script>
+		<!-- YB: local_search_result_right_sidebar (160x600) -->
+		<script type="text/javascript"><!--
+		yieldbuild_site = 9633;
+		yieldbuild_loc = "local_search_result_right_sidebar";
+		//--></script>
+		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 
 	</div>
 	
 	<div id="bottom_profit_wrangler_local">
+		<!-- YB: local_search_result_footer (728x90) -->
 		<script type="text/javascript"><!--
-		google_ad_client = "pub-5222051702127265";
-		/* 728x90, created 4/12/10 */
-		google_ad_slot = "6738632594";
-		google_ad_width = 728;
-		google_ad_height = 90;
-		//-->
-		</script>
-		<script type="text/javascript"
-		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-		</script>
+		yieldbuild_site = 9633;
+		yieldbuild_loc = "local_search_result_footer";
+		//--></script>
+		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 	</div>
 	
 </div><!--subcontainer -->

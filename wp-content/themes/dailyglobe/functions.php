@@ -72,8 +72,22 @@ function setup_main_popular_posts($blog_id = 3, $number = 4) {
 	}
 	return false;
 }
+function another_setup_popular_posts() {
+	global $wpdb;
+	$votes =  $wpdb->get_results("SELECT
+		COUNT(*) AS tot, 
+		SUM(v.rating) AS pos, 
+		v.item_id, 
+		b.blog_id,
+		b.domain
+	FROM wp_tu_votes AS v 
+	JOIN wp_blogs b ON b.blog_id=v.blog_id 
+	WHERE v.item_type='post' AND b.blog_type='city' 
+	GROUP BY v.item_id 
+	ORDER BY pos DESC LIMIT 20");
 
-function new_setup_popular_posts($number = 40) {
+}
+function new_setup_popular_posts($number = 40, $numposts = 2) {
 	// Need to combine votes.
 	if(!get_option('sm_settings'))
 		return;

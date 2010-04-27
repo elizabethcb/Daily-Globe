@@ -8,33 +8,30 @@ Template Name: category
 <?php get_header(); ?>
 	<div id="sub-container">
 	<div id="content" class="left">
-		
+		<div id="bottom_profit_wrangler_local">
+			<!-- YB: category_header (728x90) -->
+			<script type="text/javascript"><!--
+			yieldbuild_site = 9633;
+			yieldbuild_loc = "category_header";
+			//--></script>
+			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+		</div>
 		<h2 class="pagetitle"><?php single_cat_title(); ?></h2>
 		
 		<div id="category_ad_wrangler" class="left">
+			<!-- YB: category_left_sidebar_1 (120x600) -->
 			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe 120x600 Categories/Neighb 1 */
-			google_ad_slot = "4805996971";
-			google_ad_width = 120;
-			google_ad_height = 600;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
+			yieldbuild_site = 9633;
+			yieldbuild_loc = "category_left_sidebar_1";
+			//--></script>
+			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 	
+			<!-- YB: category_left_sidebar_2 (120x600) -->
 			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe 120x600 Categories/Neighb 2 */
-			google_ad_slot = "7697333744";
-			google_ad_width = 120;
-			google_ad_height = 600;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
+			yieldbuild_site = 9633;
+			yieldbuild_loc = "category_left_sidebar_2";
+			//--></script>
+			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 		</div>
 		
 		<div id="category_page" class="right">

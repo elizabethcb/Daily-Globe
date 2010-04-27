@@ -9,7 +9,6 @@ Template Name: Site Search
 
 <div id="sub-container">
 
-
 <!-- Google Search with AdSense -->
 <!-- Results -->
 <div id="cse-search-results"></div>

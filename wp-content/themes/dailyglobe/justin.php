@@ -9,33 +9,29 @@ Template Name: Just In
 
 <div id="sub-container">
 <h2 class="pagetitle">Categories in <?php bloginfo('name'); ?></h2>
-
+	<div id="bottom_profit_wrangler_local">
+		<!-- YB: justin_header (728x90) -->
+		<script type="text/javascript"><!--
+		yieldbuild_site = 9633;
+		yieldbuild_loc = "justin_header";
+		//--></script>
+		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+	<div>
 	<div id="justin_ad_wrangler" class="left">
-		<div class="blockofwin-120x600 left">
-			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe DEV 120x600 */
-			google_ad_slot = "7664999990";
-			google_ad_width = 120;
-			google_ad_height = 600;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
-		</div>
+		<!-- YB: justin_left_sidebar_1 (120x600) -->
+		<script type="text/javascript"><!--
+		yieldbuild_site = 9633;
+		yieldbuild_loc = "justin_left_sidebar_1";
+		//--></script>
+		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+		
 		<div class="blockofwin-120x600 left justin_adjustment">
+			<!-- YB: justin_left_sidebar_2 (120x600) -->
 			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe DEV 120x600 */
-			google_ad_slot = "2002155645";
-			google_ad_width = 120;
-			google_ad_height = 600;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
+			yieldbuild_site = 9633;
+			yieldbuild_loc = "justin_left_sidebar_2";
+			//--></script>
+			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 		</div>
 	</div>
 	
