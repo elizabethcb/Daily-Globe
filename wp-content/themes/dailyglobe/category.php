@@ -7,8 +7,7 @@ Template Name: category
 
 <?php get_header(); ?>
 	<div id="sub-container">
-	<div id="content" class="left">
-		<div id="bottom_profit_wrangler_local">
+		<div id="bottom_profit_wrangler_local" style="margin-bottom: 15px;">
 			<!-- YB: category_header (728x90) -->
 			<script type="text/javascript"><!--
 			yieldbuild_site = 9633;
@@ -16,6 +15,7 @@ Template Name: category
 			//--></script>
 			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 		</div>
+	<div id="content" class="left">
 		<h2 class="pagetitle"><?php single_cat_title(); ?></h2>
 		
 		<div id="category_ad_wrangler" class="left">
