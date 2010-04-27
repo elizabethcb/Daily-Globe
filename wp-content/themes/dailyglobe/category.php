@@ -7,7 +7,7 @@ Template Name: category
 
 <?php get_header(); ?>
 	<div id="sub-container">
-		<div id="bottom_profit_wrangler_local">
+		<div id="bottom_profit_wrangler_local" style="margin-bottom: 15px;">
 			<!-- YB: category_header (728x90) -->
 			<script type="text/javascript"><!--
 			yieldbuild_site = 9633;

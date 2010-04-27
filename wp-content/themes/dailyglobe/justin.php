@@ -8,7 +8,7 @@ Template Name: Just In
 <?php get_header(); ?>
 
 <div id="sub-container">
-	<div id="bottom_profit_wrangler_local">
+	<div id="bottom_profit_wrangler_local" style="margin-bottom: 15px;">
 		<!-- YB: justin_header (728x90) -->
 		<script type="text/javascript"><!--
 		yieldbuild_site = 9633;
