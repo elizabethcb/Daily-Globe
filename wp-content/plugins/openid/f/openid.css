@@ -13,7 +13,7 @@
 	background: url('ajax-loader.gif') right center no-repeat;
 }
 
-body.login #openid_identifier {
+/*body.login #openid_identifier {
 	width: 92%;
 	font-size: 20px;
 	background-color: #FFF;
@@ -21,7 +21,11 @@ body.login #openid_identifier {
 	padding: 3px 3px 3px 18px;
 	margin-right: 6px;
 }
-
+*/
+.custom_oid {
+	font-size: 24px;
+	width: 94%;
+}
 #openid_comment {
 	margin: 0.8em 1em;
 }
@@ -34,4 +38,6 @@ body.login form#loginform a.legacy,
 body.login form#registerform a.legacy {
 	color: #FFF;
 }
+
+
 

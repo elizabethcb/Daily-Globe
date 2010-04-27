@@ -4,7 +4,6 @@ Template Name: Main Home
 */
 ?>
 
-
 <?php get_header(); ?>
 <pre>
 <?php global $options, $wpdb;

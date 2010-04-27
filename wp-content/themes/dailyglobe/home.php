@@ -147,34 +147,24 @@ Template Name: Home
 			<?php } ?>
 			
 			<div class="home-profit-wrangler120x600 left">
+				<!-- YB: home_right_sidebar (120x600) -->
 				<script type="text/javascript"><!--
-				google_ad_client = "pub-5222051702127265";
-				/* Daily Globe 120x600 Home 1 */
-				google_ad_slot = "8029910644";
-				google_ad_width = 120;
-				google_ad_height = 600;
-				//-->
-				</script>
-				<script type="text/javascript"
-				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-				</script>	
+				yieldbuild_site = 9633;
+				yieldbuild_loc = "home_right_sidebar";
+				//--></script>
+				<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>	
 			</div>
 		</div>	
 		
 		
 		
 		<div class="home-profit-wrangler160x600 left clear">
+			<!-- YB: home_left_sidebar (160x600) -->
 			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe 160x600 Home 2 */
-			google_ad_slot = "5604637610";
-			google_ad_width = 160;
-			google_ad_height = 600;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
+			yieldbuild_site = 9633;
+			yieldbuild_loc = "home_left_sidebar";
+			//--></script>
+			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 		</div>
 		
 		<?php if (get_option('dg_sect_cat4') != "Choose a category") { ?>
@@ -258,17 +248,12 @@ Template Name: Home
 		
 		<div class="home-profit-wrangler300x250 left">
 			
+			<!-- YB: home_left_rectangle (300x250) -->
 			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* 300x250, created 2/18/10 */
-			google_ad_slot = "0893534458";
-			google_ad_width = 300;
-			google_ad_height = 250;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
+			yieldbuild_site = 9633;
+			yieldbuild_loc = "home_left_rectangle";
+			//--></script>
+			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 
 		</div>
 		<div style="clear: both;"></div>
