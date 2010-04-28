@@ -1061,33 +1061,32 @@ HERE;
 			///		if ($test) echo "yey!";
 			//	}
 				//$sql = "SELECT ID, post_author FROM " . $wpdb->posts . " WHERE post_author=61";
-				$sql = "SELECT ID, guid, post_content, comment_status FROM " . $wpdb->posts . " WHERE post_title LIKE '%about%' AND post_type='page' ORDER BY ID";
+				//$sql = "SELECT ID, guid, post_content, comment_status FROM " . $wpdb->posts . " WHERE post_title LIKE '%about%' AND post_type='page' ORDER BY ID";
 				//$results = $wpdb->get_results($sql);
 //				foreach ($results as $res) { 
 				//$pagesadded = array();
 				//foreach(array("cities+Cities", "badges+Badges", "register+Register") as $page) {
-					$page = "about+About";
+					$page = "site-search+Site Search";
 					//$post = array();
 					$post['post_type'] = 'page';
-					list($slug, $post->post_title ) = explode('+', $page);
-					$test =  $wpdb->get_results($sql);
-					$post = $test[0];
+					list($slug, $post['post_title'] ) = explode('+', $page);
+					////$test =  $wpdb->get_results($sql);
+					//$post = $test[0];
 					//if ( $post->ID ) 
 					//	continue;
-					$post->post_status = 'publish';
-					list($slug, $post->post_title ) = explode('+', $page);
-					$post->post_type = 'page';
+					$post['post_status'] = 'publish';
 //					$res->post_author = get_usermeta(1, 'feeduserid');
-					//$post['post_content'] = '[CONTENT]';
-					$post->comment_status = $post->ping_status = 'closed';
-					$post->post_content = '';								
+					$post['post_author'] = 1;
+					$post['post_content'] = '';
+					$post['comment_status'] = $post['ping_status'] = 'closed';
+					//$post->post_content = '';								
 //					
 					$postid = wp_update_post($post);
 //					
 					//$postid = wp_insert_post($post);
 					if ($postid > 0) {
 						add_post_meta($postid, '_wp_page_template', $slug . '.php');
-						wp_delete_post($test[1]->ID);
+						//wp_delete_post($test[1]->ID);
 //						$pagesadded[] = $postid;
 					} else {
 						echo 'Oops';
@@ -1100,7 +1099,6 @@ HERE;
 			}
 			
 			$count++;
-//			if ($count >= 3)
 //				break;
 		}
 		restore_current_blog();
