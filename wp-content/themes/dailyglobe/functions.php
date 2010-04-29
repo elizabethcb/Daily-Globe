@@ -357,10 +357,10 @@ function get_default_location() {
 		include("geocache/geoipcity.inc.php");
 		include("geocache/geoipregionvars.inc.php");
 		 // uncomment for Shared Memory support
-		geoip_load_shared_mem(ABSPATH . "wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat");
-		$gi = geoip_open("wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat",GEOIP_SHARED_MEMORY);
+		//geoip_load_shared_mem(ABSPATH . "wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat");
+		//$gi = geoip_open("wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat",GEOIP_SHARED_MEMORY);
 	
-		//$gi = geoip_open("GeoLiteCity.dat",GEOIP_STANDARD);
+		$gi = @geoip_open("GeoLiteCity.dat",GEOIP_STANDARD);
 		
 		$record = geoip_record_by_addr($gi,$_SERVER['REMOTE_ADDR']);
 		if ($record) {

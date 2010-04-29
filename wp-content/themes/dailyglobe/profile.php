@@ -5,7 +5,6 @@ Template Name: Profile
 ?>
 <?php get_header(); ?>
 
-
 <div id="content">
 	<div id="sub-container">
 <?php // plugins/front-user/layout/html/profile-page.php

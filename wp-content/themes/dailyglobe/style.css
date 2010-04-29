@@ -1130,6 +1130,7 @@ a.topic-link {
 	font-weight: bolder;
 	display: block;
 	width: 300px;
+	float: left;
 }
 a.topic-tag-link {
 	background-color: #EFEFEF;
