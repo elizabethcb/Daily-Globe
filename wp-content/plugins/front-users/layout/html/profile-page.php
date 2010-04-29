@@ -86,7 +86,7 @@
 				
 				});
 			</script>
-			<!--<pre><?php //print_r($reputation); ?></pre>-->
+			<!--<pre><?php print_r($reputation); ?></pre>-->
 		</div>
 		<div class="stats_full">
 		<!--<pre><?php //print_r($posts); ?></pre>-->
@@ -184,5 +184,5 @@
 		 }); 
 
 	</script>
-	<pre><?php print_r($_SESSION); ?></pre>
+	<pre>location string: <?php print_r($_SESSION['location']); ?></pre>
 </div><!--/profile-stuff-->

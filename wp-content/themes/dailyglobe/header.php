@@ -177,11 +177,10 @@ $(document).ready(function() {
 				</div>
 			</li>
 			<li id="topics_link"><a href="/topics/">Topics</a></li>
+			<li id="cities_link"><a href="/cities/">Browse Cities</a></li>
 			<li id="tweets_link"><a href="/local-tweets/">News Tweets</a></li>
 			<li id="local_search_link"><a href="/local-search/">Local Search</a></li>
-			<!--<li id="local_events_link"><a href="/events/">City Events</a></li>-->
-			<li id="cities_link"><a href="/cities/">Browse Cities</a></li>
-			
+			<!--<li id="local_events_link"><a href="/events/">City Events</a></li>-->			
 			<!--<li><a href="#search-location" id="search-for-location">Browse Cities</a></li>-->
 			<li id="submit_link"><a href ="#">Submit</a>
 				<div class="submenu closed" style="display: none;">
