@@ -88,7 +88,7 @@ Template Name: featured
 
 <div id="sidebar">
 	<div class="iphone_app_img">
-		<a href="#"><img src="<?php bloginfo('template_directory'); ?>/images/iphone_app.png"></a>
+		<a href="<?php bloginfo('siteurl');?>/about/#mobile-apps"><img src="<?php bloginfo('template_directory'); ?>/images/iphone_app.png"></a>
 	</div>
 <?php get_sidebar (2); ?>
 </div>

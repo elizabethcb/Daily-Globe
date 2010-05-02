@@ -21,19 +21,25 @@ Template Name: This Was Register But Now It's Not
 				<input type="hidden" name="stage" value="validate-user-signup" />
 				<input id="signupblog" type="hidden" name="signup_for" value="user" /> 
 				<input type="hidden" name="fu[referer]" value="<?php $_SERVER['HTTP_REFERER'] ?>" />
-				<label for="user_name">Username:</label>
-				<input name="fu[username]" type="text" class="register-field" id="user_name" value="" maxlength="50" /><br />
-				<small>(Must be at least 4 characters, letters and numbers only.)</small>
+				<span>
+                                    <label for="user_name">Username:</label>
+                                    <input name="fu[username]" type="text" class="register-field" id="user_name" value="" maxlength="50" />
+                                </span><br />
+				<small>(Must be at least 4 characters, letters and numbers only.)</small><br/>
 
-				<label for="email">Email&nbsp;Address:</label> 
-				<input name="fu[email]" type="text" class="register-field" id="user_email" value="" maxlength="200" /><br />
-				<small>(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)</small>			
-				
-				<label for="password">Password:</label>
-				<input name="fu[password]" type="password" class="register-field" id="password" value="" maxlength="50" /><br />
-				<label for="password2">And Again:</label>
-				<input name="fu[password2]" type="password" class="register-field" id="password2" value="" maxlength="50" /><br />
-				
+				<span>
+                                    <label for="email">Email&nbsp;Address:</label> 
+                                    <input name="fu[email]" type="text" class="register-field" id="user_email" value="" maxlength="200" />
+                                </span><br />
+				<small>(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)</small><br/>		
+				<span>
+                                    <label for="password">Password:</label>
+                                    <input name="fu[password]" type="password" class="register-field" id="password" value="" maxlength="50" />
+                                </span><br />
+                                <span>
+                                    <label for="password2">And again:</label>
+                                    <input name="fu[password2]" type="password" class="register-field" id="password2" value="" maxlength="50" /><br />
+                                </span>
 				<p class="submit">
 					<input type="submit" name="submit" class="submit" value="Next &raquo;" />
 				</p> 
