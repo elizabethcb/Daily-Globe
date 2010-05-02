@@ -216,7 +216,7 @@ function openid_clean_registration_errors($args) {
 
 	if ( defined('WPMU_PLUGIN_DIR') ) {
 		$errors = $args['errors'];
-			echo 'crappity';
+			// echo 'crappity';
 	}
 	if ('' != $errors && ( get_option('openid_required_for_registration') || !empty( $_POST['openid_identifier']) ) ) {
 		$new = new WP_Error();

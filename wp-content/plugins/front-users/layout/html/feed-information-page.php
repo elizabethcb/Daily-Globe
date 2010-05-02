@@ -65,18 +65,74 @@
 	
 	<div id="profile_all">
 		<div class="activity_full">
-			if value=comment it's a comment, if value = a number it's a vote, if value = facebook, twitter it's sharing
-			Activity (print_r): <pre><?php print_r($activity); ?></pre>
+			<!-- 
+				if value=comment it's a comment, if value = a number it's a vote, if value = facebook, twitter it's sharing
+				Activity (print_r): <pre><?php //print_r($activity); ?></pre> 
+			-->
+			
 			<table>
+			<?php foreach ($activity as $action) { ?>
+			<?php 
+			switch ( $action->value ) {
+				case "comment" :
+				 	$actionText = "Got a Comment: ";
+				 	break;
+				case "facebook" :
+					$actionText = "Shared on Facebook: ";
+					break;
+				case "twitter" :
+					$actionText = "Shared on Twitter: ";
+					break;
+				case "post" :
+					$actionText = "Posted: ";
+					break;
+				default : 
+					$actionText = "Got a Vote: ";
+			}
+			
+			?>
 				<tr>
-					<td class="when">1h</td>
-					<td class="type">post</td>
-					<td class="what">post_title</td>
+					<td class="when"><?php echo time_since($action->date); ?></td>
+					<td class="type"><?php echo $actionText; ?></td>
+					<td class="what"><a href="<?php echo $action->url; ?>"><?php echo $action->post_title; ?></a></td>
+					<!--<td><pre><?php //print_r($action); ?></pre></td>-->
 
 				</tr>
+			<?php } ?>
 			</table>
 		</div>	
+		
 		<div class="cred_full">
+			<div id="placeholder" style="float: left; width: 500px; height: 300px;"></div>
+			<div class="right" style="height: 300px; overflow: auto; width: 300px">
+			<?php // user_id, object_id, value, date 
+			$jsdata = 'var d = [';
+			$value = 0;
+			foreach ($reputation as $rep) { 
+				$value = $value + $rep->value;
+				$jsdata .= "[$rep->date, $value], ";
+			?>
+			
+			<?php }
+			$jsdata .= '];';
+			
+			foreach ( array_reverse($reputation) as $rep ) {
+			?>
+			<?php echo $rep->value; ?>pts earned (or lost) on <?php echo date('M j, Y', $rep->date / 1000); ?><br />
+			
+			<?php } ?>
+			</div>
+			<script type="text/javascript">
+				$(function () {
+					<?php echo $jsdata; ?>
+					
+					$.plot($("#placeholder"), [d], { xaxis: { mode: "time" } });
+					
+					$("#reputation-total").text(<?php echo $value; ?>);
+				
+				});
+			</script>
+			<!--<pre><?php print_r($reputation); ?></pre>-->
 		</div>
 		
 		<div class="stats_full">
@@ -117,7 +173,7 @@
 	</div><!--/profile_all-->
 	<script type="text/javascript">
 		
-	$('#profile_all').cycle(); 
+	$('#profile_all').cycle({timeout: 0}); 
 	 $('.activity').click(function() { 
 		$('#profile_all').cycle(0); 
 		$('.onthis').removeClass("onthis");

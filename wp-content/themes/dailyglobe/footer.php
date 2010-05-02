@@ -12,9 +12,9 @@
 	</div><!--/footerlinks-->
 	
 	<div id="signup">
-		
-		<a href="<?php bloginfo('siteurl'); ?>/newsletter-signup/" id="signupbtn">
-			Sign Up</a>
+		<!--<?php //bloginfo('siteurl'); ?>/newsletter-signup/-->
+		<a href="#coming-soon" id="signupbtn">
+			Coming Soon!</a>
 		<br style="clear:both"/>
 		<p class="delivery">Get TheDailyGlobe Delivered <br/>Free Daily
 		</p>

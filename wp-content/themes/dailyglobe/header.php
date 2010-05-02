@@ -210,7 +210,7 @@ $(document).ready(function() {
 		<?php global $current_user;
 			get_currentuserinfo();
 			if (!$current_user->user_login) { ?>
-				<a href="/wp-signup.php" id="register">Register</a> 
+				<a href="<?php bloginfo('siteurl'); ?>/wp-signup.php" id="register">Register</a> 
 			<?php } else { ?>
 				<a href="/profile/">My Account</a>
 			<?php } ?> | <?php if ($current_user->user_login) {

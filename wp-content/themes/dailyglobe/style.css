@@ -192,6 +192,11 @@ img.right {
 	width: 400px;
 }
 #setupform label {
+
+	text-align: right;
+
+}
+#setupform input {
 	margin: 15px 0px 0px;
 }
 #setupform small {

@@ -7,7 +7,31 @@ if ( function_exists('register_sidebars') ) {
    	'after_title'=>'</h3>'
    	));
 }
-
+function list_hooked_functions($tag=false){
+ global $wp_filter;
+ if ($tag) {
+  $hook[$tag]=$wp_filter[$tag];
+  if (!is_array($hook[$tag])) {
+  trigger_error("Nothing found for '$tag' hook", E_USER_WARNING);
+  return;
+  }
+ }
+ else {
+  $hook=$wp_filter;
+  ksort($hook);
+ }
+ echo '<pre>';
+ foreach($hook as $tag => $priority){
+  echo "<br />&gt;&gt;&gt;&gt;&gt;\t<strong>$tag</strong><br />";
+  ksort($priority);
+  foreach($priority as $priority => $function){
+  echo $priority;
+  foreach($function as $name => $properties) echo "\t$name<br />";
+  }
+ }
+ echo '</pre>';
+ return;
+}
 // limit characters by whole words only
 //function string_limit_words($string, $word_limit){
 //	$words = explode(' ', $string, $word_limit + 1);
@@ -360,7 +384,7 @@ function get_default_location() {
 		//geoip_load_shared_mem(ABSPATH . "wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat");
 		//$gi = geoip_open("wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat",GEOIP_SHARED_MEMORY);
 	
-		$gi = @geoip_open("GeoLiteCity.dat",GEOIP_STANDARD);
+		$gi = geoip_open(ABSPATH . "wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat",GEOIP_STANDARD);
 		
 		$record = geoip_record_by_addr($gi,$_SERVER['REMOTE_ADDR']);
 		if ($record) {
