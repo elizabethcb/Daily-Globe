@@ -262,7 +262,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 function validate_user_signup() {
 	$result = validate_user_form();
 	extract($result);
-
+// list_hooked_functions(); 
 	if ( $errors->get_error_code() ) {
 		signup_user($user_name, $user_email, $errors);
 		return false;
@@ -272,7 +272,7 @@ function validate_user_signup() {
 		signup_blog($user_name, $user_email);
 		return false;
 	}
-
+	echo "<h1>".$user_email."</h1>";
 	wpmu_signup_user($user_name, $user_email, apply_filters( "add_signup_meta", array() ) );
 
 	confirm_user_signup($user_name, $user_email);

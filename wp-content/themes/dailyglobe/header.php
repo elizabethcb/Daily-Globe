@@ -210,15 +210,16 @@ $(document).ready(function() {
 		<?php global $current_user;
 			get_currentuserinfo();
 			if (!$current_user->user_login) { ?>
-				<a href="/register/" id="register">Register</a> 
+				<a href="/wp-signup.php" id="register">Register</a> 
 			<?php } else { ?>
 				<a href="/profile/">My Account</a>
 			<?php } ?> | <?php if ($current_user->user_login) {
 						$uri = preg_match( '/submit-a|profile/', $_SERVER['REQUEST_URI']) ? get_bloginfo('siteurl') : $_SERVER['REQUEST_URI'];
 						/*	
-						echo '<a href="' . wp_logout_url( $uri ) . '" title="Logout">Logout</a>';
+						echo '<a href="' . wp_logout_url( $uri ) . '" title="Logout">Logout</a>';*/
 					   } else {
-						echo '<a id="wploginout" href="#ajaxlogin">Log In</a>';*/
+						//echo '<a id="wploginout" href="#ajaxlogin">Log In</a>';
+					   	$uri = $_SERVER['REFERER'];
 					   } ?>
 		<?php wp_loginout($uri); ?>
 		</span>
@@ -291,9 +292,9 @@ $(document).ready(function() {
 			} elseif(is_page('Events')) {
 				echo "City Events";
 			} elseif(is_page('submit-a-feed')) {
-				echo "Submit A Feed";
+				echo "<span style='font-size: 50%;'>Submit A Feed to " . get_bloginfo("name") . "</span>";
 			} elseif(is_page('submit-an-article')) {
-				echo "Submit An Article";
+				echo "<span style='font-size: 50%;'>Submit An Article to " . get_bloginfo("name") . "</span>";
 			} elseif(is_page('Site Search')) {
 				echo 'Search';
 			} else {
