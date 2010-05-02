@@ -54,25 +54,6 @@ function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
 		echo '<label for="blogname">' . __('Blog Name:') . '</label>';
 	else
 		echo '<label for="blogname">' . __('Blog Domain:') . '</label>';
-		.mu_register label.checkbox { display:inline; }
-		.mu_register .mu_alert { font-weight:700; padding:10px; color:#333333; background:#ffffe0; border:1px solid #e6db55; }
-	</style>
-	<?php
-}
-
-add_action( 'wp_head', 'wpmu_signup_stylesheet' );
-get_header();
-?>
-<div id="content" class="widecolumn">
-<div class="mu_register">
-<?php
-function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
-	global $current_site;
-	// Blog name
-	if( constant( "VHOST" ) == 'no' )
-		echo '<label for="blogname">' . __('Blog Name:') . '</label>';
-	else
-		echo '<label for="blogname">' . __('Blog Domain:') . '</label>';
 
 	if ( $errmsg = $errors->get_error_message('blogname') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
@@ -133,20 +114,20 @@ function validate_blog_form() {
 function show_user_form($user_name = '', $user_email = '', $errors = '') {
 	// User name
 	echo '<label for="user_name">' . __('Username:') . '</label>';
-	if ( $errmsg = $errors->get_error_message('user_name') ) {
+	if ( '' != $errors && $errmsg = $errors->get_error_message('user_name') ) {
 		echo '<p class="error">'.$errmsg.'</p>';
 	}
 	echo '<input name="user_name" type="text" id="user_name" value="'.$user_name.'" maxlength="50" /><br />';
-	_e('(Must be at least 4 characters, letters and numbers only.)');
+	_e('(Must be at least 4 characters, with letters and numbers only.)');
 	?>
 
 	<label for="user_email"><?php _e('Email&nbsp;Address:') ?></label>
-	<?php if ( $errmsg = $errors->get_error_message('user_email') ) { ?>
+	<?php if ( '' != $errors && $errmsg = $errors->get_error_message('user_email') ) { ?>
 		<p class="error"><?php echo $errmsg ?></p>
 	<?php } ?>		
 	<input name="user_email" type="text" id="user_email" value="<?php  echo wp_specialchars($user_email, 1) ?>" maxlength="200" /><br /><?php _e('(We&#8217;ll send your password to this address, so <strong>triple-check it</strong>.)') ?>
 	<?php
-	if ( $errmsg = $errors->get_error_message('generic') ) {
+	if ( '' != $errors && $errmsg = $errors->get_error_message('generic') ) {
 		echo '<p class="error">'.$errmsg.'</p>';
 	}
 	do_action( 'signup_extra_fields', $errors );
@@ -253,6 +234,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 	?>
 	
 	<h2><?php printf( __('Get your own %s account in seconds'), $current_site->site_name ) ?></h2>
+	<pre><?php //print_r(get_defined_constants(true)); ?></pre>
 	<form id="setupform" method="post" action="wp-signup.php">
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php do_action( "signup_hidden_fields" ); ?>
@@ -280,7 +262,7 @@ function signup_user($user_name = '', $user_email = '', $errors = '') {
 function validate_user_signup() {
 	$result = validate_user_form();
 	extract($result);
-
+// list_hooked_functions(); 
 	if ( $errors->get_error_code() ) {
 		signup_user($user_name, $user_email, $errors);
 		return false;
@@ -290,7 +272,7 @@ function validate_user_signup() {
 		signup_blog($user_name, $user_email);
 		return false;
 	}
-
+	echo "<h1>".$user_email."</h1>";
 	wpmu_signup_user($user_name, $user_email, apply_filters( "add_signup_meta", array() ) );
 
 	confirm_user_signup($user_name, $user_email);
@@ -455,4 +437,3 @@ if( $active_signup == "none" ) {
 </div>
 
 <?php get_footer(); ?>
-
