@@ -28,19 +28,32 @@ if( $current_blog->domain . $current_blog->path != $current_site->domain . $curr
 }
 
 function wpmu_signup_stylesheet() {
+	global $current_blog;
 	?>
-	<style type="text/css">	
-		.mu_register { width: 90%; margin:0 auto; }
-		.mu_register form { margin-top: 2em; }
-		.mu_register .error { font-weight:700; padding:10px; color:#333333; background:#FFEBE8; border:1px solid #CC0000; }
-		.mu_register input[type="submit"],
-			.mu_register #blog_title,
-			.mu_register #user_email, 
-			.mu_register #blogname,
-			.mu_register #user_name { width:100%; font-size: 24px; margin:5px 0; }	
-		.mu_register .prefix_address,
-			.mu_register .suffix_address {font-size: 18px;display:inline; }			
-		.mu_register label { font-weight:700; font-size:15px; display:block; margin:10px 0; }
+	<link rel="stylesheet" href="<?php echo "http://" . $current_blog->domain . $current_blog->path . "wp-admin/css/mu-signup.css"; ?>" type="text/css" media="screen" />
+
+	<?php
+}
+
+add_action( 'wp_head', 'wpmu_signup_stylesheet' );
+get_header();
+?>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#register').addClass('current_page_item');
+});
+</script>
+<div id="sub-container">
+<div id="content" class="left">
+<div class="mu_register">
+<?php
+function show_blog_form($blogname = '', $blog_title = '', $errors = '') {
+	global $current_site;
+	// Blog name
+	if( constant( "VHOST" ) == 'no' )
+		echo '<label for="blogname">' . __('Blog Name:') . '</label>';
+	else
+		echo '<label for="blogname">' . __('Blog Domain:') . '</label>';
 		.mu_register label.checkbox { display:inline; }
 		.mu_register .mu_alert { font-weight:700; padding:10px; color:#333333; background:#ffffe0; border:1px solid #e6db55; }
 	</style>
@@ -437,6 +450,7 @@ if( $active_signup == "none" ) {
 	}
 }
 ?>
+</div>
 </div>
 </div>
 
