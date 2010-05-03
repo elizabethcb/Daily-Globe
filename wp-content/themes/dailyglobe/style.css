@@ -192,13 +192,9 @@ img.right {
 	width: 400px;
 }
 #setupform label {
-
-	text-align: right;
-
+	text-align: left;
 }
-#setupform input {
-	margin: 15px 0px 0px;
-}
+#setupform input {}
 #setupform small {
 	font-size: 10px;
 	font-weight: normal;
@@ -1190,7 +1186,17 @@ a.topic-tag-link:hover {
 	margin: 30px 27px 10px 10px;
 }
 .syndicated-content {
+}
+.syndicated-content > p {
+	line-height: 20px;
 	font-size: 1.3em;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+}
+
+.syndicated-content > p > br {
+	margin-bottom: 20px;
+	padding-bottom: 20px;
 }
 .single_post {
 	margin:0 0 0 15px;

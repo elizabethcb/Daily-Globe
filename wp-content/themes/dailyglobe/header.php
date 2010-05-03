@@ -214,12 +214,12 @@ $(document).ready(function() {
 			<?php } else { ?>
 				<a href="/profile/">My Account</a>
 			<?php } ?> | <?php if ($current_user->user_login) {
-						$uri = preg_match( '/submit-a|profile/', $_SERVER['REQUEST_URI']) ? get_bloginfo('siteurl') : $_SERVER['REQUEST_URI'];
+						$uri = preg_match( '/submit-a|profile/', $_SERVER['REQUEST_URI']) ? get_bloginfo('siteurl') : $_SERVER['HTTP_REFERER'];
 						/*	
 						echo '<a href="' . wp_logout_url( $uri ) . '" title="Logout">Logout</a>';*/
 					   } else {
 						//echo '<a id="wploginout" href="#ajaxlogin">Log In</a>';
-					   	$uri = $_SERVER['REFERER'];
+					   	$uri = $_SERVER['HTTP_REFERER'];
 					   } ?>
 		<?php wp_loginout($uri); ?>
 		</span>
@@ -259,7 +259,7 @@ $(document).ready(function() {
  			<input id="change-location-text" class="textbox find" type="text" value="City and State or Zip" style="float: left;"/><a href="" id="submit-location-search">Search Location</a>
  			<div id="location-results" style="display:block"></div>
 		</div>
-		
+
 		
 		
 		 <!--
@@ -317,7 +317,7 @@ $(document).ready(function() {
 			}?> 
 		</h3>
 		
-		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search") || is_page("Site Search") ){ echo 'style="height: 100px;"'; } ?>>
+		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search") || is_page("Site Search") ){ echo 'style="height: 100px;"'; } elseif ( curPageURL() == get_bloginfo('siteurl') . "/wp-signup.php") {echo 'style="visibility: hidden; margin: 0px;"';} ?>>
 			<?php if (is_page("Topics") || is_page("international") || is_page('Cities') ) { ?>
 				<a href="<?php bloginfo('siteurl'); ?>" class="alpha-home">Home</a>
 				<div id="alphabet">
@@ -482,6 +482,8 @@ $(document).ready(function() {
 	</div><!--/subheader-->
 	<!--<div id="test-div"><a id="click-me-once">Click</a></div>-->		
 	<!-- Get Satisfaction -->
+
+
 	<script type="text/javascript" charset="utf-8">
   var is_ssl = ("https:" == document.location.protocol);
   var asset_host = is_ssl ? "https://s3.amazonaws.com/getsatisfaction.com/" : "http://s3.amazonaws.com/getsatisfaction.com/";

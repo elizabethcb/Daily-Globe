@@ -8,6 +8,10 @@
 	.mu_register #user_name { width:100%; font-size: 24px; margin:5px 0; }	
 .mu_register .prefix_address,
 	.mu_register .suffix_address {font-size: 18px;display:inline; }			
-.mu_register label { font-weight:700; font-size:15px; display:block; margin:10px 0; }
+.mu_register label { font-weight:700; font-size:15px; display:block; margin: 20px 0px 0px; }
 .mu_register label.checkbox { display:inline; }
 .mu_register .mu_alert { font-weight:700; padding:10px; color:#333333; background:#ffffe0; border:1px solid #e6db55; }
+#mu-signup-content {margin: 0 auto;}
+.mu_register h2 {text-align: center; font-size: 22px; margin: 20px 0px 40px;}
+.mu_register #setupform p.submit { margin-top: 5em !important;}
+#setupform div h3 {margin-left: 30px !important;}

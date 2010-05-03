@@ -577,7 +577,7 @@ HERE;
 		$post['post_title'] = $fu['post_title'];
 		//}
 		global $current_user, $user_id, $blog_id;
-		$post['post_author'] = $user_id;
+		$post['post_author'] = $current_user->ID;
 		$post['post_status'] = ( current_user_can('publish_posts') ) ? 'publish' : 'pending';
 		
 		//echo '<pre>';print_r($post); echo '</pre>';
@@ -607,6 +607,10 @@ HERE;
 			$blogids[] = $blog_id;
 			update_usermeta($current_user->ID, 'blogs_posted', $blogids);
 		}
+		wp_mail( 'elizabeth@slatetechpdx.com', 'Article Submitted',
+		    'Blog: ' . $blog_id . ' ' . get_bloginfo('name') . "\n" . 
+			'Article: <pre>' .
+			print_r($post, true) . '</pre>');
 		wp_redirect(get_bloginfo('url') . '/submit-an-article?a=y&t='.$nonce);
 	}
 	

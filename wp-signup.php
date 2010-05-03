@@ -44,7 +44,7 @@ $(document).ready(function() {
 });
 </script>
 <div id="sub-container">
-<div id="content" class="left">
+<div id="mu-signup-content">
 <div class="mu_register">
 <?php
 function show_blog_form($blogname = '', $blog_title = '', $errors = '') {

@@ -85,6 +85,7 @@ if ('' != fu_get('a') ) {
 ?>
 <div class="fu-submit-article" id="hide-show-results" style="<?php echo $show ?>">
 	<h2 class="pagetitle"><?php echo $post['post_title']; ?></h2>
+	<p> Your article has been submitted for approval. </p>
 	<div id="article_page" class="left">
 		<div class="author_info">
 			<p class="postmetadata"><?php echo $post['snippet-url']; ?></p>

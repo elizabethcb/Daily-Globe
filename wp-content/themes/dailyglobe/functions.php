@@ -1255,3 +1255,17 @@ function mytheme_admin() {
 add_action('admin_init', 'mytheme_add_init');
 add_action('admin_menu', 'mytheme_add_admin');
 ?>
+<?php
+// this is to get the url, to be used for hiding the subheader on the signup page
+function curPageURL() {
+ $pageURL = 'http';
+ if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
+ $pageURL .= "://";
+ if ($_SERVER["SERVER_PORT"] != "80") {
+  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
+ } else {
+  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
+ }
+ return $pageURL;
+}
+?>
