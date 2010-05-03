@@ -184,5 +184,5 @@
 		 }); 
 
 	</script>
-	<pre>location string: <?php print_r($_SESSION['location']); ?></pre>
+	<!--<pre>location string: <?php //print_r($_SESSION['location']); ?></pre>--?
 </div><!--/profile-stuff-->
