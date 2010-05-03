@@ -6,20 +6,21 @@ Template Name: Main Home
 
 <?php get_header(); ?>
 <pre>
-<?php global $options, $wpdb;
-	print_r($wpdb->queries);
+<?php //global $options, $wpdb;
+	//print_r($wpdb->queries);
 ?>
 </pre>
 <div id="home_sub-container" class="left">
 	<div id="home_content">
 	<pre>	<?php 
-			$featured = array();
-			foreach (array(3, 4, 7) as $bid) {
-				$pages[$bid] = setup_main_popular_posts($bid, 40);
-				$featured[] = array_shift($pages[$bid]);
-			}
+			//$featured = array();
+			//foreach (array(3, 4, 7) as $bid) {
+			//	$pages[$bid] = setup_main_popular_posts($bid, 40);
+			//	$featured[] = array_shift($pages[$bid]);
+			//}
+			$pages = setup_main_pop_posts_category();
 		?>
-	<?php //print_r($pages); ?>
+	<?php print_r($pages); ?>
 	<?php //global $wpdb; print_r($wpdb->queries); ?></pre>
 		<div id="content_wrangler_1" class="left">	
 			
