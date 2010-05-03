@@ -317,7 +317,11 @@ $(document).ready(function() {
 			}?> 
 		</h3>
 		
-		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search") || is_page("Site Search") ){ echo 'style="height: 100px;"'; } elseif ( curPageURL() == get_bloginfo('siteurl') . "/wp-signup.php") {echo 'style="visibility: hidden; margin: 0px;"';} ?>>
+		<div id="subnav" <?php if (is_page("Local Tweets") || is_page("Local Search") || is_page("Site Search") ){ 
+				echo 'style="height: 100px;"'; 
+			} elseif ( preg_match( '/signup/', $_SERVER['REQUEST_URI']) ) {
+				echo 'style="visibility: hidden; margin: 0px;"';
+			} ?>>
 			<?php if (is_page("Topics") || is_page("international") || is_page('Cities') ) { ?>
 				<a href="<?php bloginfo('siteurl'); ?>" class="alpha-home">Home</a>
 				<div id="alphabet">

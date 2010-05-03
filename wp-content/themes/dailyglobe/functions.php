@@ -89,26 +89,57 @@ function dbem_is_single_location_page () {
 // get_post($pop->post_id);
 function setup_main_popular_posts($blog_id = 3, $number = 4) {
 	if (switch_to_blog($blog_id) ) {
-		$pages = new_setup_popular_posts($number);
-		restore_current_blog();
+		$pages = another_setup_popular_posts($number);
+		
 		return $pages;
 	
 	}
+	restore_current_blog();
 	return false;
 }
+
+function setup_main_pop_posts_category() {
+	global $wpdb;
+	$votes =  $wpdb->get_results("SELECT 
+	COUNT(*) AS tot, SUM(rating) AS pos,  item_id AS post_id, blog_id
+	FROM wp_tu_votes
+	WHERE item_type='post' 
+	GROUP BY item_id 
+	ORDER BY pos DESC LIMIT 20");
+	$sites = $wpdb->get_results("SELECT blog_id, domain FROM wp_blogs WHERE blog_type='city'");
+	$all = array();
+	foreach ($sites as $s ) {	
+		if ( switch_to_blog($s->blog_id) ) {
+			$all = array_merge($all, another_setup_popular_posts());
+			
+		
+		}	
+	}
+	// maybe do some rearranging, but for now....
+	return $all;
+}
+
 function another_setup_popular_posts() {
 	global $wpdb;
-	$votes =  $wpdb->get_results("SELECT
-		COUNT(*) AS tot, 
-		SUM(v.rating) AS pos, 
-		v.item_id, 
-		b.blog_id,
-		b.domain
-	FROM wp_tu_votes AS v 
-	JOIN wp_blogs b ON b.blog_id=v.blog_id 
-	WHERE v.item_type='post' AND b.blog_type='city' 
-	GROUP BY v.item_id 
-	ORDER BY pos DESC LIMIT 20");
+
+	
+	// 33: Politics, 24:Sports, 9 and 457: Entertainment, 14 and 210: Living Green, 12: Health
+	$hits = $wpdb->get_results(" SELECT p.ID,p.guid, COUNT(h.id) AS hits, CONCAT(o.option_value, substring(h.url, 2, 999)) AS testmatch, h.url, o.option_value, cat.category_id, cat.category
+	FROM ". $wpdb->options . " o 
+	JOIN " . $wpdb->prefix . session_manager . " h 
+	JOIN " . $wpdb->posts . " p ON p.guid = CONCAT(o.option_value, SUBSTRING(h.url, 2, 999)) 
+	JOIN ( SELECT t.term_id AS category_id, tr.object_id AS post_id, t.name AS category
+		FROM " . $wpdb->terms . " AS t 
+		INNER JOIN " . $wpdb->term_taxonomy . " AS tt ON tt.term_id = t.term_id 
+		INNER JOIN " . $wpdb->term_relationships . " AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id 
+		WHERE tt.taxonomy='category' 
+	) AS cat ON p.ID = cat.post_id
+	WHERE h.url REGEXP '/[0-9]{4}/[0-9]{2}/[0-9]{2}/' AND o.option_name = 'siteurl' 
+	AND p.guid IS NOT NULL AND guid <> '' AND cat.category_id IN (9,12,14,24,33,210,457) AND p.post_date AND p.post_date >= DATE_SUB(CURDATE(), INTERVAL 14 DAY)
+	GROUP BY h.url ORDER BY hits DESC limit 10");
+
+	// do some rearranging before return, but for now....
+	return $hits;
 
 }
 function new_setup_popular_posts($number = 40, $numposts = 2) {
@@ -1254,18 +1285,4 @@ function mytheme_admin() {
 <?php
 add_action('admin_init', 'mytheme_add_init');
 add_action('admin_menu', 'mytheme_add_admin');
-?>
-<?php
-// this is to get the url, to be used for hiding the subheader on the signup page
-function curPageURL() {
- $pageURL = 'http';
- if ($_SERVER["HTTPS"] == "on") {$pageURL .= "s";}
- $pageURL .= "://";
- if ($_SERVER["SERVER_PORT"] != "80") {
-  $pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"].$_SERVER["REQUEST_URI"];
- } else {
-  $pageURL .= $_SERVER["SERVER_NAME"].$_SERVER["REQUEST_URI"];
- }
- return $pageURL;
-}
 ?>
