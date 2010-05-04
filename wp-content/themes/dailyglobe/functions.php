@@ -84,19 +84,7 @@ function dbem_is_single_location_page () {
 	}
 }
 
-// playing with session manager info
-// foreach ($populars as $pop)
-// get_post($pop->post_id);
-function setup_main_popular_posts($blog_id = 3, $number = 4) {
-	if (switch_to_blog($blog_id) ) {
-		$pages = another_setup_popular_posts($number);
-		
-		return $pages;
-	
-	}
-	restore_current_blog();
-	return false;
-}
+
 
 function setup_main_pop_posts_category() {
 	global $wpdb;
@@ -158,6 +146,38 @@ function another_setup_popular_posts() {
 	// do some rearranging before return, but for now....
 	return $hits;
 
+}
+// playing with session manager info
+// foreach ($populars as $pop)
+// get_post($pop->post_id);
+// $featured = array();
+//			foreach (array(3, 4, 7) as $bid) {
+//				$pages[$bid] = setup_main_popular_posts($bid, 40);
+//				$featured[] = array_shift($pages[$bid]);
+//			}
+function setup_main_popular_posts() {
+	global $wpdb;
+	$blogs = $wpdb->get_results("SELECT blog_id, blog_name FROM wp_blogs WHERE blog_type = 'topic'");
+	//shuffle($blogs);
+	$count = 0;
+	$ret['array'] = array();
+	$ret['featured'] = array();
+	foreach ( $blogs as $b ) {
+		$ret['array'][$b->blog_id] = get_these_popular_posts($b->blog_id);
+		$ret['featured'] = array_shift($ret['array'][$b->blog_id]);
+	}
+	restore_current_blog();
+	return $ret;
+}
+function get_these_popular_posts($blog_id = 3, $number = 4) {
+	
+	if (switch_to_blog($blog_id) ) {
+		$pages = new_setup_popular_posts($number);
+		return $pages;
+	
+	}
+	restore_current_blog();
+	return false;
 }
 function new_setup_popular_posts($number = 40, $numposts = 2) {
 	// Need to combine votes.
@@ -225,7 +245,7 @@ function new_setup_popular_posts($number = 40, $numposts = 2) {
 		//if (0 == $post->value)
 			//unset($results[$post]);
 	}
-	
+	/*
 	$more = array();
 	$cnt = count($results);
 	if ( $cnt < 6 ) {
@@ -265,7 +285,7 @@ function new_setup_popular_posts($number = 40, $numposts = 2) {
 		$results = array_merge($results, $stuff);
 		//print_r($results);
 	}
-
+*/
 	usort($results, "pop_sort");
 	//print_r($pages); 
 //	echo '</pre>';

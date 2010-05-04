@@ -13,14 +13,16 @@ Template Name: Main Home
 <div id="home_sub-container" class="left">
 	<div id="home_content">
 	<pre>	<?php 
-			//$featured = array();
-			//foreach (array(3, 4, 7) as $bid) {
-			//	$pages[$bid] = setup_main_popular_posts($bid, 40);
-			//	$featured[] = array_shift($pages[$bid]);
-			//}
-			$main = setup_main_pop_posts_category();
+			$array = setup_main_popular_posts();
+			print_r($array);
+			$pages = $array['array'];
+			$featured = $array['featured'];
+			unset($array);
+			
+			//$main = setup_main_pop_posts_category();
+			$main = array();
 		?>
-	<?php print_r($main); ?>
+	<?php //print_r($main); ?>
 	<?php //global $wpdb; print_r($wpdb->queries); ?></pre>
 		<div id="content_wrangler_1" class="left">	
 			
