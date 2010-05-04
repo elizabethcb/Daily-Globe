@@ -119,6 +119,14 @@ function setup_main_pop_posts_category() {
 	foreach ( $hits as $h ) {
 		$h->score =  isset( $votes[$h->blog_id][$h->post_id] ) ? 
 			$h->hits + $votes[$h->blog_id][$h->post_id] * 5 : $h->hits;
+		if ( 457 == $h->category_id ) {
+			$h->category_id = 9;
+			$h->category_name = 'Arts &amp; Entertainment';
+		} elseif ( 210 == $h->category_id ) {
+			$h->category_id = 14;
+			$h->category_name = 'Living Green';
+		}
+		
 		$all[$h->category_id][] = $h;
 		
 	}
