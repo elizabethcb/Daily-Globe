@@ -18,19 +18,18 @@ $(document).ready(function() {
 		<?php while (have_posts()) : the_post(); ?>
 
 		<div id="localtweets_ad_wrangler" class="left">
-			<!-- YB: local_search_left_sidebar_1 (120x600) -->
 			<script type="text/javascript"><!--
-			yieldbuild_site = 9633;
-			yieldbuild_loc = "local_search_left_sidebar_1";
-			//--></script>
-			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
-			
-			<!-- YB: local_search_left_sidebar_2 (120x600) -->
-			<script type="text/javascript"><!--
-			yieldbuild_site = 9633;
-			yieldbuild_loc = "local_search_left_sidebar_2";
-			//--></script>
-			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+				google_ad_client = "pub-4033091225965452";
+				/* 120x600, created 5/3/10 */
+				google_ad_slot = "6933672521";
+				google_ad_width = 120;
+				google_ad_height = 600;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+
 		</div>
 		
 		<div id="tweets_page" class="right">

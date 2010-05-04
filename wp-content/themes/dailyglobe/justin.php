@@ -9,29 +9,33 @@ Template Name: Just In
 
 <div id="sub-container">
 	<div id="bottom_profit_wrangler_local" style="padding-bottom: 15px;">
-		<!-- YB: justin_header (728x90) -->
 		<script type="text/javascript"><!--
-		yieldbuild_site = 9633;
-		yieldbuild_loc = "justin_header";
-		//--></script>
-		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+			google_ad_client = "pub-4033091225965452";
+			/* 728x90, created 5/3/10 */
+			google_ad_slot = "9872355501";
+			google_ad_width = 728;
+			google_ad_height = 90;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
 	</div>
 <h2 class="pagetitle">Categories in <?php bloginfo('name'); ?></h2>
 	<div id="justin_ad_wrangler" class="left">
-		<!-- YB: justin_left_sidebar_1 (120x600) -->
 		<script type="text/javascript"><!--
-		yieldbuild_site = 9633;
-		yieldbuild_loc = "justin_left_sidebar_1";
-		//--></script>
-		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+			google_ad_client = "pub-4033091225965452";
+			/* 120x600, created 5/3/10 */
+			google_ad_slot = "7033549756";
+			google_ad_width = 120;
+			google_ad_height = 600;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
 		
 		<div class="blockofwin-120x600 left justin_adjustment">
-			<!-- YB: justin_left_sidebar_2 (120x600) -->
-			<script type="text/javascript"><!--
-			yieldbuild_site = 9633;
-			yieldbuild_loc = "justin_left_sidebar_2";
-			//--></script>
-			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
 		</div>
 	</div>
 	<div id="justin_content" class="left">
