@@ -138,7 +138,7 @@ function another_setup_popular_posts() {
 	global $wpdb;
 
 	
-	// 33: Politics, 24:Sports, 9 and 457: Entertainment, 14 and 210: Living Green, 12: Health
+	// 33: Politics, 24:Sports, 9: Arts & Entertainment, 14: Living Green, 12: Health
 	
 	
 	/*$wpdb->get_results(" SELECT p.ID,p.guid, COUNT(h.id) AS hits, CONCAT(o.option_value, substring(h.url, 2, 999)) AS testmatch, h.url, o.option_value, cat.category_id, cat.category

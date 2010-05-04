@@ -18,9 +18,9 @@ Template Name: Main Home
 			//	$pages[$bid] = setup_main_popular_posts($bid, 40);
 			//	$featured[] = array_shift($pages[$bid]);
 			//}
-			$pages = setup_main_pop_posts_category();
+			$main = setup_main_pop_posts_category();
 		?>
-	<?php print_r($pages); ?>
+	<?php print_r($main); ?>
 	<?php //global $wpdb; print_r($wpdb->queries); ?></pre>
 		<div id="content_wrangler_1" class="left">	
 			
@@ -69,16 +69,17 @@ Template Name: Main Home
 				</div>
 				
 			</div>	
-			<?php // for each one of these, we'll iterate over $pages[$blog_id] ?>
-			<?php if ( isset($pages[3]) ) { 
+			<?php // for each one of these, we'll iterate over $pages[$category_id]
+			// 33: Politics, ?>
+			<?php if ( isset($main[33]) ) { 
 				$numarts = 0;
 			?>
 			<div id="home_cat3" class="left">
 			<?php //$catNum = get_cat_id(get_option('dg_sect_cat3')); 
 			//$category_link = get_category_link( $catNum ); ?> 
-				<div class="home_cat_title"><h2>Seattle</a></h2></div>
+				<div class="home_cat_title"><h2><?php echo $pages[33][0]->category_name; ?></h2></div>
 				<?php //$pops1 = get_popular_posts_by_category($pages, $catNum, 2);
-					foreach($pages[3] as $post) { ?>
+					foreach($pages[33] as $post) { ?>
 					<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 					<?php echo $post->post_title;?>&ensp;&raquo;</a></h3>
 					<div class="home_post_wrapper left">
@@ -115,14 +116,14 @@ Template Name: Main Home
 		<?php } ?>
 		
 		<div id="content_wrangler_2" class="left">
-			<?php if ( isset($pages[4]) ) {
+			<?php if ( isset($pages[24]) ) { // 24:Sports, 
 				$numarts = 0;
 			?>
 			<div id="home_cat2" class="left">
 				
-				<div class="home_cat_title"><h2>Las Vegas</h2></div>
+				<div class="home_cat_title"><h2><?php echo $pages[24][0]->category_name; ?></h2></div>
 				<?php 
-				foreach($pages[4] as $post) { ?>
+				foreach($pages[24] as $post) { ?>
 					<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 					<?php echo $post->post_title;?> &raquo;</a></h3>
 					<div class="home_post_wrapper left">
@@ -187,12 +188,12 @@ Template Name: Main Home
 			</script>
 		</div>
 		
-		<?php if ( isset($pages[7]) ) { 
+		<?php if ( isset($pages[9]) ) { //9: Arts & Entertainment
 			$numarts = 0;
 		?>
 		<div id="home_cat4" class="left">
-				<div class="home_cat_title"><h2>Portland</h2></div>
-				<?php foreach($pages[7] as $post) { ?>
+				<div class="home_cat_title"><h2><?php echo $pages[9][0]->category_name; ?></h2></div>
+				<?php foreach($pages[9] as $post) { ?>
 				<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 				<?php echo $post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
@@ -227,12 +228,12 @@ Template Name: Main Home
 			  </div>
 		<?php } ?>
 		
-		<?php if ( isset($pages[20]) ) {
+		<?php if ( isset($pages[12]) ) { // 12: Health
 		$numarts = 0;
 		?>
 		<div id="home_cat5" class="left">
-				<div class="home_cat_title"><h2>Name</h2></div>
-				<?php	foreach($pages[20] as $post) { ?>
+				<div class="home_cat_title"><h2><?php echo $pages[12][0]->category_name; ?></h2></div>
+				<?php	foreach($pages[12] as $post) { ?>
 				<h3 class="home_post_title left"><a href="<?php echo $post->guid;?>">
 				<?php echo $post->post_title;?> &raquo;</a></h3>
 				<div class="home_post_wrapper left">
