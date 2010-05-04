@@ -1,0 +1,7 @@
+Instructions:
+----------------------------------------------------------------------
+1) Place the files in the specified directories
+
+Files:
+----------------------------------------------------------------------
+update-notifications.php - goes in /wp-content/mu-plugins
