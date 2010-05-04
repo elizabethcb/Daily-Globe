@@ -6,7 +6,7 @@
 global $blog_id;
 if ($blog_id == 1) { ?>
 	<script type="text/javascript"><!--
-		//window.location = "http://usnews.thedailyglobe.com/"
+		window.location = "http://usnews.thedailyglobe.com/"
 	//--></script>
 <?php } ?>
 <head profile="http://gmpg.org/xfn/11">
