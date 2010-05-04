@@ -126,7 +126,7 @@ function another_setup_popular_posts() {
 	// 33: Politics, 24:Sports, 9 and 457: Entertainment, 14 and 210: Living Green, 12: Health
 	$hits = $wpdb->get_results(" SELECT p.ID,p.guid, COUNT(h.id) AS hits, CONCAT(o.option_value, substring(h.url, 2, 999)) AS testmatch, h.url, o.option_value, cat.category_id, cat.category
 	FROM ". $wpdb->options . " o 
-	JOIN " . $wpdb->prefix . session_manager . " h 
+	JOIN " . $wpdb->prefix . "session_manager h 
 	JOIN " . $wpdb->posts . " p ON p.guid = CONCAT(o.option_value, SUBSTRING(h.url, 2, 999)) 
 	JOIN ( SELECT t.term_id AS category_id, tr.object_id AS post_id, t.name AS category
 		FROM " . $wpdb->terms . " AS t 
