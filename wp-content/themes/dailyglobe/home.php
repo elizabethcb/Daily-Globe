@@ -147,24 +147,34 @@ Template Name: Home
 			<?php } ?>
 			
 			<div class="home-profit-wrangler120x600 left">
-				<!-- YB: home_right_sidebar (120x600) -->
 				<script type="text/javascript"><!--
-				yieldbuild_site = 9633;
-				yieldbuild_loc = "home_right_sidebar";
-				//--></script>
-				<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>	
+					google_ad_client = "pub-4033091225965452";
+					/* 120x600, created 5/3/10 */
+					google_ad_slot = "4196605972";
+					google_ad_width = 120;
+					google_ad_height = 600;
+					//-->
+					</script>
+					<script type="text/javascript"
+					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
 			</div>
 		</div>	
 		
 		
 		
 		<div class="home-profit-wrangler160x600 left clear">
-			<!-- YB: home_left_sidebar (160x600) -->
 			<script type="text/javascript"><!--
-			yieldbuild_site = 9633;
-			yieldbuild_loc = "home_left_sidebar";
-			//--></script>
-			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+				google_ad_client = "pub-4033091225965452";
+				/* 160x600, created 5/3/10 */
+				google_ad_slot = "9201726333";
+				google_ad_width = 160;
+				google_ad_height = 600;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
 		</div>
 		
 		<?php if (get_option('dg_sect_cat4') != "Choose a category") { ?>
@@ -248,12 +258,17 @@ Template Name: Home
 		
 		<div class="home-profit-wrangler300x250 left">
 			
-			<!-- YB: home_left_rectangle (300x250) -->
 			<script type="text/javascript"><!--
-			yieldbuild_site = 9633;
-			yieldbuild_loc = "home_left_rectangle";
-			//--></script>
-			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+				google_ad_client = "pub-4033091225965452";
+				/* 300x250, created 5/3/10 */
+				google_ad_slot = "0527066686";
+				google_ad_width = 300;
+				google_ad_height = 250;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
 
 		</div>
 		<div style="clear: both;"></div>

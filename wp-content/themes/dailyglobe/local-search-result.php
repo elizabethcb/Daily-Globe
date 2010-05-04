@@ -14,13 +14,17 @@ $(document).ready(function() {
 	<div id="result_content" class="left" style="margin-right: -20px;">
 
 		<div id="localtweets_ad_wrangler" class="left">
-			<!-- YB: local_search_result_left_sidebar (120x600) -->
 			<script type="text/javascript"><!--
-			yieldbuild_site = 9633;
-			yieldbuild_loc = "local_search_result_left_sidebar";
-			//--></script>
-			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
-
+				google_ad_client = "pub-4033091225965452";
+				/* 120x600, created 5/3/10 */
+				google_ad_slot = "4495725658";
+				google_ad_width = 120;
+				google_ad_height = 600;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
 		</div>
 		
 		<div id="tweets_page" class="right">
@@ -183,22 +187,31 @@ $(document).ready(function() {
 	</div><!--content-->
 	
 	<div id="sidebar_thing" class="right">
-		<!-- YB: local_search_result_right_sidebar (160x600) -->
 		<script type="text/javascript"><!--
-		yieldbuild_site = 9633;
-		yieldbuild_loc = "local_search_result_right_sidebar";
-		//--></script>
-		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
-
+			google_ad_client = "pub-4033091225965452";
+			/* 160x600, created 5/3/10 */
+			google_ad_slot = "8331701906";
+			google_ad_width = 160;
+			google_ad_height = 600;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
 	</div>
 	
 	<div id="bottom_profit_wrangler_local">
-		<!-- YB: local_search_result_footer (728x90) -->
 		<script type="text/javascript"><!--
-		yieldbuild_site = 9633;
-		yieldbuild_loc = "local_search_result_footer";
-		//--></script>
-		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+		google_ad_client = "pub-4033091225965452";
+		/* 728x90, created 5/3/10 */
+		google_ad_slot = "8919545928";
+		google_ad_width = 728;
+		google_ad_height = 90;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
 	</div>
 	
 </div><!--subcontainer -->

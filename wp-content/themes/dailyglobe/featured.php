@@ -7,33 +7,46 @@ Template Name: featured
 
 <?php get_header(); ?>
 	<div id="sub-container">
+		<div id="bottom_profit_wrangler_local" style="margin-bottom: 15px;">
+			<script type="text/javascript"><!--
+				google_ad_client = "pub-4033091225965452";
+				/* 728x90, created 5/3/10 */
+				google_ad_slot = "4683025438";
+				google_ad_width = 728;
+				google_ad_height = 90;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
+		</div>
 	<div id="content" class="left">
 		
 		<h2 class="pagetitle">Featured</h2>
 		
 		<div id="category_ad_wrangler" class="left">
 			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe 120x600 Categories/Neighb 1 */
-			google_ad_slot = "4805996971";
-			google_ad_width = 120;
-			google_ad_height = 600;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				google_ad_client = "pub-4033091225965452";
+				/* 120x600, created 5/3/10 */
+				google_ad_slot = "6662542761";
+				google_ad_width = 120;
+				google_ad_height = 600;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 			</script>
 	
 			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* Daily Globe 120x600 Categories/Neighb 2 */
-			google_ad_slot = "7697333744";
-			google_ad_width = 120;
-			google_ad_height = 600;
-			//-->
-			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				google_ad_client = "pub-4033091225965452";
+				/* 120x600, created 5/3/10 */
+				google_ad_slot = "6662542761";
+				google_ad_width = 120;
+				google_ad_height = 600;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 			</script>
 		</div>
 		

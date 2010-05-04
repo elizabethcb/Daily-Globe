@@ -8,30 +8,45 @@ Template Name: category
 <?php get_header(); ?>
 	<div id="sub-container">
 		<div id="bottom_profit_wrangler_local" style="margin-bottom: 15px;">
-			<!-- YB: category_header (728x90) -->
 			<script type="text/javascript"><!--
-			yieldbuild_site = 9633;
-			yieldbuild_loc = "category_header";
-			//--></script>
-			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+				google_ad_client = "pub-4033091225965452";
+				/* 728x90, created 5/3/10 */
+				google_ad_slot = "4683025438";
+				google_ad_width = 728;
+				google_ad_height = 90;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
 		</div>
 	<div id="content" class="left">
 		<h2 class="pagetitle"><?php single_cat_title(); ?></h2>
 		
 		<div id="category_ad_wrangler" class="left">
-			<!-- YB: category_left_sidebar_1 (120x600) -->
 			<script type="text/javascript"><!--
-			yieldbuild_site = 9633;
-			yieldbuild_loc = "category_left_sidebar_1";
-			//--></script>
-			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+				google_ad_client = "pub-4033091225965452";
+				/* 120x600, created 5/3/10 */
+				google_ad_slot = "6662542761";
+				google_ad_width = 120;
+				google_ad_height = 600;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
 	
-			<!-- YB: category_left_sidebar_2 (120x600) -->
 			<script type="text/javascript"><!--
-			yieldbuild_site = 9633;
-			yieldbuild_loc = "category_left_sidebar_2";
-			//--></script>
-			<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+				google_ad_client = "pub-4033091225965452";
+				/* 120x600, created 5/3/10 */
+				google_ad_slot = "6662542761";
+				google_ad_width = 120;
+				google_ad_height = 600;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+			</script>
 		</div>
 		
 		<div id="category_page" class="right">

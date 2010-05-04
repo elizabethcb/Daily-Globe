@@ -1,12 +1,18 @@
 <!--Sidebar 2: Ad-->
 <!--- 250x250 google ad -->
 <div class="widget_bg">
-    <!-- YB: sidebar_rectangle (250x250) -->
+    
     <script type="text/javascript"><!--
-    yieldbuild_site = 9633;
-    yieldbuild_loc = "sidebar_rectangle";
-    //--></script>
-    <script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+		google_ad_client = "pub-4033091225965452";
+		/* 250x250, created 5/3/10 */
+		google_ad_slot = "6982137986";
+		google_ad_width = 250;
+		google_ad_height = 250;
+		//-->
+		</script>
+		<script type="text/javascript"
+		src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	</script>
 
 </div>
 

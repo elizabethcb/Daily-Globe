@@ -136,7 +136,7 @@ function another_setup_popular_posts() {
 	) AS cat ON p.ID = cat.post_id
 	WHERE h.url REGEXP '/[0-9]{4}/[0-9]{2}/[0-9]{2}/' AND o.option_name = 'siteurl' 
 	AND p.guid IS NOT NULL AND guid <> '' AND cat.category_id IN (9,12,14,24,33,210,457) AND p.post_date AND p.post_date >= DATE_SUB(CURDATE(), INTERVAL 14 DAY)
-	GROUP BY h.url ORDER BY hits DESC limit 10");
+	GROUP BY h.url ORDER BY hits DESC limit 2");
 
 	// do some rearranging before return, but for now....
 	return $hits;

@@ -8,15 +8,15 @@
 			</div>
 			<div id="search_results_profit_wrangler">
 				<script type="text/javascript"><!--
-				google_ad_client = "pub-5222051702127265";
-				/* 336x280, created 4/12/10 */
-				google_ad_slot = "7743255937";
-				google_ad_width = 336;
-				google_ad_height = 280;
-				//-->
-				</script>
-				<script type="text/javascript"
-				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+					google_ad_client = "pub-4033091225965452";
+					/* 336x280, created 5/3/10 */
+					google_ad_slot = "7082701816";
+					google_ad_width = 336;
+					google_ad_height = 280;
+					//-->
+					</script>
+					<script type="text/javascript"
+					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 				</script>
 			</div>
 			<?php while (have_posts()) : the_post(); ?>
@@ -39,35 +39,33 @@
 			<?php endwhile; ?>
 			<div id="search_results_profit_wrangler2">
 				<script type="text/javascript"><!--
-				google_ad_client = "pub-5222051702127265";
-				/* 336x280, created 4/12/10 */
-				google_ad_slot = "7743255937";
-				google_ad_width = 336;
-				google_ad_height = 280;
-				//-->
+					google_ad_client = "pub-4033091225965452";
+					/* 336x280, created 5/3/10 */
+					google_ad_slot = "7082701816";
+					google_ad_width = 336;
+					google_ad_height = 280;
+					//-->
+					</script>
+					<script type="text/javascript"
+					src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 				</script>
-				<script type="text/javascript"
-				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-				</script>	
 			</div>
 		</div>
 		
 		
 		
 		<div id="search_results_profit_wrangler3" class="right">
-	
 			<script type="text/javascript"><!--
-			google_ad_client = "pub-5222051702127265";
-			/* 120x600, created 4/12/10 */
-			google_ad_slot = "6984527206";
-			google_ad_width = 120;
-			google_ad_height = 600;
-			//-->
+				google_ad_client = "pub-4033091225965452";
+				/* 120x600, created 5/3/10 */
+				google_ad_slot = "6933672521";
+				google_ad_width = 120;
+				google_ad_height = 600;
+				//-->
+				</script>
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 			</script>
-			<script type="text/javascript"
-			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-			</script>
-	
 		</div>
 		<div class="navigation">
 			<div class="alignleft"><?php next_posts_link('&laquo; Older Entries') ?></div>

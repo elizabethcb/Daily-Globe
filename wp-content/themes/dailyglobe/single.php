@@ -3,12 +3,17 @@
 <div id="sub-container">
 
 	<div id="bottom_profit_wrangler_local" style="margin-bottom: 15px;">
-		<!-- YB: article_header (728x90) -->
 		<script type="text/javascript"><!--
-		yieldbuild_site = 9633;
-		yieldbuild_loc = "article_header";
-		//--></script>
-		<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+			google_ad_client = "pub-4033091225965452";
+			/* 728x90, created 5/3/10 */
+			google_ad_slot = "3244810253";
+			google_ad_width = 728;
+			google_ad_height = 90;
+			//-->
+			</script>
+			<script type="text/javascript"
+			src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+		</script>
 	</div>
 
 <div id="content" class="left">
@@ -68,12 +73,17 @@
 						<?php the_content(); ?>
 						<div style="text-align: center; padding-top: 10px;"><a href="<?php echo $feed['link']; ?>" class="topic-tag-link" style="padding: 10px;" target="_blank">Read the whole story here.</a></div>
 						<div id="article_profit_wrangler3">
-							<!-- YB: article_content (336x280) -->
 							<script type="text/javascript"><!--
-							yieldbuild_site = 9633;
-							yieldbuild_loc = "article_content";
-							//--></script>
-							<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+								google_ad_client = "pub-4033091225965452";
+								/* 336x280, created 5/3/10 */
+								google_ad_slot = "7082701816";
+								google_ad_width = 336;
+								google_ad_height = 280;
+								//-->
+								</script>
+								<script type="text/javascript"
+								src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+							</script>
 						</div>
 						</div>
 						<!-- <span id="synd-read-more" class="syndication-info"> <a class="topic-tag-link" href="<?php // echo $feed['link']; ?>" target="_blank">Read More</a></span> -->
@@ -85,12 +95,17 @@
 						
 						<?php the_content(); ?>
 						<div id="article_profit_wrangler3">
-							<!-- YB: article_content (336x280) -->
 							<script type="text/javascript"><!--
-							yieldbuild_site = 9633;
-							yieldbuild_loc = "article_content";
-							//--></script>
-							<script type="text/javascript" src="http://hook.yieldbuild.com/s_ad.js"></script>
+								google_ad_client = "pub-4033091225965452";
+								/* 336x280, created 5/3/10 */
+								google_ad_slot = "7082701816";
+								google_ad_width = 336;
+								google_ad_height = 280;
+								//-->
+								</script>
+								<script type="text/javascript"
+								src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+							</script>
 						</div>
 					<?php } ?>
 				</div>
