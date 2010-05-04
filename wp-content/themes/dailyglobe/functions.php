@@ -124,7 +124,9 @@ function another_setup_popular_posts() {
 
 	
 	// 33: Politics, 24:Sports, 9 and 457: Entertainment, 14 and 210: Living Green, 12: Health
-	$hits = $wpdb->get_results(" SELECT p.ID,p.guid, COUNT(h.id) AS hits, CONCAT(o.option_value, substring(h.url, 2, 999)) AS testmatch, h.url, o.option_value, cat.category_id, cat.category
+	$hits = $wpdb->get_results( "SELECT * FROM popular_posts");
+	
+	/*$wpdb->get_results(" SELECT p.ID,p.guid, COUNT(h.id) AS hits, CONCAT(o.option_value, substring(h.url, 2, 999)) AS testmatch, h.url, o.option_value, cat.category_id, cat.category
 	FROM ". $wpdb->options . " o 
 	JOIN " . $wpdb->prefix . "session_manager h 
 	JOIN " . $wpdb->posts . " p ON p.guid = CONCAT(o.option_value, SUBSTRING(h.url, 2, 999)) 
@@ -137,7 +139,7 @@ function another_setup_popular_posts() {
 	WHERE h.url REGEXP '/[0-9]{4}/[0-9]{2}/[0-9]{2}/' AND o.option_name = 'siteurl' 
 	AND p.guid IS NOT NULL AND guid <> '' AND cat.category_id IN (9,12,14,24,33,210,457) AND p.post_date AND p.post_date >= DATE_SUB(CURDATE(), INTERVAL 14 DAY)
 	GROUP BY h.url ORDER BY hits DESC limit 2");
-
+*/
 	// do some rearranging before return, but for now....
 	return $hits;
 
