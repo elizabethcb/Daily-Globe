@@ -100,20 +100,27 @@ function setup_main_popular_posts($blog_id = 3, $number = 4) {
 
 function setup_main_pop_posts_category() {
 	global $wpdb;
-	$votes =  $wpdb->get_results("SELECT 
+	$vs =  $wpdb->get_results("SELECT 
 	COUNT(*) AS tot, SUM(rating) AS pos,  item_id AS post_id, blog_id
 	FROM wp_tu_votes
 	WHERE item_type='post' 
 	GROUP BY item_id 
-	ORDER BY pos DESC LIMIT 20");
-	$sites = $wpdb->get_results("SELECT blog_id, domain FROM wp_blogs WHERE blog_type='city'");
+	ORDER BY pos DESC LIMIT 40");
+	//$sites = $wpdb->get_results("SELECT blog_id, domain FROM wp_blogs WHERE blog_type='city'");
+	$hits = $wpdb->get_results( "SELECT * FROM popular_posts ORDER BY hits DESC");
 	$all = array();
-	foreach ($sites as $s ) {	
-		if ( switch_to_blog($s->blog_id) ) {
-			$all = array_merge($all, another_setup_popular_posts());
-			
+	$votes = array();
+
+	foreach ( $vs as $v ) {
+		$v->neg = $v->tot - $v->pos;
+		$v->vb = $v->tot - $v->neg;
+		$votes[$v->blog_id][$v->post_id] = $v;
+	}
+	foreach ( $hits as $h ) {
+		$h->score =  isset( $votes[$h->blog_id][$h->post_id] ) ? 
+			$h->hits + $votes[$h->blog_id][$h->post_id] * 5 : $h->hits;
+		$all[$h->category_id][] = $h;
 		
-		}	
 	}
 	// maybe do some rearranging, but for now....
 	return $all;
@@ -124,7 +131,7 @@ function another_setup_popular_posts() {
 
 	
 	// 33: Politics, 24:Sports, 9 and 457: Entertainment, 14 and 210: Living Green, 12: Health
-	$hits = $wpdb->get_results( "SELECT * FROM popular_posts");
+	
 	
 	/*$wpdb->get_results(" SELECT p.ID,p.guid, COUNT(h.id) AS hits, CONCAT(o.option_value, substring(h.url, 2, 999)) AS testmatch, h.url, o.option_value, cat.category_id, cat.category
 	FROM ". $wpdb->options . " o 
