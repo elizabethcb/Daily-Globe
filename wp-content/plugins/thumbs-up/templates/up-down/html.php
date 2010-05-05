@@ -1,6 +1,7 @@
 <?php defined('THUMBSUP_DOCROOT') or exit('No direct script access.') ?>
 
 <!-- START THUMBSUP: <?php echo htmlspecialchars($item['post_title']) ?> -->
+<!-- POSTVOTE -->
 <div id="thumbsup_<?php echo $item['item_id'] ?>" class="thumbsup thumbsup_template_<?php echo $config['template'] ?>">
 
 	<?php if ( ! empty($item['vote']['error'])) { ?>
@@ -18,4 +19,5 @@
 	</form>
 
 </div>
+<!-- POSTVOTE -->
 <!-- END THUMBSUP: <?php echo htmlspecialchars($item['post_title']) ?> -->
