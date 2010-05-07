@@ -95,7 +95,8 @@ function setup_main_pop_posts_category() {
 	GROUP BY item_id 
 	ORDER BY pos DESC LIMIT 40");
 	//$sites = $wpdb->get_results("SELECT blog_id, domain FROM wp_blogs WHERE blog_type='city'");
-	$hits = $wpdb->get_results( "SELECT * FROM popular_posts ORDER BY hits DESC");
+	$hits = $wpdb->get_results( "SELECT post_id, post_url AS guid, post_title, post_content, post_date, 
+        comment_count, hits, category_id, category_name, blog_id FROM popular_posts ORDER BY hits DESC");
 	$all = array();
 	$votes = array();
 
