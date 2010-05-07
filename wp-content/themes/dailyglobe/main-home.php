@@ -16,7 +16,7 @@ Template Name: Main Home
 			$array = setup_main_popular_posts();
 			print_r($array);
 			$pages = $array['array'];
-			$featured = $array['featured'];
+			$featured = array_slice($array['featured'], 0, 6);
 			unset($array);
 			
 			//$main = setup_main_pop_posts_category();
