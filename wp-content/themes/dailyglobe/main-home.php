@@ -313,132 +313,19 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 2) break;
+			  		if ($numarts == 1) break;
 			  }	?>
 		</div>
 		<?php } } ?>
-		
-		<?php /*if ( isset($pages[61] )) {$numarts = 0; //technology ?>
-		<div id="home_cat7" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Wine</h2></div>
-				<?php 	foreach($pages[61] as $post) { ?>
-				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old,$post->category);
-				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
-				<?php echo $post->post_title;?> &raquo;</a></h3>
-				<div class="home_post_wrapper left">
-					<p class="cat_other_posts">
-						<?php $post_content = strip_tags($post_content_old);
-						if (strlen($post_content) <= 350) {
-							echo $post_content;}
-							else {
-								$i = 350;
-								echo string_limit_words($post_content, $i); }?>
-					</p>
-					<div class="home_post_meta">
-						<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $post->guid; ?>">Read More &raquo;</a>
-					</div>
-				</div>
-			  <?php $numarts++;
-			  		if ($numarts == 2) break;
-			  }	?>
-		</div>
-		<?php } ?>
-		
-		<?php if ( isset($pages[63] )) {$numarts = 0; ?>
-		<div id="home_cat8" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Technology</h2></div>
-				<?php 	foreach($pages[63] as $post) { ?>
-				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old,$post->category);
-				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
-				<?php echo $post->post_title;?> &raquo;</a></h3>
-				<div class="home_post_wrapper left">
-					<p class="cat_other_posts">
-						<?php $post_content = strip_tags($post_content_old);
-						if (strlen($post_content) <= 350) {
-							echo $post_content;}
-							else {
-								$i = 350;
-								echo string_limit_words($post_content, $i); }?>
-					</p>
-					<div class="home_post_meta">
-						<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $post->guid; ?>">Read More &raquo;</a>
-					</div>
-				</div>
-			  <?php $numarts++;
-			  		if ($numarts == 2) break;
-			  }	?>
-		</div>
-		<?php } ?>
-		
-		<?php if ( isset($pages[58] )) {$numarts = 0; ?>
-		<div id="home_cat9" class="home_other_cats left">
-			<div class="home_cat_title"><h2>iPad</h2></div>
-				<?php 	foreach($pages[58] as $post) { ?>
-				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old,$post->category);
-				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
-				<?php echo $post->post_title;?> &raquo;</a></h3>
-				<div class="home_post_wrapper left">
-					<p class="cat_other_posts">
-						<?php $post_content = strip_tags($post_content_old);
-						if (strlen($post_content) <= 350) {
-							echo $post_content;}
-							else {
-								$i = 350;
-								echo string_limit_words($post_content, $i); }?>
-					</p>
-					<div class="home_post_meta">
-						<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $post->guid; ?>">Read More &raquo;</a>
-					</div>
-				</div>
-			  <?php $numarts++;
-			  		if ($numarts == 2) break;
-			  }	?>
-		</div>
-		<?php } ?>
-		
-		<?php if ( isset($pages[4] )) {$numarts = 0; ?>
-		<div id="home_cat10" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Celebrites</h2></div>
-				<?php 	foreach($pages[4] as $post) { ?>
-				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old,$post->category);
-				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
-				<?php echo $post->post_title;?> &raquo;</a></h3>
-				<div class="home_post_wrapper left">
-					<p class="cat_other_posts">
-						<?php $post_content = strip_tags($post_content_old);
-						if (strlen($post_content) <= 350) {
-							echo $post_content;}
-							else {
-								$i = 350;
-								echo string_limit_words($post_content, $i); }?>
-					</p>
-					<div class="home_post_meta">
-						<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $post->guid; ?>">Read More &raquo;</a>
-					</div>
-				</div>
-			  <?php $numarts++;
-			  		if ($numarts == 2) break;
-			  }	?>
-		</div>
-		<?php } */?>
+
 		
 		<div style="clear:both;"></div>
+		<?php foreach ( array( 55 => 'Travel', 57 => 'Women', 47 => 'Men', 72 => 'Real Estate', 44 => 'Living Green' ) as $bid => $bname ) { ?>
 		
-		<?php if ( isset($pages[55] )) {$numarts = 0; ?>
-		<div id="home_cat11" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Travel</h2></div>
+		<?php if ( isset($pages[$bid] )) {
+			$numarts = 0; $sl++; ?>
+		<div id="home_cat<?php echo $sl; ?>" class="home_other_cats left">
+			<div class="home_cat_title"><h2><?php echo $bname; ?></h2></div>
 				<?php 	foreach($pages[55] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
@@ -460,126 +347,11 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 2) break;
+			  		if ($numarts == 1) break;
 			  }	?>
 		</div>
-		<?php } ?>
+		<?php } }?>
 		
-		<?php if ( isset($pages[57] )) { $numarts = 0;?>
-		<div id="home_cat12" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Women</h2></div>
-				<?php 	foreach($pages[57] as $post) { ?>
-				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old);
-				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
-				<?php echo $post->post_title;?> &raquo;</a></h3>
-				<div class="home_post_wrapper left">
-					<p class="cat_other_posts">
-						<?php $post_content = strip_tags($post_content_old);
-						if (strlen($post_content) <= 350) {
-							echo $post_content;}
-							else {
-								$i = 350;
-								echo string_limit_words($post_content, $i); }?>
-					</p>
-					<div class="home_post_meta">
-						<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $post->guid; ?>">Read More &raquo;</a>
-					</div>
-				</div>
-			  <?php $numarts++;
-			  		if ($numarts == 2) break;
-			  }	?>
-		</div>
-		<?php } ?>
-		
-		<?php if ( isset($pages[47] )) { $numarts = 0;?>
-		<div id="home_cat13" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Men</h2></div>
-				<?php 	foreach($pages[47] as $post) { ?>
-				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old);
-				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
-				<?php echo $post->post_title;?> &raquo;</a></h3>
-				<div class="home_post_wrapper left">
-					<p class="cat_other_posts">
-						<?php $post_content = strip_tags($post_content_old);
-						if (strlen($post_content) <= 350) {
-							echo $post_content;}
-							else {
-								$i = 350;
-								echo string_limit_words($post_content, $i); }?>
-					</p>
-					<div class="home_post_meta">
-						<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $post->guid; ?>">Read More &raquo;</a>
-					</div>
-				</div>
-			  <?php $numarts++;
-			  		if ($numarts == 2) break;
-			  }	?>
-		</div>
-		<?php } ?>
-		
-		<?php if ( isset($pages[72] )) { $numarts = 0;?>
-		<div id="home_cat14" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Real Estate</h2></div>
-				<?php 	foreach($pages[72] as $post) { ?>
-				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old);
-				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
-				<?php echo $post->post_title;?> &raquo;</a></h3>
-				<div class="home_post_wrapper left">
-					<p class="cat_other_posts">
-						<?php $post_content = strip_tags($post_content_old);
-						if (strlen($post_content) <= 350) {
-							echo $post_content;}
-							else {
-								$i = 350;
-								echo string_limit_words($post_content, $i); }?>
-					</p>
-					<div class="home_post_meta">
-						<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $post->guid; ?>">Read More &raquo;</a>
-					</div>
-				</div>
-			  <?php $numarts++;
-			  		if ($numarts == 2) break;
-			  }	?>
-		</div>
-		<?php } ?>
-		
-		<?php if ( isset($pages[44] )) { $numarts = 0;?>
-		<div id="home_cat15" class="home_other_cats left">
-			<div class="home_cat_title"><h2>Living Green</h2></div>
-				<?php 	foreach($pages[44] as $post) { ?>
-				<?php $post_content_old = $post->post_content;
-				$post_image = catch_that_image($post_content_old);
-				echo '<img src="' . $post_image . '" />'; ?>
-				<h3 class="home_other_post_title left"><a href="<?php echo $post->guid;?>">
-				<?php echo $post->post_title;?> &raquo;</a></h3>
-				<div class="home_post_wrapper left">
-					<p class="cat_other_posts">
-						<?php $post_content = strip_tags($post_content_old);
-						if (strlen($post_content) <= 350) {
-							echo $post_content;}
-							else {
-								$i = 350;
-								echo string_limit_words($post_content, $i); }?>
-					</p>
-					<div class="home_post_meta">
-						<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
-						 | <a href="<?php echo $post->guid; ?>">Read More &raquo;</a>
-					</div>
-				</div>
-			  <?php $numarts++;
-			  		if ($numarts == 2) break;
-			  }	?>
-		</div>
-		<?php } ?>
 		
 		<div class="home-blockofwin-bottom">
 			
