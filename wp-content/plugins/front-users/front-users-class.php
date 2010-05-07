@@ -1103,7 +1103,6 @@ HERE;
 			}
 			
 			$count++;
-//			if ($count >= 3)
 //				break;
 		}
 		restore_current_blog();

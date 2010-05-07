@@ -157,16 +157,18 @@ function another_setup_popular_posts() {
 //			}
 function setup_main_popular_posts() {
 	global $wpdb;
-	$blogs = $wpdb->get_results("SELECT blog_id, blog_name FROM wp_blogs WHERE blog_type = 'topic'");
+    // 44 living green, 63 technology, 55 travel, 4 celebrities, 72 real estate, 61 wine, 58 ipad, 62 diy, 47 men, 57 women
+	$blogs = $wpdb->get_results("SELECT blog_id, blog_name FROM wp_blogs WHERE blog_id IN (4,44,47,55,57,58,61,62,63,72)");
 	//shuffle($blogs);
 	$count = 0;
 	$ret['array'] = array();
 	$ret['featured'] = array();
 	foreach ( $blogs as $b ) {
 		$ret['array'][$b->blog_id] = get_these_popular_posts($b->blog_id);
-		$ret['featured'] = array_shift($ret['array'][$b->blog_id]);
+		$ret['featured'][] = array_shift($ret['array'][$b->blog_id]);
 	}
 	restore_current_blog();
+    usort($ret['featured'], "pop_sort");
 	return $ret;
 }
 function get_these_popular_posts($blog_id = 3, $number = 4) {
@@ -450,10 +452,9 @@ function get_default_location() {
 		include("geocache/geoipregionvars.inc.php");
 		 // uncomment for Shared Memory support
 		//geoip_load_shared_mem(ABSPATH . "wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat");
-		//$gi = geoip_open("wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat",GEOIP_SHARED_MEMORY);
-	
+		//$gi = geoip_open(ABSPATH . "wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat",GEOIP_SHARED_MEMORY);
 		$gi = geoip_open(ABSPATH . "wp-content/themes/dailyglobe/geocache/GeoLiteCity.dat",GEOIP_STANDARD);
-		
+
 		$record = geoip_record_by_addr($gi,$_SERVER['REMOTE_ADDR']);
 		if ($record) {
 			//echo '<pre>';print_r($record);echo '</pre>';
