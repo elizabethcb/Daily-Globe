@@ -326,7 +326,7 @@ Template Name: Main Home
 			$numarts = 0; $sl++; ?>
 		<div id="home_cat<?php echo $sl; ?>" class="home_other_cats left">
 			<div class="home_cat_title"><h2><?php echo $bname; ?></h2></div>
-				<?php 	foreach($pages[55] as $post) { ?>
+				<?php 	foreach($pages[$bid] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old);
 				echo '<img src="' . $post_image . '" />'; ?>
