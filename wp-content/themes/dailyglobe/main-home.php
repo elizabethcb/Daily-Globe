@@ -22,7 +22,7 @@ Template Name: Main Home
 			$main = setup_main_pop_posts_category();
 			//$main = array();
 		?>
-	<?php //print_r($featured); ?>
+	<?php //print_r($main); ?>
 	<?php //global $wpdb; print_r($wpdb->queries); ?></pre>
 		<div id="content_wrangler_1" class="left">	
 			
@@ -36,7 +36,7 @@ Template Name: Main Home
 	
 					<?php foreach ($featured as $post) { ?>
 						<div class="slide slide<?php echo $count; ?>">
-							<?php //$postid=$pop->post_id;
+							<?php //$postid=$post_id;
 							//$post = wp_get_single_post( $postid );
  							$image_link = catch_that_image($post->post_content);?>
 							<img src="<?php echo $image_link; ?>" />
@@ -50,7 +50,7 @@ Template Name: Main Home
 						<ul class="thumblist">
 							<?php foreach ($featured as $post) { ?>
 								<li>
-									<?php //$postid=$pop->post_id;
+									<?php //$postid=$post_id;
 									//$post = wp_get_single_post( $postid );
 									$image_link = catch_that_image($post->post_content,$post->category);?>
 									<img class="thumb t<?php echo $count;?> <?php if($count == 0){ echo 'current';} ?>" src="<?php echo $image_link; ?>" />
@@ -100,13 +100,13 @@ Template Name: Main Home
 						<div class="home_post_meta">
 							<?php $count = $post->comment_count; ?> 
 							<?php if($count > 0) { ?> 
-								<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
+								<a href="<?php $post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
 								<?php }
 								elseif ($count == 1) {
-									echo '<a href="' . $pop->post->guid . '">1 Comment</a> | '; }
+									echo '<a href="' . $post->guid . '">1 Comment</a> | '; }
 								else { 
-									echo '<a href="' . $pop->post->guid . '">No Comments</a> | '; } ?>
-								<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
+									echo '<a href="' . $post->guid . '">No Comments</a> | '; } ?>
+								<a href="<?php echo $post->guid; ?>">Read More &raquo;</a> |
 								<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
 						</div>
 					</div>
@@ -144,13 +144,13 @@ Template Name: Main Home
 						<div class="home_post_meta">
 							<?php $count = $post->comment_count; ?> 
 							<?php if($count > 0) { ?> 
-								<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
+								<a href="<?php $post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
 								<?php }
 								elseif ($count == 1) {
 									echo '<a href="' . $post->guid . '">1 Comment</a> | '; }
 								else { 
 									echo '<a href="' . $post->guid . '">No Comments</a> | '; } ?>
-								<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
+								<a href="<?php echo $post->guid; ?>">Read More &raquo;</a> |
 								<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
 						</div>
 					</div>
@@ -214,13 +214,13 @@ Template Name: Main Home
 					<div class="home_post_meta">
 						<?php $count = $post->comment_count; ?> 
 						<?php if($count > 0) { ?> 
-							<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
+							<a href="<?php $post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
 							<?php }
 							elseif ($count == 1) {
 								echo '<a href="' . $post->guid . '">1 Comment</a> | '; }
 							else { 
 								echo '<a href="' . $post->guid . '">No Comments</a> | '; } ?>
-							<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
+							<a href="<?php echo $post->guid; ?>">Read More &raquo;</a> |
 							<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
 					</div>
 				</div>
@@ -253,13 +253,13 @@ Template Name: Main Home
 					<div class="home_post_meta">
 						<?php $count = $post->comment_count; ?> 
 						<?php if($count > 0) { ?> 
-							<a href="<?php $pop->post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
+							<a href="<?php $post->guid; ?>">Comments (<?php echo $post->comment_count; ?>) | </a>
 							<?php }
 							elseif ($count == 1) {
 								echo '<a href="' . $post->guid . '">1 Comment</a> | '; }
 							else { 
 								echo '<a href="' . $post->guid . '">No Comments</a> | '; } ?>
-							<a href="<?php echo $pop->post->guid; ?>">Read More &raquo;</a> |
+							<a href="<?php echo $post->guid; ?>">Read More &raquo;</a> |
 							<?php $theTime = strtotime($post->post_date); echo date("M j Y", $theTime); ?>
 					</div>
 				</div>
