@@ -1,14 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?> >
-
-<?php 
-	// redirect user to us news if trying to access main blog
-global $blog_id;
-if ($blog_id == 1) { ?>
-	<script type="text/javascript"><!--
-		//window.location = "http://usnews.thedailyglobe.com/"
-	//--></script>
-<?php } ?>
 <head profile="http://gmpg.org/xfn/11">
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 

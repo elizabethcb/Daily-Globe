@@ -225,7 +225,7 @@ Template Name: Main Home
 					</div>
 				</div>
 			  <?php $numarts++;
-			  		if ($numarts == 6) break;
+			  		if ($numarts == 4) break;
 			  }	?>
 			  </div>
 		<?php } ?>
@@ -264,7 +264,7 @@ Template Name: Main Home
 					</div>
 				</div>
 						  <?php $numarts++;
-			  		if ($numarts == 4) break;
+			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
 		<?php } ?>
