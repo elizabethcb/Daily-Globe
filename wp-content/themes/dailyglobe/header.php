@@ -277,7 +277,8 @@ $(document).ready(function() {
 		</h2>
 		 -->
 		<h1 id="blogname"><a href="<?php bloginfo('siteurl'); ?>">
-		<?php if (is_page('Topics')) {
+		<?php 
+		if (is_page('Topics')) {
 				echo "Topics";
 			} elseif(is_page('Cities')) {
 				echo "Browse Cities";
@@ -297,6 +298,8 @@ $(document).ready(function() {
 				echo "<span style='font-size: 50%;'>Submit An Article to " . get_bloginfo("name") . "</span>";
 			} elseif(is_page('Site Search')) {
 				echo 'Search';
+			} elseif( preg_match('/^http:\/\/\w+\.com/', get_bloginfo('siteurl') ) ) {
+				echo 'Top Stories';
 			} else {
 				bloginfo('name'); 
 			}?>
