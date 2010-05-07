@@ -9,7 +9,7 @@ Template Name: Home
 <?php get_header(); ?>
 <pre>
 <?php global $options, $wpdb;
-	print_r($wpdb->queries);
+	//print_r($wpdb->queries);
 ?>
 </pre>
 <div id="home_sub-container" class="left">
@@ -38,7 +38,7 @@ Template Name: Home
 					 <?php } ?>
 				</div>
 				<div class="slide_nav">
-					<?php $count=0; query_posts('category_name=featured&posts_per_page=6'); ?>
+					<?php $count=0; //query_posts('category_name=featured&posts_per_page=6'); ?>
 						<ul class="thumblist">
 							<?php foreach ($featured as $pop) { ?>
 								<li>

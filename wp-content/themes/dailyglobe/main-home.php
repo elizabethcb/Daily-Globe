@@ -285,11 +285,14 @@ Template Name: Main Home
 
 		</div>
 		<div style="clear: both;"></div>
+		<?php $sl = 5; 
+			foreach( array( 62 => 'DIY', 61 => 'Wine', 63 => 'Technology', 58 => 'iPad', 4 => 'Celebrities') as $bid => $bname ) { ?>
 		
-		<?php if ( isset($pages[62] )) {$numarts = 0; // diy?>
-		<div id="home_cat6" class="home_other_cats left">
-			<div class="home_cat_title"><h2>DIY</h2></div>
-				<?php 	foreach($pages[62] as $post) { ?>
+		<?php if ( isset($pages[$bid] )) {
+			$numarts = 0; $sl++?>
+		<div id="home_cat<?php echo $sl; ?>" class="home_other_cats left">
+			<div class="home_cat_title"><h2><?php echo $bname; ?></h2></div>
+				<?php 	foreach($pages[$bid] as $post) { ?>
 				<?php $post_content_old = $post->post_content;
 				$post_image = catch_that_image($post_content_old,$post->category);
 				echo '<img src="' . $post_image . '" />'; ?>
@@ -313,9 +316,9 @@ Template Name: Main Home
 			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
-		<?php } ?>
+		<?php } } ?>
 		
-		<?php if ( isset($pages[61] )) {$numarts = 0; //technology ?>
+		<?php /*if ( isset($pages[61] )) {$numarts = 0; //technology ?>
 		<div id="home_cat7" class="home_other_cats left">
 			<div class="home_cat_title"><h2>Wine</h2></div>
 				<?php 	foreach($pages[61] as $post) { ?>
@@ -429,7 +432,7 @@ Template Name: Main Home
 			  		if ($numarts == 2) break;
 			  }	?>
 		</div>
-		<?php } ?>
+		<?php } */?>
 		
 		<div style="clear:both;"></div>
 		

@@ -78,7 +78,7 @@ if ($blog_id == 1) { ?>
 <!--/if pages-->
 <!--<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-ui-1.7.2.custom.min.js"></script>-->
 <!--Home-->
-<?php if ( is_home() ) { ?>
+<?php if ( is_home() || preg_match('/^http:\/\/\w+\.com/', get_bloginfo('siteurl') ) ) { ?>
 <script type="text/javascript">
 var slideshowFlag = true;
 function onBefore(curr, next, opts) {
