@@ -47,7 +47,7 @@
 <script>
  document.bloginfo = "<?php bloginfo('stylesheet_directory'); ?>";
 </script>
-<?php if (is_home() || is_page('Profile') || is_page('About') || is_page('Feed Information') ) { ?>
+<?php if (is_page('Profile') || is_page('About') || is_page('Feed Information') ) { ?>
 <!-- include Cycle plugin -->
 <script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.cycle/jquery.cycle.all.min.js"></script>
 <?php } ?>
@@ -70,6 +70,8 @@
 <!--<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery-ui-1.7.2.custom.min.js"></script>-->
 <!--Home-->
 <?php if ( is_home() || preg_match('/^http:\/\/\w+\.com/', get_bloginfo('siteurl') ) ) { ?>
+<!-- include Cycle plugin -->
+<script type="text/javascript" src="<?php bloginfo('stylesheet_directory'); ?>/js/jquery.cycle/jquery.cycle.all.min.js"></script>
 <script type="text/javascript">
 var slideshowFlag = true;
 function onBefore(curr, next, opts) {
