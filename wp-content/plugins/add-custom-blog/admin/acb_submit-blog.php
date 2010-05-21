@@ -5,21 +5,23 @@ select activate from the drop down menu.  Once you've done that, go to Add a Cus
 <?php
 //Submit Blog
 if(acb_post('blog')) {
-	if($blog['lat'] && $blog['lng']) {
+	if($blog['lat'] && $blog['lng'] && $blog['topic-city-country']) {
 		//Because I need to access from withing a hooked function
 		define('ACB_LAT', $blog['lat']);
 		define('ACB_LNG', $blog['lng']);
-	}
-	if($blog['topic-city-country']) {
+		define('ACB_TCC', 'city');
+		//echo "<h2>". ACB_LAT ." and ". ACB_LNG . "</h2>";
+	} elseif($blog['topic-city-country']) {
 		define('ACB_TCC', $blog['topic-city-country']);
 	}
 ?>
 <ol>
 	<li>Add new blog the standard way</li>
 <pre><?php //print_r($_REQUEST); ?></pre>
-<h2><?php //echo ACB_TCC; ?></h2>
+<h2><?php //echo ACB_TCC; ?> </h2>
 
 <?php	
+die('bitch');
 // Add new Blog
 		// start with New York, Chicago, Washington DC, Miami, Dallas, Los Angeles
 	$domain = sanitize_user( str_replace( '/', '', $blog[ 'domain' ] ) );
