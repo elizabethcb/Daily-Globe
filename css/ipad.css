@@ -22,17 +22,17 @@ body {
 	padding-bottom: 15px;
 }
 #page_header img {
-	width: 200px;
+	width: 30%;
 	margin: 20px 0px 0px 20px;
 }
 .pagetitle {
 	padding: 15px 5px 0px !important;
 	text-align: center !important;
 	font-family: sans-serif !important;
-	font-size: 26px !important;
+	font-size: 40px !important;
 	float: right !important;
 	text-align: left !important;
-	width: 432px !important;
+	width: 60% !important;
 
 }
 #post_meta * {
@@ -48,6 +48,10 @@ body {
 	color: #B0B0B0;
 	font-weight: bold;
 	text-decoration: none;
+}
+
+.newsworthy {
+	width: 210px;
 }
 
 /**** Article content ****/
@@ -82,6 +86,7 @@ body {
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
 }
+
 .widget_bg h3 {
 	text-align: center;
 }
@@ -90,7 +95,7 @@ body {
 	list-style: none;
 	padding: 0px;
 	display: block;
-	width: 211px;
+	width: 135px;
 	margin: 0 auto;
 }
 .widget_bg ul li {
@@ -103,6 +108,10 @@ body {
 	height: 60px;
 	float: left;
 	
+}
+
+.widget_bg ul li:first-child {
+	display:none;
 }
 
 /**** Voting ****/
