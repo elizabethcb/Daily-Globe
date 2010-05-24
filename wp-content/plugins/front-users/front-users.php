@@ -60,10 +60,10 @@ if ( 'fu-fu' == $myact) {
 	//$anotherfu->dontdoit();
 } elseif ( 'dontdothiseither' == $myact ) {
 	//$fu->grrr();
-	$fu->dontdoiteither();
+	//$fu->dontdoiteither();
 } elseif ( 'dontdothisone' == $myact ) {
 	//$fu->dontdothisone();
-	$fu->deletemysession();
+	//$fu->deletemysession();
 } elseif ( 'comment_vote' == $mygetfu ) {
 	// if some parameter is set do some function for intense debate's comment_vote
 	$fu->comment_vote();  // vals retrieved from js.
@@ -107,7 +107,7 @@ function fu_add_new_user($fu = false) {
 
 }
 
-//add_filter('init', array(&$fu, 'flush_rules'));
+add_filter('init', array(&$fu, 'flush_rules'));
 
 function fu_loaded() {
 
