@@ -34,10 +34,10 @@
 				<td class="filled">feed url</td>
 				<td><?php echo $feed->url; ?></td>
 			</tr>
-			<tr>
+			<!--<tr>
 				<td class="filled">total stories published</td>
 				<td><?php echo $feed->count; ?></td>
-			</tr>
+			</tr>-->
 			
 		</table>
 	
@@ -92,7 +92,9 @@
 			
 			?>
 				<tr>
-					<td class="when"><?php echo time_since($action->date); ?></td>
+					<td class="when"><?php $sometime = time_since($action->date); 
+                        if ($sometime != "43 years ago") echo $sometime; 
+                    ?></td>
 					<td class="type"><?php echo $actionText; ?></td>
 					<td class="what"><a href="<?php echo $action->url; ?>"><?php echo $action->post_title; ?></a></td>
 					<!--<td><pre><?php //print_r($action); ?></pre></td>-->
@@ -149,8 +151,6 @@
 					<td class="coms"><span class="amt">
 						<?php echo $post->comments; ?>
 					</span>comments</td>
-					<td class="faved"><span class="amt">33</span>faved</td>
-					<td class="shared"><span class="amt">57</span>shared</td>
 					<td class="title"><?php echo $post->title; ?></td>
 				</tr>
 			<?php } ?>
