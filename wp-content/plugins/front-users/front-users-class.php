@@ -607,7 +607,7 @@ HERE;
 			$blogids[] = $blog_id;
 			update_usermeta($current_user->ID, 'blogs_posted', $blogids);
 		}
-		wp_mail( 'elizabeth@slatetechpdx.com', 'Article Submitted',
+		wp_mail( 'elizabeth@slatetechpdx.com, jkreams@gmail.com', 'Article Submitted',
 		    'Blog: ' . $blog_id . ' ' . get_bloginfo('name') . "\n" . 
 			'Article: <pre>' .
 			print_r($post, true) . '</pre>');
@@ -641,6 +641,10 @@ HERE;
 			$feed['error'] = " Unable to insert Feed";
 		
 		$feed['url'] = $fu['url'];
+		wp_mail( 'elizabeth@slatetechpdx.com,jkreams@gmail.com', 'Feedsubmitted Submitted',
+		    'Blog: ' . $blog_id . ' ' . get_bloginfo('name') . "\n" . 
+			'Feed: <pre>' .
+			print_r($feed, true) . '</pre>');
 		// Redirect with appropriate thingy.
 		wp_redirect(get_bloginfo('url') . '/submit-a-feed?a=y&t='.$nonce);
 	}
