@@ -21,7 +21,6 @@ if(acb_post('blog')) {
 <h2><?php //echo ACB_TCC; ?> </h2>
 
 <?php	
-die('bitch');
 // Add new Blog
 		// start with New York, Chicago, Washington DC, Miami, Dallas, Los Angeles
 	$domain = sanitize_user( str_replace( '/', '', $blog[ 'domain' ] ) );

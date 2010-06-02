@@ -567,6 +567,7 @@ HERE;
 			$post['nonce'] = $nonce;
 			// Do something here.  whoops.
 			wp_redirect(get_bloginfo('url'));
+            wp_die();
 		}
 		$post['post_category'] = $cats;
 		
@@ -577,6 +578,7 @@ HERE;
 		$post['post_title'] = $fu['post_title'];
 		//}
 		global $current_user, $user_id, $blog_id;
+        get_currentuser_info();
 		$post['post_author'] = $current_user->ID;
 		$post['post_status'] = ( current_user_can('publish_posts') ) ? 'publish' : 'pending';
 		

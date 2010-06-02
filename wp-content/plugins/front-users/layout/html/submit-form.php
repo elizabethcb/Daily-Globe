@@ -14,9 +14,18 @@ if ('' != fu_get('a') ) {
 <?php 
 	$post = get_option('fu-submit-article-' . $nonce);
 	$show = 'display: none';
- } ?>
+ } 
+ global $current_user; 
+ get_currentuserinfo(); 
+
+if(!$current_user) {
+} 
+
+?>
+
 <div class="fu-submit-article" id="hide-show-form" style="<?php echo $show ?>">
-	<form method="post" action="<?php echo FU_PLUGIN_DIR_URL; ?>front-users.php">
+
+<form method="post" action="<?php echo FU_PLUGIN_DIR_URL; ?>front-users.php">
 	<input type="hidden" name="fuaction" id="fuaction" value="fu-fu" />
 	<?php // I create a nonce instead of printing fields, because I want to use the nonce
 		$nonce = wp_create_nonce('fu-sumbit-article'); ?>
@@ -27,7 +36,7 @@ if ('' != fu_get('a') ) {
 	<div class="section_bg">
 		<h2>Submit Your Article</h2>
 		<div class="left">
-			<label for="fu-post-title">Post Title</label><br />
+			<label for="fu-post-title">Story Title</label><br />
 			<input type="text" id="fu-post-title" name="fu[post_title]" /><br />
 			<label for="fu-snippet-title">Snippet Title (optional)</label><br />
 			<input type="text" id="fu-snippet-title" name="fu[snippet-title]" /><br />
